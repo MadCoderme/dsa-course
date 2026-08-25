@@ -1,0 +1,223 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@theme {
+  --font-serif: "Newsreader", "Instrument Serif", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+body {
+  background-color: #F9F8F6;
+  color: #1A1A1A;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background-color: #DC2626;
+  color: #FFFFFF;
+}
+
+/* Custom scrollbars for clean academic editorial feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1EFE9;
+}
+::-webkit-scrollbar-thumb {
+  background: #D5D1C7;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B3ADA1;
+}
+
+/* Prism syntax highlighting styles - clean editorial theme */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #78716C;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #57534E;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #B45309;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #15803D;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #991B1B;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #991B1B;
+  font-weight: 600;
+}
+
+.token.function,
+.token.class-name {
+  color: #0369A1;
+  font-weight: 600;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #C2410C;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+
+/* KaTeX custom readability tweaks */
+.katex {
+  font-size: 1.05em;
+  text-rendering: auto;
+}
+.katex-mathml {
+  display: none !important;
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+}
+.katex-display {
+  margin: 0.5em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* Markdown styling */
+.markdown-body {
+  font-family: var(--font-sans);
+  color: #1A1A1A;
+  line-height: 1.65;
+}
+.markdown-body p {
+  margin-bottom: 0.75rem;
+}
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.markdown-body ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.markdown-body li {
+  margin-bottom: 0.25rem;
+}
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.8125rem;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E2D9;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+.markdown-body th {
+  background-color: #F5F3ED;
+  color: #1A1A1A;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #E5E2D9;
+  border-right: 1px solid #E5E2D9;
+}
+.markdown-body th:last-child {
+  border-right: none;
+}
+.markdown-body td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #F0ECE1;
+  border-right: 1px solid #F0ECE1;
+  color: #2C2B29;
+}
+.markdown-body td:last-child {
+  border-right: none;
+}
+.markdown-body tr:last-child td {
+  border-bottom: none;
+}
+.markdown-body tr:hover td {
+  background-color: #FAF8F5;
+}
+.markdown-body code:not(pre code) {
+  background-color: #F4F2EB;
+  border: 1px solid #E5E2D9;
+  color: #991B1B;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.markdown-body pre {
+  background-color: #1E1E1E;
+  color: #D4D4D4;
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 0.75rem 0;
+  border: 1px solid #333333;
+}
+.markdown-body blockquote {
+  border-left: 3px solid #991B1B;
+  padding-left: 0.875rem;
+  color: #57534E;
+  font-style: italic;
+  margin: 0.75rem 0;
+}
