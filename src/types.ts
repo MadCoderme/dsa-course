@@ -1,14 +1,49 @@
 export type TopicId = 
+  // Getting Started & Curriculum Roadmap
+  | 'course-overview'
+  // Linear Data Structures
   | 'vector'
   | 'list'
   | 'stack'
   | 'queue'
-  | 'tree'
-  | 'avl-tree'
   | 'priority-queue'
   | 'set'
   | 'map'
-  | 'graph';
+  // Tree Data Structures (Broken down into detailed topics)
+  | 'tree'
+  | 'tree-traversals'
+  | 'expression-threaded-trees'
+  | 'bst-rbt'
+  | 'avl-tree'
+  | 'red-black-tree'
+  | 'b-tree'
+  | 'b-plus-tree'
+  | 'huffman-coding'
+  // Graph Data Structures & Algorithms (Broken down into detailed topics)
+  | 'graph-representations'
+  | 'graph'
+  | 'topological-sort'
+  | 'shortest-path-dijkstra'
+  | 'floyd-warshall'
+  | 'mst';
+
+export interface SubCategory {
+  id: string;
+  name: string;
+  shortName?: string;
+  description: string;
+  topicIds: TopicId[];
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  shortName?: string;
+  description: string;
+  icon: string;
+  badgeColor: string;
+  subCategories: SubCategory[];
+}
 
 export type TabId = 'concept' | 'visualizer' | 'code' | 'exam' | 'quiz';
 
@@ -41,13 +76,15 @@ export interface QuizQuestion {
 
 export interface Lesson {
   id: TopicId;
+  categoryId?: string;
+  subCategoryId?: string;
   title: string;
   subtitle: string;
   icon: string;
-  importance: '🔥 CRITICAL' | '⚡ HIGH' | '🟡 MEDIUM-HIGH' | '🟡 MEDIUM' | '🟢 MODERATE';
-  cuetExamRelevance: string;
+  importance?: '🔥 CRITICAL' | '⚡ HIGH' | '🟡 MEDIUM-HIGH' | '🟡 MEDIUM' | '🟢 MODERATE';
+  cuetExamRelevance?: string;
   overview: string;
-  timeComplexity: {
+  timeComplexity?: {
     access: string;
     search: string;
     insertion: string;
@@ -60,7 +97,7 @@ export interface Lesson {
     bulletPoints?: string[];
     mathFormula?: string;
   }[];
-  cstlReference: {
+  cstlReference?: {
     header: string;
     declaration: string;
     commonMethods: {
@@ -70,9 +107,9 @@ export interface Lesson {
     }[];
     notes: string[];
   };
-  codeSnippets: CodeSnippet[];
-  examQuestions: ExamQuestion[];
-  quizzes: QuizQuestion[];
+  codeSnippets?: CodeSnippet[];
+  examQuestions?: ExamQuestion[];
+  quizzes?: QuizQuestion[];
 }
 
 export interface WeightageTopic {

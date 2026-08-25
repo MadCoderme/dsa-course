@@ -123,35 +123,35 @@ export const INITIAL_HIGH_YIELD_CHECKLIST: HighYieldChecklistItem[] = [
     id: 2,
     title: 'AVL Tree Rotations (LL, RR, LR, RL)',
     description: 'Insert 10–12 integer keys sequentially into an initially empty AVL tree and compute balance factors.',
-    targetTopic: 'set',
+    targetTopic: 'avl-tree',
     completed: false
   },
   {
     id: 3,
     title: 'B-Tree & B+ Tree Construction',
     description: 'Master order-3 & order-5 B-tree node split/merge and order-4 B+ tree leaf chaining.',
-    targetTopic: 'map',
+    targetTopic: 'b-tree',
     completed: false
   },
   {
     id: 4,
     title: 'Huffman Coding 2-Tree & Weighted Path',
     description: 'Construct optimal binary prefix 2-trees given character frequencies and compute minimum weighted path length.',
-    targetTopic: 'priority-queue',
+    targetTopic: 'huffman-coding',
     completed: false
   },
   {
     id: 5,
     title: 'Modified Warshall Algorithm (All-Pairs Shortest Path)',
     description: 'Compute step-by-step N x N distance matrices Q^(0), Q^(1), ..., Q^(N) for directed weighted graphs.',
-    targetTopic: 'map',
+    targetTopic: 'floyd-warshall',
     completed: false
   },
   {
     id: 6,
     title: 'Topological Sorting & Graph Traversals',
     description: 'Trace BFS shortest paths and determine POSET topological orders for DAGs.',
-    targetTopic: 'queue',
+    targetTopic: 'topological-sort',
     completed: false
   },
   {

@@ -1,5 +1,5 @@
 {
-  "name": "DSA Notes - CSE-241 Exam Master",
+  "name": "DSA - Like How It Should Be",
   "description": "Interactive and comprehensive Data Structures & Algorithms notes tailored for CSE-241 curriculum with real-time visualizers for Vector, List, Stack, Queue, Binary Trees, AVL & B-Trees, Priority Queue, Set, Map, and Graph Algorithms.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

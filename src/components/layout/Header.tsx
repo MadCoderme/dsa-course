@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Calculator, Award, Table, Menu } from 'lucide-react';
+import { Search, Calculator, Award, Table, Menu, Compass } from 'lucide-react';
 import { TopicId } from '../../types';
 
 interface HeaderProps {
@@ -8,6 +8,7 @@ interface HeaderProps {
   onOpenReport: () => void;
   onOpenCalculator: () => void;
   onOpenMatrix: () => void;
+  onOpenGuide?: () => void;
   onToggleMobileMenu: () => void;
 }
 
@@ -17,6 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenReport,
   onOpenCalculator,
   onOpenMatrix,
+  onOpenGuide,
   onToggleMobileMenu
 }) => {
   return (
@@ -41,14 +43,11 @@ export const Header: React.FC<HeaderProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-base font-serif font-bold text-[#1A1A1A] tracking-tight group-hover:text-[#991B1B] transition-colors">
-                  DSA Archive
-                </span>
-                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#F4F2EB] border border-[#D8D4C8] text-[#991B1B]">
-                  CSE-241
+                  DSA Notes
                 </span>
               </div>
               <p className="text-[11px] text-[#66625B] font-serif italic hidden sm:block">
-                CUET Exam Syllabus & Interactive Notes (2018–2025)
+                Like How It Should Be
               </p>
             </div>
           </div>
@@ -69,6 +68,17 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Tools Shortcuts */}
         <div className="flex items-center gap-2">
+          {onOpenGuide && (
+            <button
+              id="nav-guide-btn"
+              onClick={onOpenGuide}
+              className="px-3 py-1.5 rounded-lg bg-[#FEF2F2] hover:bg-[#FEE2E2] border border-[#FECACA] text-[#991B1B] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            >
+              <Compass className="w-3.5 h-3.5 text-[#991B1B]" />
+              <span className="hidden sm:inline">Study Guide</span>
+            </button>
+          )}
+
           <button
             id="nav-exam-report-btn"
             onClick={onOpenReport}

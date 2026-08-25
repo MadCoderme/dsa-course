@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import katex from 'katex';
+import { Sigma, Copy, Check } from 'lucide-react';
 
 interface LatexProps {
   math: string;
@@ -28,43 +29,6 @@ export function cleanLatexString(raw: string): string {
   // Normalize excessive backslashes if any (e.g. \\mathcal -> \mathcal)
   str = str.replace(/\\\\([a-zA-Z]+)/g, '\\$1');
 
-  // Format common plain words, subscripts, and variables into clean LaTeX
-  str = str
-    .replace(/\\text\{Loc\}\(/g, '\\text{Loc}(')
-    .replace(/\bLoc\(/g, '\\text{Loc}(')
-    .replace(/\bBase\b(?!\})/g, '\\text{Base}')
-    .replace(/\bFRONT\b(?!\})/g, '\\text{FRONT}')
-    .replace(/\bREAR\b(?!\})/g, '\\text{REAR}')
-    .replace(/\bTOP1\b/g, '\\text{TOP}_1')
-    .replace(/\bTOP2\b/g, '\\text{TOP}_2')
-    .replace(/\bTOP\b(?!\})/g, '\\text{TOP}')
-    .replace(/\bCOEF\b(?!\})/g, '\\text{COEF}')
-    .replace(/\bEXP\b(?!\})/g, '\\text{EXP}')
-    .replace(/\bLINK\b(?!\})/g, '\\text{LINK}')
-    .replace(/\bHEADER\b(?!\})/g, '\\text{HEADER}')
-    .replace(/\bCapacity\b(?!\})/g, '\\text{Capacity}')
-    .replace(/\bSize\b(?!\})/g, '\\text{Size}')
-    .replace(/\bOffset\b(?!\})/g, '\\text{Offset}')
-    .replace(/\bInner\b(?!\})/g, '\\text{Inner}')
-    .replace(/\bParent\b(?!\})/g, '\\text{Parent}')
-    .replace(/\bparent\b(?!\})/g, '\\text{parent}')
-    .replace(/\bLeftChild\b(?!\})/g, '\\text{LeftChild}')
-    .replace(/\bRightChild\b(?!\})/g, '\\text{RightChild}')
-    .replace(/\bleft\b(?!\s*[\(\[\{]|\})/g, '\\text{left}')
-    .replace(/\bright\b(?!\s*[\)\]\}]|\})/g, '\\text{right}')
-    .replace(/\bword\b(?!\})/g, '\\text{word}')
-    .replace(/\bwords\b(?!\})/g, '\\text{words}')
-    .replace(/(?<=[a-zA-Z0-9\)])\s*\*\s*(?=[a-zA-Z0-9\(\[\{])/g, ' \\times ')
-    .replace(/\bL1\b/g, 'L_1')
-    .replace(/\bU1\b/g, 'U_1')
-    .replace(/\bD1\b/g, 'D_1')
-    .replace(/\bL2\b/g, 'L_2')
-    .replace(/\bU2\b/g, 'U_2')
-    .replace(/\bD2\b/g, 'D_2')
-    .replace(/\bL3\b/g, 'L_3')
-    .replace(/\bU3\b/g, 'U_3')
-    .replace(/\bD3\b/g, 'D_3');
-
   return str;
 }
 
@@ -78,7 +42,7 @@ export function renderKatex(mathStr: string, displayMode = false): string {
     return katex.renderToString(cleaned, {
       displayMode,
       throwOnError: false,
-      output: 'html', // CRITICAL: using 'html' prevents modern browsers from rendering both MathML and KaTeX HTML
+      output: 'html',
     });
   } catch {
     return `<span class="katex-fallback font-serif font-medium">${mathStr}</span>`;
@@ -86,159 +50,21 @@ export function renderKatex(mathStr: string, displayMode = false): string {
 }
 
 /**
- * Checks if a string line is primarily a mathematical formula or LaTeX definition
- */
-function isFormulaLine(line: string): boolean {
-  const trimmed = line.trim();
-  if (!trimmed) return false;
-
-  // Starts with known math formula keywords or backslashes
-  if (
-    trimmed.startsWith('\\text{Loc}') ||
-    trimmed.startsWith('Loc(') ||
-    trimmed.startsWith('\\text{Poly') ||
-    trimmed.startsWith('\\text{Example') ||
-    trimmed.startsWith('\\text{List') ||
-    trimmed.startsWith('\\text{Circular') ||
-    trimmed.startsWith('\\text{1. Empty') ||
-    trimmed.startsWith('\\text{2. Full') ||
-    trimmed.startsWith('\\text{Parent') ||
-    trimmed.startsWith('\\text{LeftChild') ||
-    trimmed.startsWith('\\text{RightChild') ||
-    trimmed.startsWith('\\text{BST') ||
-    trimmed.startsWith('\\text{Balanced') ||
-    trimmed.startsWith('\\text{Graph') ||
-    trimmed.startsWith('P(x) =') ||
-    trimmed.startsWith('P_1(x) =') ||
-    trimmed.startsWith('P_2(x) =')
-  ) {
-    return true;
-  }
-
-  // Contains mathematical symbols and assignment
-  if (
-    (trimmed.includes('\\times') || trimmed.includes('\\cdot') || trimmed.includes('\\bmod') || trimmed.includes('\\lfloor') || trimmed.includes('\\to') || trimmed.includes('\\le') || trimmed.includes('\\ge')) &&
-    (trimmed.includes('=') || trimmed.includes('\\to') || trimmed.includes('<'))
-  ) {
-    return true;
-  }
-
-  return false;
-}
-
-/**
- * High-performance KaTeX Component for displaying formulas or full structured math blocks
+ * High-performance KaTeX Component for displaying pure formulas
  */
 export const Latex: React.FC<LatexProps> = ({ math, block = false, className = '' }) => {
-  // If the input is a multi-line structured curriculum block (e.g. 3D Array formulas, Polynomial structures)
-  const isMultiLine = useMemo(() => {
-    return math.includes('\n');
-  }, [math]);
-
-  const html = useMemo(() => {
-    if (isMultiLine || !math) return '';
-    return renderKatex(math, block);
-  }, [math, block, isMultiLine]);
+  const isMultiLine = useMemo(() => math && math.includes('\n'), [math]);
 
   if (isMultiLine) {
-    const rawLines = math.split('\n');
-    return (
-      <div className={`space-y-2.5 my-2 ${className}`}>
-        {rawLines.map((rawLine, idx) => {
-          const line = rawLine.trim();
-          if (!line) return <div key={idx} className="h-1" />;
-
-          // 1. Check if this is a section heading like "1. Column-Major Order (Column by column):" or "For a 3D Array..."
-          if (/^\d+\.\s+[A-Za-z]/.test(line) && line.endsWith(':')) {
-            return (
-              <div key={idx} className="pt-2 font-serif font-bold text-xs sm:text-sm text-[#1A1A1A] flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B]" />
-                <MathText text={line} />
-              </div>
-            );
-          }
-
-          if (line.startsWith('For a ') && line.endsWith(':')) {
-            return (
-              <div key={idx} className="font-serif font-bold text-xs sm:text-sm text-[#1A1A1A] pb-1 border-b border-[#E5E2D9]">
-                <MathText text={line} />
-              </div>
-            );
-          }
-
-          // 2. Check if this is a standalone mathematical formula (e.g. Loc(A[i, j, k]) = ...)
-          if (isFormulaLine(line)) {
-            const formulaHtml = renderKatex(line, true);
-            return (
-              <div
-                key={idx}
-                className="my-1.5 py-2.5 px-3.5 overflow-x-auto text-center rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] text-[#1A1A1A] font-serif shadow-2xs"
-                dangerouslySetInnerHTML={{ __html: formulaHtml }}
-              />
-            );
-          }
-
-          // 3. Check if this is a bullet point item like "- Lower Bounds: L_1, L_2, L_3 \quad | \quad Upper Bounds: U_1, U_2, U_3"
-          if (line.startsWith('- ') || line.startsWith('* ')) {
-            const content = line.slice(2).trim();
-            const colonIdx = content.indexOf(':');
-
-            if (colonIdx !== -1) {
-              const label = content.slice(0, colonIdx + 1);
-              const formulaPart = content.slice(colonIdx + 1).trim();
-
-              // If the part after the colon contains LaTeX commands (\quad, \times, L_1, D_1, \bmod, etc.)
-              if (
-                formulaPart.includes('\\') ||
-                formulaPart.includes('_') ||
-                formulaPart.includes('=') ||
-                formulaPart.includes('^')
-              ) {
-                // Preprocess formulaPart to wrap plain English words like "Upper Bounds:" in \text{} if needed
-                let cleanPart = formulaPart;
-                if (cleanPart.includes('|') && !cleanPart.includes('\\text{')) {
-                  cleanPart = cleanPart.replace(/\|\s*([A-Za-z\s]+):/g, '\\mid \\quad \\text{$1:}');
-                }
-
-                return (
-                  <div key={idx} className="flex flex-wrap items-center gap-2 p-2 rounded-md bg-white border border-[#E5E2D9] text-xs">
-                    <span className="font-serif font-bold text-[#44403C] shrink-0 flex items-center gap-1.5">
-                      <span className="w-1 h-1 rounded-full bg-[#B45309]" />
-                      {label}
-                    </span>
-                    <div className="overflow-x-auto font-serif text-[#1A1A1A]">
-                      <Latex math={cleanPart} block={false} />
-                    </div>
-                  </div>
-                );
-              }
-            }
-
-            return (
-              <div key={idx} className="flex items-start gap-2 p-1.5 text-xs text-[#2C2B29]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B] shrink-0 mt-1.5" />
-                <span className="font-sans leading-relaxed">
-                  <MathText text={content} />
-                </span>
-              </div>
-            );
-          }
-
-          // Default fallback line
-          return (
-            <div key={idx} className="overflow-x-auto text-xs leading-relaxed text-[#2C2B29]">
-              <MathText text={line} />
-            </div>
-          );
-        })}
-      </div>
-    );
+    return <FormulaBlock content={math} className={className} />;
   }
+
+  const html = renderKatex(math, block);
 
   if (block) {
     return (
       <div
-        className={`my-2 py-2.5 px-3.5 overflow-x-auto text-center rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] text-[#1A1A1A] font-serif shadow-2xs ${className}`}
+        className={`my-2 py-2 px-3 overflow-x-auto text-center rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] text-[#1A1A1A] font-serif shadow-2xs ${className}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     );
@@ -321,37 +147,7 @@ export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
       return placeholder;
     });
 
-    // 3. Auto-wrap memory formula patterns: \text{Loc}(...) = ... or Loc(...) = ...
-    processed = processed.replace(
-      /(?<![a-zA-Z0-9_\$])(?:\\text\{Loc\}|Loc)\([a-zA-Z0-9\s,\-_\[\]\(\)\+]+?\)\s*=\s*[a-zA-Z0-9\s\+\-\*\/\(\)\{\}\\_\[\]\^\\cdot\\times]+/g,
-      (match) => {
-        const placeholder = `__EXPLICIT_MATH_${tokens.length}__`;
-        tokens.push({ type: 'inline-math', content: match.trim() });
-        return placeholder;
-      }
-    );
-
-    // 4. Auto-wrap dimension span formulas like D1 = U1 - L1 + 1 or D_1 = U_1 - L_1 + 1
-    processed = processed.replace(
-      /(?<![a-zA-Z0-9_\$])(D_?[123]\s*=\s*U_?[123]\s*-\s*L_?[123]\s*\+\s*1)(?![a-zA-Z0-9_\$])/g,
-      (match) => {
-        const placeholder = `__EXPLICIT_MATH_${tokens.length}__`;
-        tokens.push({ type: 'inline-math', content: match });
-        return placeholder;
-      }
-    );
-
-    // 5. Auto-wrap array variable declarations like A[L_1 : U_1, L_2 : U_2, L_3 : U_3]
-    processed = processed.replace(
-      /(?<![a-zA-Z0-9_\$])([A-Z]\[[A-Za-z0-9_:\s,\+]+\])(?![a-zA-Z0-9_\$])/g,
-      (match) => {
-        const placeholder = `__EXPLICIT_MATH_${tokens.length}__`;
-        tokens.push({ type: 'inline-math', content: match });
-        return placeholder;
-      }
-    );
-
-    // 6. Split by token placeholders to reconstruct final segments
+    // 3. Split by token placeholders to reconstruct final segments
     const finalSegments: { type: 'text' | 'inline-math' | 'block-math'; content: string }[] = [];
     const splitRegex = /__EXPLICIT_MATH_(\d+)__/g;
     let lastIndex = 0;
@@ -399,3 +195,125 @@ export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
     </span>
   );
 };
+
+interface FormulaBlockProps {
+  content: string;
+  className?: string;
+}
+
+/**
+ * Dedicated structured Formula Card component that renders multi-line mathematical specifications cleanly.
+ */
+export const FormulaBlock: React.FC<FormulaBlockProps> = ({ content, className = '' }) => {
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const lines = useMemo(() => {
+    if (!content) return [];
+    return content.split('\n');
+  }, [content]);
+
+  return (
+    <div className={`rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-hidden ${className}`}>
+      {/* Header bar */}
+      <div className="flex items-center justify-between px-3.5 py-2 bg-[#F4F2EB] border-b border-[#E5E2D9]">
+        <div className="flex items-center gap-1.5 text-xs font-serif font-bold text-[#1A1A1A]">
+          <Sigma className="w-3.5 h-3.5 text-[#991B1B]" />
+          <span>Mathematical Formulation & Specifications</span>
+        </div>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1 text-[11px] font-sans font-medium text-[#66625B] hover:text-[#1A1A1A] transition-colors cursor-pointer px-2 py-0.5 rounded hover:bg-white/80"
+          title="Copy formula text"
+        >
+          {copied ? (
+            <>
+              <Check className="w-3 h-3 text-[#15803D]" />
+              <span className="text-[#15803D]">Copied</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-3 h-3" />
+              <span>Copy</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Body content */}
+      <div className="p-4 space-y-3 font-sans text-xs sm:text-sm text-[#2C2B29] leading-relaxed">
+        {lines.map((rawLine, idx) => {
+          const line = rawLine.trim();
+          if (!line) return <div key={idx} className="h-1" />;
+
+          // Pure display math line: $$ ... $$
+          if (line.startsWith('$$') && line.endsWith('$$')) {
+            const math = line.slice(2, -2).trim();
+            const formulaHtml = renderKatex(math, true);
+            return (
+              <div
+                key={idx}
+                className="my-2 py-2 px-3 overflow-x-auto text-center rounded-lg bg-white border border-[#E5E2D9] text-[#1A1A1A] font-serif shadow-2xs"
+                dangerouslySetInnerHTML={{ __html: formulaHtml }}
+              />
+            );
+          }
+
+          // Section headers like "1. Column-Major Order:" or "For a Complete Binary Tree...:"
+          if (
+            (/^\d+\.\s+[A-Za-z]/.test(line) && line.endsWith(':')) ||
+            (line.startsWith('For a ') && line.endsWith(':')) ||
+            (line.endsWith(':') && !line.startsWith('-') && !line.startsWith('*'))
+          ) {
+            return (
+              <div key={idx} className="pt-2 pb-1 font-serif font-bold text-xs sm:text-sm text-[#1A1A1A] border-b border-[#E5E2D9] flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#991B1B]" />
+                <MathText text={line} />
+              </div>
+            );
+          }
+
+          // Bullet points like "- Root Location: ..."
+          if (line.startsWith('- ') || line.startsWith('* ')) {
+            const bulletText = line.slice(2).trim();
+            return (
+              <div key={idx} className="flex items-start gap-2 pl-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B45309] shrink-0 mt-1.5" />
+                <div className="leading-relaxed">
+                  <MathText text={bulletText} />
+                </div>
+              </div>
+            );
+          }
+
+          // Numbered items like "1. Maximum nodes at depth d: ..."
+          if (/^\d+\.\s+/.test(line)) {
+            return (
+              <div key={idx} className="flex items-start gap-2 pl-1">
+                <span className="font-mono font-bold text-xs text-[#991B1B] shrink-0 mt-0.5">
+                  {line.match(/^\d+\./)?.[0]}
+                </span>
+                <div className="leading-relaxed">
+                  <MathText text={line.replace(/^\d+\.\s+/, '')} />
+                </div>
+              </div>
+            );
+          }
+
+          // Default fallback line
+          return (
+            <div key={idx} className="leading-relaxed">
+              <MathText text={line} />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+

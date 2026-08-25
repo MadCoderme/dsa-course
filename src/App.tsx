@@ -10,7 +10,7 @@ import { TopicId } from './types';
 import { Search, ArrowRight } from 'lucide-react';
 
 export function App() {
-  const [currentView, setCurrentView] = useState<'report' | 'calculator' | 'matrix' | TopicId>('report');
+  const [currentView, setCurrentView] = useState<'report' | 'calculator' | 'matrix' | TopicId>('course-overview');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
@@ -39,6 +39,7 @@ export function App() {
         onOpenReport={() => setCurrentView('report')}
         onOpenCalculator={() => setCurrentView('calculator')}
         onOpenMatrix={() => setCurrentView('matrix')}
+        onOpenGuide={() => setCurrentView('course-overview')}
         onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
       />
 
@@ -108,7 +109,7 @@ export function App() {
           ) : currentView === 'matrix' ? (
             <ComplexityMatrix />
           ) : activeLesson ? (
-            <LessonView lesson={activeLesson} />
+            <LessonView lesson={activeLesson} onSelectTopic={(id) => setCurrentView(id)} />
           ) : (
             <ExamReportDashboard onSelectTopic={(id) => setCurrentView(id)} />
           )}

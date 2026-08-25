@@ -329,7 +329,7 @@ export const AvlTreeVisualizer: React.FC<AvlTreeVisualizerProps> = ({ focusedMod
 
             {deletionCase === 'two-children' && (
               <div className="space-y-2">
-                <div className="text-xs font-serif font-bold text-[#991B1B]">Case 3: Target Node Has 2 Children (High-Yield CUET Exam Question!)</div>
+                <div className="text-xs font-serif font-bold text-[#991B1B]">Case 3: Target Node Has 2 Children (Inorder Successor Replacement)</div>
                 <p className="text-xs text-[#44403C] leading-relaxed">
                   You cannot simply delete the node because doing so leaves two orphan subtrees! Instead:
                 </p>

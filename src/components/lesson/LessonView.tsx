@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Lesson } from '../../types';
+import { Lesson, TopicId } from '../../types';
+import { getCategoryForTopic } from '../../data/categoriesData';
 import { VectorVisualizer } from '../visualizers/VectorVisualizer';
 import { SetVisualizer } from '../visualizers/SetVisualizer';
 import { MapVisualizer } from '../visualizers/MapVisualizer';
@@ -9,10 +10,16 @@ import { PriorityQueueVisualizer } from '../visualizers/PriorityQueueVisualizer'
 import { ListVisualizer } from '../visualizers/ListVisualizer';
 import { TreeVisualizer } from '../visualizers/TreeVisualizer';
 import { AvlTreeVisualizer } from '../visualizers/AvlTreeVisualizer';
+import { BstRbtVisualizer } from '../visualizers/BstRbtVisualizer';
+import { BTreeVisualizer } from '../visualizers/BTreeVisualizer';
+import { HuffmanVisualizer } from '../visualizers/HuffmanVisualizer';
+import { MstVisualizer } from '../visualizers/MstVisualizer';
 import { GraphVisualizer } from '../visualizers/GraphVisualizer';
+import { RoadmapNavigator } from '../common/RoadmapNavigator';
+import { LandingOverview } from '../common/LandingOverview';
 import { CodeBlock } from '../common/CodeBlock';
 import { QuizComponent } from '../common/QuizComponent';
-import { Latex, MathText } from '../common/Latex';
+import { Latex, MathText, FormulaBlock } from '../common/Latex';
 import { MarkdownContent } from '../common/MarkdownContent';
 import {
   BookOpen,
@@ -29,12 +36,20 @@ import {
 
 interface LessonViewProps {
   lesson: Lesson;
+  onSelectTopic?: (topicId: TopicId | 'report' | 'calculator' | 'matrix') => void;
 }
 
-export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
-  const [expandedQuestions, setExpandedQuestions] = useState<Record<string, boolean>>({
-    [lesson.examQuestions[0]?.id || '']: true
+export const LessonView: React.FC<LessonViewProps> = ({ lesson, onSelectTopic }) => {
+  if (lesson.id === 'course-overview') {
+    return <LandingOverview onSelectTopic={onSelectTopic || (() => {})} />;
+  }
+
+  const [expandedQuestions, setExpandedQuestions] = useState<Record<string, boolean>>(() => {
+    const firstId = lesson.examQuestions?.[0]?.id;
+    return firstId ? { [firstId]: true } : {};
   });
+
+  const { category, subCategory } = getCategoryForTopic(lesson.id);
 
   const toggleQuestion = (qId: string) => {
     setExpandedQuestions((prev) => ({ ...prev, [qId]: !prev[qId] }));
@@ -49,6 +64,13 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
 
   // Helper to render contextual inline visualizer right below the corresponding concept
   const renderInlineVisualizer = (conceptIdx: number) => {
+    if (lesson.id === 'course-overview') {
+      if (conceptIdx === 1) {
+        return onSelectTopic ? <RoadmapNavigator onSelectTopic={onSelectTopic} /> : null;
+      }
+      return null;
+    }
+
     switch (lesson.id) {
       case 'vector':
         if (conceptIdx === 0) return <VectorVisualizer focusedMode="reallocLab" />;
@@ -76,21 +98,45 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         return null;
 
       case 'tree':
-        if (conceptIdx === 0) return <TreeVisualizer focusedMode="traversal" />;
-        if (conceptIdx === 1) return <TreeVisualizer focusedMode="properties" />;
-        if (conceptIdx === 2) return <TreeVisualizer focusedMode="expression" />;
-        if (conceptIdx === 3) return <TreeVisualizer focusedMode="threaded" />;
-        return null;
+        if (conceptIdx === 0) return <TreeVisualizer focusedMode="properties" />;
+        if (conceptIdx === 1) return <TreeVisualizer focusedMode="conversion" />;
+        return <TreeVisualizer focusedMode="properties" />;
+
+      case 'tree-traversals':
+        return <TreeVisualizer focusedMode="traversal" />;
+
+      case 'expression-threaded-trees':
+        if (conceptIdx === 0) return <TreeVisualizer focusedMode="expression" />;
+        return <TreeVisualizer focusedMode="threaded" />;
+
+      case 'bst-rbt':
+        if (conceptIdx === 0) return <BstRbtVisualizer focusedMode="bst-ops" />;
+        if (conceptIdx === 1) return <BstRbtVisualizer focusedMode="deletion" />;
+        return <BstRbtVisualizer focusedMode="bst-ops" />;
+
+      case 'red-black-tree':
+        if (conceptIdx === 0) return <BstRbtVisualizer focusedMode="rbt-invariants" />;
+        return <BstRbtVisualizer focusedMode="rbt-insert" />;
 
       case 'avl-tree':
-        if (conceptIdx === 0) return <AvlTreeVisualizer focusedMode="rotations" />;
-        if (conceptIdx === 1) return <AvlTreeVisualizer focusedMode="bst-deletion" />;
-        if (conceptIdx === 2) return <AvlTreeVisualizer focusedMode="btree-split" />;
-        return null;
+        return <AvlTreeVisualizer focusedMode="rotations" />;
+
+      case 'b-tree':
+        return <BTreeVisualizer focusedMode="btree" />;
+
+      case 'b-plus-tree':
+        return <BTreeVisualizer focusedMode="bplus" />;
+
+      case 'huffman-coding':
+        return <HuffmanVisualizer />;
 
       case 'priority-queue':
-        if (conceptIdx === 0 || conceptIdx === 1) return <PriorityQueueVisualizer />;
-        return null;
+        return <PriorityQueueVisualizer />;
+
+      case 'mst':
+        if (conceptIdx === 0 || conceptIdx === 1) return <MstVisualizer focusedMode="kruskal" />;
+        if (conceptIdx === 2) return <MstVisualizer focusedMode="prim" />;
+        return <MstVisualizer focusedMode="kruskal" />;
 
       case 'set':
         if (conceptIdx === 0) return <SetVisualizer focusedMode="ordered" />;
@@ -103,12 +149,22 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         if (conceptIdx === 2) return <MapVisualizer focusedMode="custom" />;
         return null;
 
+      case 'graph-representations':
+        return <GraphVisualizer focusedMode="representations" />;
+
       case 'graph':
         if (conceptIdx === 0) return <GraphVisualizer focusedMode="bfs" />;
         if (conceptIdx === 1) return <GraphVisualizer focusedMode="dfs" />;
-        if (conceptIdx === 2) return <GraphVisualizer focusedMode="topological" />;
-        if (conceptIdx === 3) return <GraphVisualizer focusedMode="warshall" />;
-        return null;
+        return <GraphVisualizer focusedMode="bfs" />;
+
+      case 'topological-sort':
+        return <GraphVisualizer focusedMode="topological" />;
+
+      case 'shortest-path-dijkstra':
+        return <GraphVisualizer focusedMode="dijkstra" />;
+
+      case 'floyd-warshall':
+        return <GraphVisualizer focusedMode="warshall" />;
 
       default:
         return null;
@@ -119,16 +175,25 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
     <div className="space-y-8" id={`lesson-view-${lesson.id}`}>
       {/* 1. Master Lesson Header */}
       <div className="p-5 sm:p-7 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
+        {/* Category & Subcategory Breadcrumb */}
+        {category && (
+          <div className="flex items-center gap-2 text-xs font-mono text-[#88847C]">
+            <span className="font-bold text-[#1A1A1A]">{category.name}</span>
+            <span>&rsaquo;</span>
+            <span className="text-[#991B1B] font-semibold">{subCategory?.name}</span>
+          </div>
+        )}
+
         <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9]">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#F4F2EB] border border-[#D8D4C8] text-[#2C2B29]">
-              {lesson.importance}
-            </span>
-            <span className="text-xs text-[#991B1B] font-mono font-semibold">Introductory Course Note</span>
+            {lesson.importance && <span className="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#F4F2EB] border border-[#D8D4C8] text-[#2C2B29]">
+              {lesson?.importance}
+            </span>}
+            <span className="text-xs text-[#991B1B] font-mono font-semibold">Curriculum Topic</span>
           </div>
 
           {/* Time Complexity Badges with Math */}
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+          {lesson.timeComplexity && <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
             <span className="px-2.5 py-1 rounded bg-[#FAF8F5] border border-[#E5E2D9] text-[#2C2B29] flex items-center gap-1.5">
               Access: <strong className="text-[#15803D]"><MathText text={lesson.timeComplexity.access} /></strong>
             </span>
@@ -138,7 +203,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
             <span className="px-2.5 py-1 rounded bg-[#FAF8F5] border border-[#E5E2D9] text-[#2C2B29] flex items-center gap-1.5">
               Delete: <strong className="text-[#15803D]"><MathText text={lesson.timeComplexity.deletion} /></strong>
             </span>
-          </div>
+          </div>}
         </div>
 
         <div>
@@ -160,13 +225,13 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         </div>
 
         {/* CUET Exam Relevance Alert Box */}
-        <div className="p-3.5 sm:p-4 rounded-lg bg-[#FEF2F2] border border-[#FECACA] text-xs text-[#991B1B] leading-relaxed flex items-start gap-2.5">
+        {lesson.cuetExamRelevance && <div className="p-3.5 sm:p-4 rounded-lg bg-[#FEF2F2] border border-[#FECACA] text-xs text-[#991B1B] leading-relaxed flex items-start gap-2.5">
           <Flame className="w-4 h-4 text-[#991B1B] shrink-0 mt-0.5" />
           <div>
             <strong className="font-serif font-bold text-[#991B1B]">Exam Context & Significance: </strong>
             <span className="font-sans text-[#7F1D1D]"><MathText text={lesson.cuetExamRelevance} /></span>
           </div>
-        </div>
+        </div>}
       </div>
 
       {/* Quick Jump Navigation Bar */}
@@ -187,13 +252,13 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
           onClick={() => scrollToSection('sec-exam-archive')}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#B45309] hover:bg-[#FFFBEB] transition-colors whitespace-nowrap cursor-pointer shrink-0"
         >
-          <FileQuestion className="w-3.5 h-3.5" /> 3. Solved Exam Questions ({lesson.examQuestions.length})
+          <FileQuestion className="w-3.5 h-3.5" /> 3. Solved Exam Questions ({lesson.examQuestions?.length})
         </button>
         <button
           onClick={() => scrollToSection('sec-quiz')}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#7E22CE] hover:bg-[#FAF5FF] transition-colors whitespace-nowrap cursor-pointer shrink-0"
         >
-          <HelpCircle className="w-3.5 h-3.5" /> 4. Practice Quiz ({lesson.quizzes.length})
+          <HelpCircle className="w-3.5 h-3.5" /> 4. Practice Quiz ({lesson.quizzes?.length})
         </button>
       </div>
 
@@ -236,9 +301,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
                 </div>
 
                 {concept.mathFormula && (
-                  <div className="p-3.5 sm:p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] text-xs text-[#1A1A1A] leading-loose overflow-x-auto">
-                    <Latex math={concept.mathFormula} block />
-                  </div>
+                  <FormulaBlock content={concept.mathFormula} />
                 )}
 
                 {concept.bulletPoints && concept.bulletPoints.length > 0 && (
@@ -276,7 +339,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
       </section>
 
       {/* SECTION 2: C++ STL Reference & Code Implementations */}
-      <section id="sec-stl-ref" className="space-y-6 pt-4">
+      {lesson.cstlReference && <section id="sec-stl-ref" className="space-y-6 pt-4">
         <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9]">
           <div className="flex items-center gap-2">
             <Code2 className="w-5 h-5 text-[#15803D]" />
@@ -326,7 +389,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
             </table>
           </div>
 
-          {lesson.cstlReference.notes.length > 0 && (
+          {lesson.cstlReference?.notes && lesson.cstlReference?.notes?.length > 0 && (
             <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-1 text-xs text-[#44403C] font-sans">
               <strong className="text-[#1A1A1A] font-serif">Key STL Invariants & Practical Tips:</strong>
               <ul className="list-disc list-inside space-y-1 text-[12px] pt-1">
@@ -339,14 +402,16 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         </div>
 
         {/* Full Code Snippets */}
-        <div className="space-y-4">
-          <h3 className="text-base font-serif font-bold text-[#1A1A1A]">Clean C++ Implementations</h3>
-          <CodeBlock snippets={lesson.codeSnippets} />
-        </div>
-      </section>
+        {lesson.codeSnippets && lesson.codeSnippets.length > 0 && (
+          <div className="space-y-4">
+            <h3 className="text-base font-serif font-bold text-[#1A1A1A]">Clean C++ Implementations</h3>
+            <CodeBlock snippets={lesson.codeSnippets} />
+          </div>
+        )}
+      </section>}
 
       {/* SECTION 3: Solved Exam Questions Archive */}
-      <section id="sec-exam-archive" className="space-y-4 pt-4">
+      {lesson.examQuestions && <section id="sec-exam-archive" className="space-y-4 pt-4">
         <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[#E5E2D9]">
           <div className="flex items-center gap-2">
             <FileQuestion className="w-5 h-5 text-[#B45309]" />
@@ -417,10 +482,10 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
             );
           })}
         </div>
-      </section>
+      </section>}
 
       {/* SECTION 4: Practice Quiz */}
-      <section id="sec-quiz" className="space-y-4 pt-4">
+      {lesson.quizzes && <section id="sec-quiz" className="space-y-4 pt-4">
         <div className="flex items-center gap-2 pb-2 border-b border-[#E5E2D9]">
           <HelpCircle className="w-5 h-5 text-[#7E22CE]" />
           <h2 className="text-lg font-serif font-bold text-[#1A1A1A]">
@@ -429,7 +494,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         </div>
 
         <QuizComponent quizzes={lesson.quizzes} topicTitle={lesson.title} />
-      </section>
+      </section>}
     </div>
   );
 };

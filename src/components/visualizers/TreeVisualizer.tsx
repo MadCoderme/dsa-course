@@ -7,9 +7,13 @@ import {
   GitBranch,
   ArrowRight,
   Layers,
-  HelpCircle,
   Zap,
-  CheckCircle2
+  CheckCircle2,
+  Share2,
+  Calculator,
+  Compass,
+  ArrowDownRight,
+  ArrowUpRight
 } from 'lucide-react';
 
 interface TreeNode {
@@ -22,35 +26,39 @@ interface TreeNode {
 }
 
 interface TreeVisualizerProps {
-  focusedMode?: 'traversal' | 'expression' | 'properties' | 'threaded';
+  focusedMode?: 'traversal' | 'conversion' | 'expression' | 'properties' | 'threaded';
 }
 
 export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 'traversal' }) => {
-  const [activeTab, setActiveTab] = useState<'traversal' | 'expression' | 'properties' | 'threaded'>(focusedMode);
-  
-  // Traversal state
+  const [activeTab, setActiveTab] = useState<'traversal' | 'conversion' | 'expression' | 'properties' | 'threaded'>(focusedMode);
+
+  // 1. Traversal state
   const [traversalType, setTraversalType] = useState<'inorder' | 'preorder' | 'postorder' | 'levelorder'>('inorder');
   const [traversalStep, setTraversalStep] = useState<number>(-1);
   const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(false);
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
 
-  // Expression Tree State
-  const [selectedExpr, setSelectedExpr] = useState<string>('((A + B) * (C - D))');
+  // 2. Complete Binary Tree Array Interactive Mapper State
+  const [selectedIndex, setSelectedIndex] = useState<number>(2); // 1-based index (Node 2: val '25')
 
-  // Binary Tree Structure
-  //        1 (A: 50)
-  //       /        \
-  //     2 (B: 25)    3 (C: 75)
-  //    /    \       /     \
-  //  4(12) 5(37)  6(62)  7(87)
+  // 3. General Tree -> Binary Tree Conversion State
+  const [conversionStep, setConversionStep] = useState<number>(0);
+
+  // 4. Expression Tree State
+  const [evalStep, setEvalStep] = useState<number>(-1);
+
+  // 5. Threaded Binary Tree State
+  const [threadedStep, setThreadedStep] = useState<number>(-1);
+
+  // Standard 7-Node Complete Binary Tree Structure
   const defaultNodes: TreeNode[] = [
-    { id: 1, val: '50', x: 200, y: 40, leftId: 2, rightId: 3 },
-    { id: 2, val: '25', x: 100, y: 110, leftId: 4, rightId: 5 },
-    { id: 3, val: '75', x: 300, y: 110, leftId: 6, rightId: 7 },
-    { id: 4, val: '12', x: 50, y: 180 },
-    { id: 5, val: '37', x: 150, y: 180 },
-    { id: 6, val: '62', x: 250, y: 180 },
-    { id: 7, val: '87', x: 350, y: 180 },
+    { id: 1, val: '50', x: 200, y: 35, leftId: 2, rightId: 3 },
+    { id: 2, val: '25', x: 100, y: 105, leftId: 4, rightId: 5 },
+    { id: 3, val: '75', x: 300, y: 105, leftId: 6, rightId: 7 },
+    { id: 4, val: '12', x: 50, y: 175 },
+    { id: 5, val: '37', x: 150, y: 175 },
+    { id: 6, val: '62', x: 250, y: 175 },
+    { id: 7, val: '87', x: 350, y: 175 },
   ];
 
   const traversalOrders = {
@@ -58,7 +66,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
       { id: 4, val: '12', note: 'Traverse Left Subtree (Node 4: 12)' },
       { id: 2, val: '25', note: 'Visit Parent (Node 2: 25)' },
       { id: 5, val: '37', note: 'Traverse Right Subtree (Node 5: 37)' },
-      { id: 1, val: '50', note: 'Visit Root (Node 1: 50)' },
+      { id: 1, val: '50', note: 'Visit Tree Root (Node 1: 50)' },
       { id: 6, val: '62', note: 'Traverse Left of Right Subtree (Node 6: 62)' },
       { id: 3, val: '75', note: 'Visit Subtree Root (Node 3: 75)' },
       { id: 7, val: '87', note: 'Traverse Right Subtree (Node 7: 87)' },
@@ -124,6 +132,53 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
     setActiveNodeId(null);
   };
 
+  // Expression Tree nodes for ((3 + 5) * (9 - 4))
+  const expressionNodes = [
+    { id: 1, val: '*', x: 200, y: 35, leftId: 2, rightId: 3, evaluated: '40' },
+    { id: 2, val: '+', x: 110, y: 105, leftId: 4, rightId: 5, evaluated: '8' },
+    { id: 3, val: '-', x: 290, y: 105, leftId: 6, rightId: 7, evaluated: '5' },
+    { id: 4, val: '3', x: 65, y: 175, evaluated: '3' },
+    { id: 5, val: '5', x: 155, y: 175, evaluated: '5' },
+    { id: 6, val: '9', x: 245, y: 175, evaluated: '9' },
+    { id: 7, val: '4', x: 335, y: 175, evaluated: '4' },
+  ];
+
+  const evalSteps = [
+    { targetId: 4, note: 'Evaluate left operand leaf: 3' },
+    { targetId: 5, note: 'Evaluate right operand leaf: 5' },
+    { targetId: 2, note: 'Evaluate subtree (+): 3 + 5 = 8' },
+    { targetId: 6, note: 'Evaluate left operand leaf: 9' },
+    { targetId: 7, note: 'Evaluate right operand leaf: 4' },
+    { targetId: 3, note: 'Evaluate subtree (-): 9 - 4 = 5' },
+    { targetId: 1, note: 'Evaluate root (*): 8 * 5 = 40 (Final evaluation result!)' },
+  ];
+
+  // Threaded binary tree order (4 -> 2 -> 5 -> 1 -> 6 -> 3 -> 7)
+  const threadedNodes = [
+    { id: 4, val: '12', x: 60, y: 160, isThread: true, threadTarget: '2 (Successor)' },
+    { id: 2, val: '25', x: 120, y: 95, leftId: 4, rightId: 5 },
+    { id: 5, val: '37', x: 180, y: 160, isThread: true, threadTarget: '1 (Successor)' },
+    { id: 1, val: '50', x: 240, y: 35, leftId: 2, rightId: 3 },
+    { id: 6, val: '62', x: 300, y: 160, isThread: true, threadTarget: '3 (Successor)' },
+    { id: 3, val: '75', x: 360, y: 95, leftId: 6, rightId: 7 },
+    { id: 7, val: '87', x: 420, y: 160, isThread: true, threadTarget: 'NULL (End)' },
+  ];
+
+  const threadedSequence = [
+    { id: 4, val: '12', note: 'Start at leftmost node (12). Follow right thread to successor.' },
+    { id: 2, val: '25', note: 'Arrive at parent (25) via thread. Visit right child (37).' },
+    { id: 5, val: '37', note: 'At node (37). Follow right thread up to root (50).' },
+    { id: 1, val: '50', note: 'At root (50). Proceed to right subtree leftmost child (62).' },
+    { id: 6, val: '62', note: 'At node (62). Follow right thread to parent (75).' },
+    { id: 3, val: '75', note: 'At node (75). Visit right child (87).' },
+    { id: 7, val: '87', note: 'At node (87). Right thread is NULL. Inorder traversal complete in O(1) auxiliary space!' },
+  ];
+
+  // Calculations for Complete Binary Tree Array
+  const parentIdx = Math.floor(selectedIndex / 2);
+  const leftChildIdx = selectedIndex * 2 <= 7 ? selectedIndex * 2 : null;
+  const rightChildIdx = selectedIndex * 2 + 1 <= 7 ? selectedIndex * 2 + 1 : null;
+
   return (
     <div className="p-4 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
       {/* Visualizer Header */}
@@ -133,19 +188,19 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
             <GitBranch className="w-5 h-5 text-[#991B1B]" /> Binary Tree Laboratory & Traversal Engine
           </h3>
           <div className="text-xs text-[#66625B] mt-0.5 font-sans">
-            Interactive visualization of recursive tree traversals ($L \to N \to R$), Complete Binary Tree array indexing, and Expression Trees.
+            Interactive visualization of tree traversals, Complete Tree Array Indexing, Knuth LCRS Transforms, Expression Trees, and Threaded Trees.
           </div>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex items-center gap-1 bg-[#F4F2EB] p-1 rounded-lg border border-[#E5E2D9]">
+        <div className="flex flex-wrap items-center gap-1 bg-[#F4F2EB] p-1 rounded-lg border border-[#E5E2D9]">
           <button
             onClick={() => { setActiveTab('traversal'); resetTraversal(); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
               activeTab === 'traversal' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
             }`}
           >
-            Traversals (In/Pre/Post/Level)
+            Traversals
           </button>
           <button
             onClick={() => setActiveTab('properties')}
@@ -153,7 +208,15 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
               activeTab === 'properties' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
             }`}
           >
-            Tree Formulas & Array Indexing
+            Array Storage Mapper
+          </button>
+          <button
+            onClick={() => setActiveTab('conversion')}
+            className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
+              activeTab === 'conversion' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+            }`}
+          >
+            General $\to$ Binary Tree
           </button>
           <button
             onClick={() => setActiveTab('expression')}
@@ -169,7 +232,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
               activeTab === 'threaded' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
             }`}
           >
-            Threaded Binary Tree
+            Threaded Trees
           </button>
         </div>
       </div>
@@ -236,7 +299,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
 
           {/* Tree SVG Canvas */}
           <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
-            <svg width="400" height="230" className="overflow-visible">
+            <svg width="400" height="220" className="overflow-visible">
               {/* Edges */}
               {defaultNodes.map((node) => {
                 const leftChild = defaultNodes.find((n) => n.id === node.leftId);
@@ -358,154 +421,404 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
         </div>
       )}
 
-      {/* TAB 2: Tree Formulas & Complete Binary Tree Array Indexing */}
+      {/* TAB 2: Complete Binary Tree Array Storage Live Mapper */}
       {activeTab === 'properties' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Sequential Array Storage */}
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-              <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <Layers className="w-4 h-4 text-[#991B1B]" /> Complete Binary Tree: Array Storage Formulas
-              </h4>
-              <div className="text-xs text-[#44403C] space-y-2 leading-relaxed">
-                <div>For a node stored at 1-based array index <MathText text="$i$" />:</div>
-                <div className="p-2.5 rounded bg-white border border-[#E5E2D9] space-y-1 font-mono text-xs">
-                  <div className="text-[#991B1B] font-bold">LeftChild(i) = 2i</div>
-                  <div className="text-[#15803D] font-bold">RightChild(i) = 2i + 1</div>
-                  <div className="text-[#B45309] font-bold">Parent(i) = ⌊i / 2⌋</div>
-                </div>
-                <div>For 0-based array indexing:</div>
-                <div className="p-2.5 rounded bg-white border border-[#E5E2D9] space-y-1 font-mono text-xs">
-                  <div>LeftChild(i) = 2i + 1</div>
-                  <div>RightChild(i) = 2i + 2</div>
-                  <div>Parent(i) = ⌊(i - 1) / 2⌋</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Tree Height & Capacity Formulas */}
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-              <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#15803D]" /> Key Mathematical Proofs & Limits
-              </h4>
-              <div className="space-y-2 text-xs text-[#44403C]">
-                <div className="p-2.5 rounded bg-white border border-[#E5E2D9] space-y-1.5">
-                  <div className="font-serif font-bold text-[#1A1A1A]">1. Maximum Nodes at Depth $d$:</div>
-                  <div><Latex math="N_{\max}(d) = 2^d \quad (\text{Root at } d = 0)" /></div>
-                </div>
-                <div className="p-2.5 rounded bg-white border border-[#E5E2D9] space-y-1.5">
-                  <div className="font-serif font-bold text-[#1A1A1A]">2. Total Nodes in Full Tree of Height $h$:</div>
-                  <div><Latex math="N = 2^{h+1} - 1 \implies h = \lfloor \log_2(N) \rfloor" /></div>
-                </div>
-                <div className="p-2.5 rounded bg-white border border-[#E5E2D9] space-y-1.5">
-                  <div className="font-serif font-bold text-[#1A1A1A]">3. Number of Leaves ($L$) in Full Binary Tree:</div>
-                  <div><Latex math="L = 2^h = \frac{N + 1}{2}" /></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive Array Mapping Table */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-2">
-            <span className="text-xs font-serif font-bold text-[#1A1A1A]">1-Based Array Indexing Representation of Current Tree:</span>
-            <div className="overflow-x-auto">
-              <table className="w-full text-center text-xs font-mono border-collapse">
-                <thead>
-                  <tr className="bg-[#F4F2EB] text-[#2C2B29]">
-                    <th className="p-2 border border-[#E5E2D9]">Index ($i$)</th>
-                    {defaultNodes.map((n, i) => (
-                      <th key={i} className="p-2 border border-[#E5E2D9]">{i + 1}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="p-2 font-bold bg-[#FAF8F5] border border-[#E5E2D9] font-serif">Tree Value</td>
-                    {defaultNodes.map((n) => (
-                      <td key={n.id} className="p-2 border border-[#E5E2D9] font-bold text-[#991B1B] bg-white">
-                        {n.val}
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td className="p-2 font-bold bg-[#FAF8F5] border border-[#E5E2D9] font-serif">Left Child ($2i$)</td>
-                    {defaultNodes.map((n, i) => {
-                      const leftIdx = 2 * (i + 1);
-                      return (
-                        <td key={n.id} className="p-2 border border-[#E5E2D9] text-[#66625B]">
-                          {leftIdx <= defaultNodes.length ? `[${leftIdx}] = ${defaultNodes[leftIdx - 1].val}` : 'NULL'}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 3: Expression Trees */}
-      {activeTab === 'expression' && (
-        <div className="space-y-4">
-          <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-            <h4 className="text-sm font-serif font-bold text-[#1A1A1A]">Arithmetic Expression Trees</h4>
+          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#991B1B]" /> Interactive Array Index & Node Relationship Mapper
+            </h4>
             <p className="text-xs text-[#44403C] leading-relaxed">
-              In an Expression Tree, internal nodes are mathematical operators (<code className="text-[#991B1B] font-mono font-bold">+ - * / ^</code>) and leaf nodes are operands (constants or variables).
+              Click any array slot below (1-based index <MathText text="$i$" />) to inspect its exact mathematical Left Child (<MathText text="$2i$" />), Right Child (<MathText text="$2i+1$" />), and Parent (<MathText text="$\lfloor i/2 \rfloor$" />) in the complete tree!
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#15803D]">Inorder Traversal gives:</span>
-              <div className="p-2.5 rounded bg-[#FAF8F5] font-mono text-xs font-bold text-[#1A1A1A]">
-                (A + B) * (C - D)
-              </div>
-              <div className="text-[11px] text-[#66625B]">Produces standard infix algebraic expression (with parentheses).</div>
+          {/* Interactive Array Bar */}
+          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-3">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+              1-Based Contiguous Storage Array <code className="text-[#991B1B] font-mono">TreeArray[1...7]</code>:
             </div>
+            <div className="flex flex-wrap gap-2">
+              {[1, 2, 3, 4, 5, 6, 7].map((idx) => {
+                const node = defaultNodes.find((n) => n.id === idx)!;
+                const isSelected = selectedIndex === idx;
+                const isParent = parentIdx === idx;
+                const isLeftChild = leftChildIdx === idx;
+                const isRightChild = rightChildIdx === idx;
 
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#991B1B]">Preorder Traversal gives:</span>
-              <div className="p-2.5 rounded bg-[#FAF8F5] font-mono text-xs font-bold text-[#991B1B]">
-                * + A B - C D
-              </div>
-              <div className="text-[11px] text-[#66625B]">Produces Polish (Prefix) notation without requiring any parentheses.</div>
+                let badge = '';
+                if (isSelected) badge = 'Selected (i)';
+                else if (isParent) badge = 'Parent ⌊i/2⌋';
+                else if (isLeftChild) badge = 'Left (2i)';
+                else if (isRightChild) badge = 'Right (2i+1)';
+
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedIndex(idx)}
+                    className={`flex-1 min-w-[70px] p-2.5 rounded-lg border-2 text-center transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#991B1B] text-white border-[#991B1B] shadow-sm'
+                        : isParent
+                        ? 'bg-[#FEF3C7] text-[#92400E] border-[#F59E0B]'
+                        : isLeftChild
+                        ? 'bg-[#DCFCE7] text-[#166534] border-[#15803D]'
+                        : isRightChild
+                        ? 'bg-[#E0E7FF] text-[#3730A3] border-[#4F46E5]'
+                        : 'bg-[#FAF8F5] text-[#1A1A1A] border-[#D8D4C8] hover:bg-[#F4F2EB]'
+                    }`}
+                  >
+                    <div className="text-[10px] font-mono font-bold">Index [{idx}]</div>
+                    <div className="text-sm font-mono font-bold mt-0.5">{node.val}</div>
+                    {badge && <div className="text-[9px] font-sans font-bold mt-1 uppercase">{badge}</div>}
+                  </button>
+                );
+              })}
             </div>
+          </div>
 
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#B45309]">Postorder Traversal gives:</span>
-              <div className="p-2.5 rounded bg-[#FAF8F5] font-mono text-xs font-bold text-[#B45309]">
-                A B + C D - *
-              </div>
-              <div className="text-[11px] text-[#66625B]">Produces Reverse Polish (Postfix) notation used by compilers and calculators.</div>
+          {/* Graphical Tree with Selected, Parent, and Child Highlights */}
+          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] flex justify-center">
+            <svg width="400" height="220">
+              {defaultNodes.map((node) => {
+                const leftChild = defaultNodes.find((n) => n.id === node.leftId);
+                const rightChild = defaultNodes.find((n) => n.id === node.rightId);
+                return (
+                  <React.Fragment key={node.id}>
+                    {leftChild && <line x1={node.x} y1={node.y} x2={leftChild.x} y2={leftChild.y} stroke="#D8D4C8" strokeWidth="2" />}
+                    {rightChild && <line x1={node.x} y1={node.y} x2={rightChild.x} y2={rightChild.y} stroke="#D8D4C8" strokeWidth="2" />}
+                  </React.Fragment>
+                );
+              })}
+
+              {defaultNodes.map((node) => {
+                const isSelected = selectedIndex === node.id;
+                const isParent = parentIdx === node.id;
+                const isLeftChild = leftChildIdx === node.id;
+                const isRightChild = rightChildIdx === node.id;
+
+                let fill = '#FFFFFF';
+                let stroke = '#88847C';
+                let textColor = '#1A1A1A';
+
+                if (isSelected) {
+                  fill = '#991B1B';
+                  stroke = '#7F1D1D';
+                  textColor = '#FFFFFF';
+                } else if (isParent) {
+                  fill = '#F59E0B';
+                  stroke = '#D97706';
+                  textColor = '#FFFFFF';
+                } else if (isLeftChild) {
+                  fill = '#15803D';
+                  stroke = '#166534';
+                  textColor = '#FFFFFF';
+                } else if (isRightChild) {
+                  fill = '#4F46E5';
+                  stroke = '#3730A3';
+                  textColor = '#FFFFFF';
+                }
+
+                return (
+                  <g key={node.id} onClick={() => setSelectedIndex(node.id)} className="cursor-pointer">
+                    <circle cx={node.x} cy={node.y} r="18" fill={fill} stroke={stroke} strokeWidth="2" />
+                    <text x={node.x} y={node.y + 4} textAnchor="middle" fill={textColor} fontSize="11" fontWeight="bold" fontFamily="monospace">
+                      {node.val}
+                    </text>
+                    <text x={node.x} y={node.y - 22} textAnchor="middle" fill="#66625B" fontSize="9" fontWeight="bold" fontFamily="mono">
+                      i={node.id}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {/* Mathematical Proof Box */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+            <div className="p-3 bg-[#FEF3C7] rounded-lg border border-[#FDE68A] text-[#92400E] space-y-1">
+              <div className="font-bold">Parent Node:</div>
+              <div>⌊i / 2⌋ = ⌊{selectedIndex} / 2⌋ = {parentIdx > 0 ? `Index [${parentIdx}]` : 'None (Root)'}</div>
+            </div>
+            <div className="p-3 bg-[#DCFCE7] rounded-lg border border-[#BBF7D0] text-[#166534] space-y-1">
+              <div className="font-bold">Left Child:</div>
+              <div>2i = 2 × {selectedIndex} = {leftChildIdx ? `Index [${leftChildIdx}]` : 'None (Out of Bounds)'}</div>
+            </div>
+            <div className="p-3 bg-[#E0E7FF] rounded-lg border border-[#C7D2FE] text-[#3730A3] space-y-1">
+              <div className="font-bold">Right Child:</div>
+              <div>2i + 1 = 2({selectedIndex}) + 1 = {rightChildIdx ? `Index [${rightChildIdx}]` : 'None (Out of Bounds)'}</div>
             </div>
           </div>
         </div>
       )}
 
-      {/* TAB 4: Threaded Binary Trees */}
-      {activeTab === 'threaded' && (
-        <div className="p-4 sm:p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-          <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-            <Zap className="w-4 h-4 text-[#B45309]" /> Threaded Binary Tree Mechanics
-          </h4>
-          <p className="text-xs text-[#44403C] leading-relaxed">
-            In standard linked binary trees with <MathText text="$N$" /> nodes, exactly <MathText text="$N + 1$" /> pointer fields contain empty <code className="text-[#991B1B] font-mono">NULL</code> references (wasting over 50% of pointer memory!).
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3.5 rounded-lg bg-white border border-[#E5E2D9] space-y-1.5">
-              <div className="text-xs font-serif font-bold text-[#1A1A1A]">1. Right Thread:</div>
-              <div className="text-xs text-[#44403C]">
-                Points directly to the node's <strong>Inorder Successor</strong>. Allows forward traversal without recursion or an execution stack in <Latex math="\mathcal{O}(1)" /> space.
+      {/* TAB 3: Conversion of General Tree to Binary Tree (Knuth Transform / LCRS) */}
+      {activeTab === 'conversion' && (
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
+              <Share2 className="w-4 h-4 text-[#991B1B]" /> Left-Child Right-Sibling (LCRS) Representation & Knuth Transform
+            </h4>
+            <p className="text-xs text-[#44403C] leading-relaxed">
+              Donald Knuth's transform converts any general tree or forest with variable degree into a standardized binary tree using the <strong>Left-Child Right-Sibling</strong> rule:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div className="p-3 bg-white rounded-lg border border-[#E5E2D9] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#991B1B]">Rule 1: Left Pointer (Child)</div>
+                <div className="text-xs text-[#44403C]">Points to the node's <strong>very first (eldest) child</strong>.</div>
               </div>
-            </div>
-            <div className="p-3.5 rounded-lg bg-white border border-[#E5E2D9] space-y-1.5">
-              <div className="text-xs font-serif font-bold text-[#1A1A1A]">2. Left Thread:</div>
-              <div className="text-xs text-[#44403C]">
-                Points directly to the node's <strong>Inorder Predecessor</strong>. Enables bidirectional tree navigation.
+              <div className="p-3 bg-white rounded-lg border border-[#E5E2D9] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#15803D]">Rule 2: Right Pointer (Sibling)</div>
+                <div className="text-xs text-[#44403C]">Points to the node's <strong>immediate next sibling</strong> at the same level.</div>
               </div>
             </div>
           </div>
+
+          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Step-by-Step Conversion Walkthrough:</span>
+              <div className="flex items-center gap-2">
+                {[0, 1, 2].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setConversionStep(s)}
+                    className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all cursor-pointer border ${
+                      conversionStep === s
+                        ? 'bg-[#991B1B] text-white border-[#991B1B]'
+                        : 'bg-[#FAF8F5] text-[#44403C] border-[#D8D4C8] hover:bg-[#F4F2EB]'
+                    }`}
+                  >
+                    {s === 0 && '1. General Tree'}
+                    {s === 1 && '2. Link Siblings'}
+                    {s === 2 && '3. Binary Tree Result'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] flex flex-col items-center justify-center min-h-[200px]">
+                <div className="text-xs font-serif font-bold text-[#66625B] mb-2">Original General Tree (A with Children B, C, D)</div>
+                <svg width="260" height="140">
+                  <line x1="130" y1="25" x2="50" y2="90" stroke="#88847C" strokeWidth="2" />
+                  <line x1="130" y1="25" x2="130" y2="90" stroke="#88847C" strokeWidth="2" />
+                  <line x1="130" y1="25" x2="210" y2="90" stroke="#88847C" strokeWidth="2" />
+                  <circle cx="130" cy="25" r="14" fill="#1A1A1A" />
+                  <text x="130" y="29" textAnchor="middle" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="sans-serif">A</text>
+                  <circle cx="50" cy="90" r="12" fill="#FFFFFF" stroke="#1A1A1A" strokeWidth="2" />
+                  <text x="50" y="93" textAnchor="middle" fill="#1A1A1A" fontSize="9" fontWeight="bold" fontFamily="sans-serif">B</text>
+                  <circle cx="130" cy="90" r="12" fill="#FFFFFF" stroke="#1A1A1A" strokeWidth="2" />
+                  <text x="130" y="93" textAnchor="middle" fill="#1A1A1A" fontSize="9" fontWeight="bold" fontFamily="sans-serif">C</text>
+                  <circle cx="210" cy="90" r="12" fill="#FFFFFF" stroke="#1A1A1A" strokeWidth="2" />
+                  <text x="210" y="93" textAnchor="middle" fill="#1A1A1A" fontSize="9" fontWeight="bold" fontFamily="sans-serif">D</text>
+                  {conversionStep >= 1 && (
+                    <>
+                      <line x1="62" y1="90" x2="118" y2="90" stroke="#15803D" strokeWidth="2" strokeDasharray="3,3" />
+                      <line x1="142" y1="90" x2="198" y2="90" stroke="#15803D" strokeWidth="2" strokeDasharray="3,3" />
+                    </>
+                  )}
+                </svg>
+              </div>
+
+              <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] flex flex-col items-center justify-center min-h-[200px]">
+                <div className="text-xs font-serif font-bold text-[#991B1B] mb-2">Equivalent Binary Tree (Left=Child, Right=Sibling)</div>
+                <svg width="260" height="140">
+                  <line x1="70" y1="25" x2="70" y2="70" stroke="#991B1B" strokeWidth="2" />
+                  <line x1="70" y1="70" x2="130" y2="90" stroke="#15803D" strokeWidth="2" />
+                  <line x1="130" y1="90" x2="190" y2="110" stroke="#15803D" strokeWidth="2" />
+                  <circle cx="70" cy="25" r="12" fill="#1A1A1A" />
+                  <text x="70" y="28" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontWeight="bold" fontFamily="sans-serif">A</text>
+                  <circle cx="70" cy="70" r="12" fill="#FEE2E2" stroke="#991B1B" strokeWidth="2" />
+                  <text x="70" y="73" textAnchor="middle" fill="#991B1B" fontSize="9" fontWeight="bold" fontFamily="sans-serif">B</text>
+                  <circle cx="130" cy="90" r="12" fill="#DCFCE7" stroke="#15803D" strokeWidth="2" />
+                  <text x="130" y="93" textAnchor="middle" fill="#15803D" fontSize="9" fontWeight="bold" fontFamily="sans-serif">C</text>
+                  <circle cx="190" cy="110" r="12" fill="#DCFCE7" stroke="#15803D" strokeWidth="2" />
+                  <text x="190" y="113" textAnchor="middle" fill="#15803D" fontSize="9" fontWeight="bold" fontFamily="sans-serif">D</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: Expression Trees Simulation */}
+      {activeTab === 'expression' && (
+        <div className="space-y-4">
+          <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
+              <Calculator className="w-4 h-4 text-[#991B1B]" /> Interactive Expression Tree Construction & Evaluation
+            </h4>
+            <p className="text-xs text-[#44403C] leading-relaxed">
+              In an Expression Tree, internal nodes are operators (<code className="text-[#991B1B] font-mono font-bold">+ - * / ^</code>) and leaves are operands ($3, 5, 9, 4$). Bottom-up postorder evaluation evaluates subexpressions into simplified terms.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-white border border-[#E5E2D9]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+              Expression: <span className="font-mono text-[#991B1B] font-bold">((3 + 5) * (9 - 4))</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  if (evalStep < evalSteps.length - 1) setEvalStep((prev) => prev + 1);
+                }}
+                disabled={evalStep >= evalSteps.length - 1}
+                className="px-3 py-1.5 rounded-lg bg-[#1A1A1A] hover:bg-[#333] text-white text-xs font-semibold disabled:opacity-40 transition-colors cursor-pointer"
+              >
+                Evaluate Step
+              </button>
+              <button
+                onClick={() => setEvalStep(-1)}
+                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                title="Reset"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+            <svg width="400" height="220">
+              {expressionNodes.map((node) => {
+                const leftChild = expressionNodes.find((n) => n.id === node.leftId);
+                const rightChild = expressionNodes.find((n) => n.id === node.rightId);
+                return (
+                  <React.Fragment key={node.id}>
+                    {leftChild && <line x1={node.x} y1={node.y} x2={leftChild.x} y2={leftChild.y} stroke="#D8D4C8" strokeWidth="2" />}
+                    {rightChild && <line x1={node.x} y1={node.y} x2={rightChild.x} y2={rightChild.y} stroke="#D8D4C8" strokeWidth="2" />}
+                  </React.Fragment>
+                );
+              })}
+
+              {expressionNodes.map((node) => {
+                const isEvaluated = evalStep >= 0 && evalSteps.slice(0, evalStep + 1).some((s) => s.targetId === node.id);
+                const isCurrent = evalStep >= 0 && evalSteps[evalStep].targetId === node.id;
+
+                return (
+                  <g key={node.id} className="transition-all duration-300">
+                    <circle
+                      cx={node.x}
+                      cy={node.y}
+                      r="18"
+                      fill={isCurrent ? '#991B1B' : isEvaluated ? '#15803D' : '#FFFFFF'}
+                      stroke={isCurrent ? '#7F1D1D' : isEvaluated ? '#166534' : '#B3ADA1'}
+                      strokeWidth="2"
+                    />
+                    <text
+                      x={node.x}
+                      y={node.y + 4}
+                      textAnchor="middle"
+                      fill={isCurrent || isEvaluated ? '#FFFFFF' : '#1A1A1A'}
+                      fontSize="12"
+                      fontWeight="bold"
+                      fontFamily="monospace"
+                    >
+                      {isEvaluated && !['+', '-', '*', '/'].includes(node.val) ? node.val : isEvaluated ? node.evaluated : node.val}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {evalStep >= 0 && (
+            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+              <span>
+                <strong>Step {evalStep + 1}:</strong> {evalSteps[evalStep].note}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 5: Threaded Binary Trees Simulation */}
+      {activeTab === 'threaded' && (
+        <div className="space-y-4">
+          <div className="p-4 sm:p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#B45309]" /> Threaded Binary Tree Pointer Simulation
+            </h4>
+            <p className="text-xs text-[#44403C] leading-relaxed">
+              In a regular binary tree with <MathText text="$N$" /> nodes, exactly <MathText text="$N + 1$" /> pointer fields are <code className="text-[#991B1B] font-mono">NULL</code>. A Threaded Binary Tree replaces empty right pointers with dashed red <strong>threads</strong> pointing directly to the <strong>Inorder Successor</strong>, allowing <MathText text="$\mathcal{O}(1)$" /> space traversal without recursion or call stacks!
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white border border-[#E5E2D9]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A]">Inorder Stackless Traversal Simulation:</div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  if (threadedStep < threadedSequence.length - 1) setThreadedStep((prev) => prev + 1);
+                }}
+                disabled={threadedStep >= threadedSequence.length - 1}
+                className="px-3 py-1.5 rounded-lg bg-[#1A1A1A] hover:bg-[#333] text-white text-xs font-semibold disabled:opacity-40 transition-colors cursor-pointer"
+              >
+                Follow Thread Next
+              </button>
+              <button
+                onClick={() => setThreadedStep(-1)}
+                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                title="Reset"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+            <svg width="480" height="210">
+              <line x1="240" y1="35" x2="120" y2="95" stroke="#D8D4C8" strokeWidth="2" />
+              <line x1="240" y1="35" x2="360" y2="95" stroke="#D8D4C8" strokeWidth="2" />
+              <line x1="120" y1="95" x2="60" y2="160" stroke="#D8D4C8" strokeWidth="2" />
+              <line x1="120" y1="95" x2="180" y2="160" stroke="#D8D4C8" strokeWidth="2" />
+              <line x1="360" y1="95" x2="300" y2="160" stroke="#D8D4C8" strokeWidth="2" />
+              <line x1="360" y1="95" x2="420" y2="160" stroke="#D8D4C8" strokeWidth="2" />
+
+              {/* Threaded Edges (Dashed Red Arrows) */}
+              <path d="M 60 145 C 80 120, 100 105, 110 100" fill="none" stroke="#DC2626" strokeWidth="2" strokeDasharray="3,3" />
+              <path d="M 180 145 C 200 100, 220 55, 230 45" fill="none" stroke="#DC2626" strokeWidth="2" strokeDasharray="3,3" />
+              <path d="M 300 145 C 320 120, 340 105, 350 100" fill="none" stroke="#DC2626" strokeWidth="2" strokeDasharray="3,3" />
+
+              {threadedNodes.map((node) => {
+                const isVisited = threadedStep >= 0 && threadedSequence.slice(0, threadedStep + 1).some((s) => s.id === node.id);
+                const isCurrent = threadedStep >= 0 && threadedSequence[threadedStep].id === node.id;
+
+                return (
+                  <g key={node.id}>
+                    <circle
+                      cx={node.x}
+                      cy={node.y}
+                      r="16"
+                      fill={isCurrent ? '#991B1B' : isVisited ? '#15803D' : '#FFFFFF'}
+                      stroke={isCurrent ? '#7F1D1D' : isVisited ? '#166534' : '#88847C'}
+                      strokeWidth="2"
+                    />
+                    <text
+                      x={node.x}
+                      y={node.y + 4}
+                      textAnchor="middle"
+                      fill={isCurrent || isVisited ? '#FFFFFF' : '#1A1A1A'}
+                      fontSize="11"
+                      fontWeight="bold"
+                      fontFamily="monospace"
+                    >
+                      {node.val}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {threadedStep >= 0 && (
+            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+              <span>
+                <strong>Step {threadedStep + 1}:</strong> {threadedSequence[threadedStep].note}
+              </span>
+            </div>
+          )}
         </div>
       )}
     </div>
