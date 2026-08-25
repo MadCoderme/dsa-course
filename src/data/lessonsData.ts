@@ -1323,5 +1323,671 @@ int main() {
         examTip: 'To check if a key exists without accidentally inserting it, use myMap.find(key) != myMap.end().'
       }
     ]
+  },
+  {
+    id: 'tree',
+    title: 'Binary Tree (Hierarchical Structures)',
+    subtitle: 'The Branching Family Tree: Traversals, Complete Trees & Expression Parsing',
+    icon: 'GitBranch',
+    importance: '🔥 CRITICAL',
+    cuetExamRelevance: 'The absolute cornerstone of Section-A (Guaranteed 2–3 questions, 40–55 marks). Tests recursive traversals (Inorder, Preorder, Postorder), Complete Binary Tree array address formulas (2i, 2i+1, floor(i/2)), Expression Trees, and Threaded Binary Trees.',
+    overview: 'Unlike linear structures (vectors, linked lists) where elements follow one another in a single line, a Tree is a hierarchical non-linear data structure. Think of your school organization: Principal at the root, Vice-Principals below, Department Heads below them, and Teachers at the leaves. Each node can branch out to multiple children. A Binary Tree restricts every node to at most 2 children (called Left Child and Right Child), making it easy to store in memory and process recursively!',
+    timeComplexity: {
+      access: '$\\mathcal{O}(N)$ sequential / $\\mathcal{O}(1)$ at root',
+      search: '$\\mathcal{O}(N)$ arbitrary / $\\mathcal{O}(h)$ tree height',
+      insertion: '$\\mathcal{O}(1)$ at given parent / $\\mathcal{O}(h)$',
+      deletion: '$\\mathcal{O}(1)$ at leaf / $\\mathcal{O}(h)$',
+      space: '$\\mathcal{O}(N)$ total nodes'
+    },
+    keyConcepts: [
+      {
+        title: 'Step 1: Tree Terminology & Classifications',
+        description: 'A tree consists of nodes linked by directed parent-child edges. The top node is the Root (no parent). Nodes with zero children are Leaves (External nodes). Nodes with at least one child are Internal nodes.',
+        bulletPoints: [
+          'Full Binary Tree: Every node has strictly either 0 or 2 children (never 1 child).',
+          'Complete Binary Tree: Every level is completely filled except possibly the last level, where nodes are filled from strictly left to right. (Crucial for Binary Heaps!)',
+          'Perfect Binary Tree: All internal nodes have 2 children, and all leaves are at the exact same depth ($N = 2^{h+1} - 1$).',
+          'Degenerate (Skewed) Tree: Every internal node has only 1 child, degenerating the tree into a slow linear Linked List.'
+        ]
+      },
+      {
+        title: 'Step 2: Recursive Tree Traversals (Inorder, Preorder, Postorder, Level-Order)',
+        description: 'Because tree nodes cannot be visited in a single linear scan, we define standard recursive pathways through the tree:',
+        bulletPoints: [
+          'Preorder Traversal ($N \\to L \\to R$): Visit Node first, then Left Subtree, then Right Subtree. (Used to clone trees and generate Polish Prefix expressions).',
+          'Inorder Traversal ($L \\to N \\to R$): Visit Left Subtree, then Node, then Right Subtree. (Produces strictly sorted values in a Binary Search Tree!).',
+          'Postorder Traversal ($L \\to R \\to N$): Visit Left Subtree, then Right Subtree, then Node. (Used to delete trees bottom-up and evaluate arithmetic Reverse Polish expressions).',
+          'Level-Order Traversal (Breadth-First Search): Visit nodes level-by-level from top to bottom, left to right, using a FIFO Queue.'
+        ]
+      },
+      {
+        title: 'Step 3: Complete Binary Tree Array Indexing Formulas',
+        description: 'Complete binary trees can be stored in flat 1D arrays with zero pointer overhead because child and parent positions follow simple arithmetic rules:',
+        mathFormula: `For a Complete Binary Tree stored in a 1-based Array A[1..N]:
+- Root is located at: \\text{Loc}(\\text{Root}) = 1
+- Left Child of node at index i: \\text{Loc}(\\text{LeftChild}(i)) = 2i \\quad (\\text{if } 2i \\le N)
+- Right Child of node at index i: \\text{Loc}(\\text{RightChild}(i)) = 2i + 1 \\quad (\\text{if } 2i + 1 \\le N)
+- Parent of node at index i: \\text{Loc}(\\text{Parent}(i)) = \\lfloor i / 2 \\rfloor \\quad (\\text{for } i > 1)
+
+Key Mathematical Properties:
+1. Maximum nodes at depth d: N_{\\max}(d) = 2^d
+2. Total nodes in full tree of height h: N = 2^{h+1} - 1 \\implies h = \\lfloor \\log_2 N \\rfloor
+3. Number of leaves in a Full Binary Tree: L = I + 1 \\quad (I = \\text{Internal Nodes})`,
+        bulletPoints: [
+          'Zero Memory Waste: No pointer fields (`left`, `right`) needed when stored in sequential array buffers.',
+          'CPU Cache Friendly: Array elements are stored contiguously in hardware memory.'
+        ]
+      },
+      {
+        title: 'Step 4: Expression Trees & Threaded Binary Trees',
+        description: 'In an Expression Tree, leaves are operands ($A, B, C, 42$) and internal nodes are operators ($+, -, *, / $). Evaluating or traversing expression trees directly generates algebraic notation forms.',
+        bulletPoints: [
+          'Inorder gives Infix: $(A + B) * (C - D)$',
+          'Preorder gives Prefix (Polish): $* + A B - C D$',
+          'Postorder gives Postfix (Reverse Polish): $A B + C D - *$',
+          'Threaded Binary Tree: Replaces empty `NULL` pointers with direct threads pointing to Inorder Predecessors and Inorder Successors, enabling $\\mathcal{O}(1)$ space traversal without recursion or stacks.'
+        ]
+      }
+    ],
+    cstlReference: {
+      header: '#include <iostream>',
+      declaration: 'struct TreeNode {\n    int val;\n    TreeNode* left;\n    TreeNode* right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};',
+      commonMethods: [
+        { method: 'preorder(root)', description: 'Processes Node -> Left -> Right recursively', complexity: 'O(N)' },
+        { method: 'inorder(root)', description: 'Processes Left -> Node -> Right recursively', complexity: 'O(N)' },
+        { method: 'postorder(root)', description: 'Processes Left -> Right -> Node recursively', complexity: 'O(N)' },
+        { method: 'height(root)', description: 'Returns 1 + max(height(left), height(right))', complexity: 'O(N)' },
+        { method: 'countNodes(root)', description: 'Returns 1 + count(left) + count(right)', complexity: 'O(N)' }
+      ],
+      notes: [
+        'A binary tree of height h takes O(h) recursion stack frames. In the worst case (skewed tree), h = N.',
+        'In a balanced binary tree, height is strictly h = floor(log2(N)), ensuring O(log N) stack depth.'
+      ]
+    },
+    codeSnippets: [
+      {
+        language: 'cpp',
+        title: 'C++ Binary Tree Traversals & Height Calculation',
+        code: `#include <iostream>
+#include <algorithm>
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+// 1. Inorder: Left -> Node -> Right
+void printInorder(TreeNode* root) {
+    if (!root) return;
+    printInorder(root->left);
+    std::cout << root->val << " ";
+    printInorder(root->right);
+}
+
+// 2. Preorder: Node -> Left -> Right
+void printPreorder(TreeNode* root) {
+    if (!root) return;
+    std::cout << root->val << " ";
+    printPreorder(root->left);
+    printPreorder(root->right);
+}
+
+// 3. Postorder: Left -> Right -> Node
+void printPostorder(TreeNode* root) {
+    if (!root) return;
+    printPostorder(root->left);
+    printPostorder(root->right);
+    std::cout << root->val << " ";
+}
+
+// Height calculation
+int treeHeight(TreeNode* root) {
+    if (!root) return 0;
+    return 1 + std::max(treeHeight(root->left), treeHeight(root->right));
+}
+
+int main() {
+    /* Construct Tree:
+            1
+          /   \\
+         2     3
+        / \\
+       4   5
+    */
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+
+    std::cout << "Inorder Traversal: ";
+    printInorder(root); // Output: 4 2 5 1 3
+    std::cout << "\\n";
+
+    std::cout << "Preorder Traversal: ";
+    printPreorder(root); // Output: 1 2 4 5 3
+    std::cout << "\\n";
+
+    std::cout << "Tree Height: " << treeHeight(root) << std::endl; // Output: 3
+
+    return 0;
+}`,
+        explanation: 'Shows recursive Inorder, Preorder, Postorder functions and tree height computation.'
+      }
+    ],
+    examQuestions: [
+      {
+        id: 'cuet-tree-1',
+        year: 'CUET 2024 / 2022',
+        marks: 14,
+        difficulty: 'Hard',
+        question: 'Given the following tree traversals:\nInorder: D, B, E, A, F, C, G\nPreorder: A, B, D, E, C, F, G\n(a) Construct the unique binary tree step-by-step.\n(b) Write its Postorder traversal sequence.\n(c) What is the maximum number of nodes in a binary tree of height 5?',
+        solution: `Step-by-Step Mathematical Solution:
+
+(a) Tree Construction Logic:
+1. In Preorder (A, B, D, E, C, F, G), the first node is ALWAYS the Root -> Root = A.
+2. Locate 'A' in Inorder (D, B, E, [A], F, C, G):
+   - Left Subtree Inorder = {D, B, E} (Size = 3)
+   - Right Subtree Inorder = {F, C, G} (Size = 3)
+3. Partition Preorder:
+   - Left Subtree Preorder = {B, D, E} (First element 'B' is Left Child of A)
+   - Right Subtree Preorder = {C, F, G} (First element 'C' is Right Child of A)
+4. For Left Subtree (Root = B):
+   - Inorder is {D, [B], E} -> D is Left Child of B, E is Right Child of B.
+5. For Right Subtree (Root = C):
+   - Inorder is {F, [C], G} -> F is Left Child of C, G is Right Child of C.
+
+Final Tree Structure:
+         A
+       /   \\
+      B     C
+     / \\   / \\
+    D   E F   G
+
+(b) Postorder Traversal (Left -> Right -> Node):
+- Left Subtree: D -> E -> B
+- Right Subtree: F -> G -> C
+- Root: A
+Final Postorder: D, E, B, F, G, C, A
+
+(c) Maximum nodes in binary tree of height h = 5:
+N_max = 2^(h+1) - 1 = 2^(5+1) - 1 = 2^6 - 1 = 64 - 1 = 63 nodes.`,
+        keyTakeaway: 'Preorder identifies the subtree root; Inorder partitions nodes into left and right subtrees.'
+      },
+      {
+        id: 'cuet-tree-2',
+        year: 'CUET 2023 / 2021',
+        marks: 8,
+        difficulty: 'Medium',
+        question: 'Prove that in any non-empty Full Binary Tree (where every node has degree 0 or degree 2), the number of leaf nodes L is always L = I + 1, where I is the number of internal nodes.',
+        solution: `Formal Mathematical Proof:
+
+Let:
+- N = Total number of nodes in the tree
+- L = Number of leaf nodes (degree = 0)
+- I = Number of internal nodes (degree = 2)
+- E = Total number of edges in the tree
+
+Step 1: Relation between nodes and edges
+In any tree with N vertices, the total number of edges is:
+E = N - 1  ... (Equation 1)
+
+Step 2: Express total nodes N in terms of L and I
+Every node is either an internal node or a leaf:
+N = I + L  ... (Equation 2)
+
+Step 3: Count edges from internal node branches
+In a full binary tree, each of the I internal nodes gives birth to exactly 2 branches (edges).
+Leaf nodes have 0 branches.
+Therefore, total edges:
+E = 2 * I  ... (Equation 3)
+
+Step 4: Equating edges from Eq (1) and Eq (3):
+N - 1 = 2 * I
+Substitute N = I + L from Eq (2):
+(I + L) - 1 = 2 * I
+L - 1 = 2 * I - I
+L - 1 = I
+L = I + 1  (Q.E.D.)`,
+        keyTakeaway: 'A full binary tree with 10 internal nodes will always have exactly 11 leaves.'
+      }
+    ],
+    quizzes: [
+      {
+        id: 'tree-q1',
+        question: 'In a Complete Binary Tree stored in a 1-based array, what are the left child and right child indices for a node stored at index i = 7?',
+        options: [
+          'Left = 14, Right = 15',
+          'Left = 13, Right = 14',
+          'Left = 8, Right = 9',
+          'Left = 21, Right = 22'
+        ],
+        correctIndex: 0,
+        explanation: 'In 1-based complete binary tree indexing: LeftChild(i) = 2i = 14, and RightChild(i) = 2i + 1 = 15.',
+        examTip: 'Remember Parent(i) = floor(i/2), LeftChild(i) = 2i, RightChild(i) = 2i + 1.'
+      },
+      {
+        id: 'tree-q2',
+        question: 'Which traversal of a Binary Search Tree (BST) produces elements in strictly ascending sorted order?',
+        options: [
+          'Preorder Traversal',
+          'Inorder Traversal',
+          'Postorder Traversal',
+          'Level-Order Traversal'
+        ],
+        correctIndex: 1,
+        explanation: 'Inorder (Left -> Node -> Right) visits smaller elements first, then the root, then larger elements, producing sorted order.',
+        examTip: 'BST Inorder is always strictly sorted.'
+      }
+    ]
+  },
+  {
+    id: 'avl-tree',
+    title: 'AVL Tree & Multi-Way B-Trees',
+    subtitle: 'Self-Balancing Perfection: Balance Factors, 4 Rotations & Multi-Way Indexing',
+    icon: 'ShieldCheck',
+    importance: '🔥 CRITICAL',
+    cuetExamRelevance: 'Section-A Guaranteed Anchor Question (20–30 marks per year). Covers sequential key insertions with LL, RR, LR, RL rotations, balance factor calculations, the 3 BST deletion cases, and Order-4/5 B-Tree & B+ Tree splits.',
+    overview: 'A standard Binary Search Tree (BST) provides fast $\\mathcal{O}(\\log N)$ operations if balanced, but inserting sorted numbers ($1, 2, 3, 4, 5$) causes the tree to collapse into a slow degenerate straight line (linked list with $\\mathcal{O}(N)$ search!). In 1962, Soviet mathematicians Adelson-Velsky and Landis invented the AVL Tree: the world\'s first self-balancing tree that strictly enforces that the height difference between left and right subtrees (Balance Factor) never exceeds $\\pm 1$. Whenever an insertion violates this balance, the tree instantly performs elegant local pointer rewires (Rotations) in $\\mathcal{O}(1)$ time!',
+    timeComplexity: {
+      access: '$\\mathcal{O}(\\log N)$ guaranteed',
+      search: '$\\mathcal{O}(\\log N)$ guaranteed',
+      insertion: '$\\mathcal{O}(\\log N)$ with rotations',
+      deletion: '$\\mathcal{O}(\\log N)$ with rotations',
+      space: '$\\mathcal{O}(N)$ total nodes'
+    },
+    keyConcepts: [
+      {
+        title: 'Step 1: Balance Factor & The AVL Invariant',
+        description: 'For every node u in an AVL tree, we define the Balance Factor (BF) as:',
+        mathFormula: `\\text{BF}(u) = \\text{height}(\\text{LeftSubtree}(u)) - \\text{height}(\\text{RightSubtree}(u))
+
+AVL Invariant Rule:
+\\text{BF}(u) \\in \\{-1, 0, +1\\} \\quad \\text{for EVERY node in the tree.}
+
+If \\text{BF}(u) = +2 \\text{ or } -2 \\implies \\text{The node is IMBALANCED and requires an immediate rotation!}`,
+        bulletPoints: [
+          'Strict Height Guarantee: Height $h < 1.44 \\log_2(N + 2)$, ensuring search, insertion, and deletion are guaranteed $\\mathcal{O}(\\log N)$ even in the worst case.',
+          'Balance Factor +1: Left-heavy. Balance Factor -1: Right-heavy. Balance Factor 0: Perfectly balanced.'
+        ]
+      },
+      {
+        title: 'Step 2: The 4 Canonical AVL Rotations (LL, RR, LR, RL)',
+        description: 'Depending on where the newly inserted key lands relative to the first imbalanced ancestor node, we perform one of 4 rotation routines:',
+        bulletPoints: [
+          'LL Rotation (Single Right Rotation): Triggered when inserted into the Left subtree of a Left child (BF = +2, Child BF = +1). Rotate the root right.',
+          'RR Rotation (Single Left Rotation): Triggered when inserted into the Right subtree of a Right child (BF = -2, Child BF = -1). Rotate the root left.',
+          'LR Rotation (Double Left-Right Rotation): Triggered when inserted into the Right subtree of a Left child (BF = +2, Child BF = -1). First rotate Left child left, then rotate root right.',
+          'RL Rotation (Double Right-Left Rotation): Triggered when inserted into the Left subtree of a Right child (BF = -2, Child BF = +1). First rotate Right child right, then rotate root left.'
+        ]
+      },
+      {
+        title: 'Step 3: BST 3 Deletion Cases',
+        description: 'Deleting a key while preserving the Binary Search Property ($\text{Left} < \text{Root} < \text{Right}$):',
+        bulletPoints: [
+          'Case 1 (Leaf): Node has 0 children -> Directly sever parent link and free memory.',
+          'Case 2 (1 Child): Bypass the node by linking parent directly to the single child.',
+          'Case 3 (2 Children): Find Inorder Successor (smallest key in right subtree), copy its value into target node, and recursively delete the successor from right subtree.'
+        ]
+      },
+      {
+        title: 'Step 4: Multi-Way Search Trees: B-Trees & B+ Trees',
+        description: 'For massive datasets stored on hard drives, binary trees are too tall (causing dozens of slow disk seeks). A B-Tree of Order M allows nodes to have up to M children and M-1 keys, resulting in very flat trees.',
+        bulletPoints: [
+          'Order M B-Tree: Every internal node (except root) contains at least ceil(M/2) - 1 keys and at most M - 1 keys. All leaves are at identical depth.',
+          'B+ Tree (Order 4): Internal nodes store routing index keys only; all actual records are stored in linked leaves with sequence pointers (ideal for fast range scans in database indexes).'
+        ]
+      }
+    ],
+    cstlReference: {
+      header: '#include <set> / #include <map>',
+      declaration: 'std::set<int> avlEquivalent; // Red-Black balanced BST in C++ STL',
+      commonMethods: [
+        { method: 'insert(val)', description: 'Inserts val and maintains balance via rotations', complexity: 'O(log N)' },
+        { method: 'find(val)', description: 'Searches for val in guaranteed logarithmic time', complexity: 'O(log N)' },
+        { method: 'erase(val)', description: 'Deletes val and rebalances tree', complexity: 'O(log N)' },
+        { method: 'lower_bound(k)', description: 'Returns iterator to first element >= k', complexity: 'O(log N)' }
+      ],
+      notes: [
+        'C++ std::set and std::map use Red-Black trees (a slightly looser balanced BST with faster insertions than AVL).',
+        'AVL trees provide faster lookups than Red-Black trees because AVL trees are strictly more balanced.'
+      ]
+    },
+    codeSnippets: [
+      {
+        language: 'cpp',
+        title: 'C++ AVL Node & Right / Left Rotation Implementations',
+        code: `#include <iostream>
+#include <algorithm>
+
+struct AvlNode {
+    int key;
+    int height;
+    AvlNode* left;
+    AvlNode* right;
+    AvlNode(int k) : key(k), height(1), left(nullptr), right(nullptr) {}
+};
+
+int getHeight(AvlNode* n) {
+    return n ? n->height : 0;
+}
+
+int getBalanceFactor(AvlNode* n) {
+    return n ? getHeight(n->left) - getHeight(n->right) : 0;
+}
+
+void updateHeight(AvlNode* n) {
+    n->height = 1 + std::max(getHeight(n->left), getHeight(n->right));
+}
+
+// Right Rotation (LL Case)
+AvlNode* rotateRight(AvlNode* y) {
+    AvlNode* x = y->left;
+    AvlNode* T2 = x->right;
+
+    // Perform rotation
+    x->right = y;
+    y->left = T2;
+
+    // Update heights
+    updateHeight(y);
+    updateHeight(x);
+
+    return x; // New root of subtree
+}
+
+// Left Rotation (RR Case)
+AvlNode* rotateLeft(AvlNode* x) {
+    AvlNode* y = x->right;
+    AvlNode* T2 = y->left;
+
+    // Perform rotation
+    y->left = x;
+    x->right = T2;
+
+    // Update heights
+    updateHeight(x);
+    updateHeight(y);
+
+    return y; // New root of subtree
+}`,
+        explanation: 'Standard pointer re-linking for single right (LL) and left (RR) rotations in O(1) time.'
+      }
+    ],
+    examQuestions: [
+      {
+        id: 'cuet-avl-1',
+        year: 'CUET 2025 / 2023',
+        marks: 16,
+        difficulty: 'Hard',
+        question: 'Insert the following keys sequentially into an initially empty AVL tree: 50, 20, 60, 10, 8, 15, 30, 25. Show the tree and balance factor for each node after each insertion, and specify which rotation (LL, RR, LR, RL) is applied at each rebalancing step.',
+        solution: `Step-by-Step AVL Insertion Trace:
+
+1. Insert 50:
+   Tree: (50, BF=0)
+
+2. Insert 20:
+   Tree: 50(BF=+1) -> Left: 20(BF=0)
+
+3. Insert 60:
+   Tree: 50(BF=0) -> Left: 20(BF=0), Right: 60(BF=0)
+
+4. Insert 10:
+   Tree: 50(BF=+1) -> Left: 20(BF=+1) -> Left: 10(BF=0)
+
+5. Insert 8:
+   Imbalance at Node 20 (BF = +2, Left Child 10 has BF = +1) -> LL Case!
+   Execute LL Right Rotation at Node 20:
+   Subtree becomes: 10(BF=0) -> Left: 8(BF=0), Right: 20(BF=0)
+   Tree Root 50: Left is 10, Right is 60 (BF = +1). Balanced!
+
+6. Insert 15:
+   Inserted as Right Child of 10.
+   Node 50 has Left Height=3, Right Height=1 -> BF = +2!
+   Left Child 10 has BF = -1 (Right-heavy) -> LR Case at Root 50!
+   Step A: Left rotate on 10 -> 15 becomes left child of 50, 10 becomes left of 15.
+   Step B: Right rotate on 50 -> 15 becomes new Root!
+   New Root: 15(BF=0) -> Left: 10(BF=0, left:8), Right: 50(BF=0, left:20, right:60).
+
+7. Insert 30:
+   Insert 30 as Left child of 50 -> Right child of 20.
+   Tree remains balanced (all |BF| <= 1).
+
+8. Insert 25:
+   Imbalance at Node 50 (BF = +2) with Child 20 (BF = -1) -> LR Rotation on Node 50.
+   25 promotes up to parent of 20 and 50.`,
+        keyTakeaway: 'Always evaluate balance factor from the inserted leaf upwards to the root, fixing the first imbalanced node encountered.'
+      }
+    ],
+    quizzes: [
+      {
+        id: 'avl-q1',
+        question: 'If a node in an AVL tree has Balance Factor BF = +2 and its Left Child has Balance Factor BF = -1, which rotation is required?',
+        options: [
+          'LL Rotation (Single Right Rotation)',
+          'RR Rotation (Single Left Rotation)',
+          'LR Double Rotation (Left on child, then Right on root)',
+          'RL Double Rotation (Right on child, then Left on root)'
+        ],
+        correctIndex: 2,
+        explanation: 'BF = +2 with Left Child BF = -1 indicates an inner-elbow shape requiring an LR Double Rotation.',
+        examTip: 'Match signs: (+2, +1) = LL, (+2, -1) = LR, (-2, -1) = RR, (-2, +1) = RL.'
+      }
+    ]
+  },
+  {
+    id: 'graph',
+    title: 'Graph Algorithms & Shortest Paths',
+    subtitle: 'Connecting the World: BFS, DFS, Topological Ordering & Floyd-Warshall',
+    icon: 'Network',
+    importance: '🔥 CRITICAL',
+    cuetExamRelevance: 'Section-A and Section-B Major Subject (40–50 marks). Heavily tests step-by-step matrix updates (Floyd-Warshall Q^(0) to Q^(N)), BFS level-order queues, DFS call-stack recursion, Topological sorting of DAGs, and Prim/Kruskal MST.',
+    overview: 'If trees represent strict hierarchical parent-child relationships, Graphs represent interconnected social networks, road transport maps, airline routes, and the World Wide Web! A graph G = (V, E) consists of a set of vertices (cities/nodes) connected by edges (routes/friendships). Graph algorithms enable GPS systems to find shortest paths, compilers to resolve code dependencies, and telecom routers to broadcast data efficiently.',
+    timeComplexity: {
+      access: '$\\mathcal{O}(\\text{deg}(u))$ neighbors',
+      search: '$\\mathcal{O}(V + E)$ BFS / DFS',
+      insertion: '$\\mathcal{O}(1)$ add edge',
+      deletion: '$\\mathcal{O}(E)$ remove edge',
+      space: '$\\mathcal{O}(V + E)$ list / $\\mathcal{O}(V^2)$ matrix'
+    },
+    keyConcepts: [
+      {
+        title: 'Step 1: Graph Representations (Matrix vs. List)',
+        description: 'A graph with V vertices and E edges can be stored in memory using two primary methods:',
+        bulletPoints: [
+          'Adjacency Matrix: A 2D array of size V x V. Cell (u, v) is 1 (or edge weight w) if an edge exists, and 0 (or infinity) otherwise. Takes O(V^2) memory and O(1) edge existence check.',
+          'Adjacency List: An array of linked lists/vectors where list[u] stores all outgoing neighbors of u. Takes O(V + E) memory (optimal for sparse graphs with few edges!).',
+          'Path Matrix P: Computed via Warshall Algorithm P = A + A^2 + ... + A^V to determine reachability between all pairs of nodes.'
+        ]
+      },
+      {
+        title: 'Step 2: Graph Traversals (BFS vs. DFS)',
+        description: 'Traversing all vertices in a graph without getting stuck in cycles:',
+        bulletPoints: [
+          'Breadth-First Search (BFS): Uses a FIFO Queue. Visits vertices level-by-level (expanding concentric rings). Guarantees shortest path in unweighted graphs in O(V + E) time.',
+          'Depth-First Search (DFS): Uses recursion / LIFO Call Stack. Plunges deeply down a single path until reaching a dead end, then backtracks. Classifies edges into Tree, Back (detects cycles!), Forward, and Cross edges in O(V + E) time.'
+        ]
+      },
+      {
+        title: 'Step 3: Kahn\'s Algorithm for Topological Sorting (DAG)',
+        description: 'Topological sort produces a linear ordering of vertices in a Directed Acyclic Graph (DAG) such that for every directed edge u -> v, vertex u appears before vertex v.',
+        bulletPoints: [
+          '1. Compute the in-degree (number of incoming edges) for every vertex.',
+          '2. Enqueue all vertices with in-degree = 0.',
+          '3. Dequeue node u, append u to result, and decrement in-degrees of all neighbors of u.',
+          '4. If a neighbor in-degree reaches 0, enqueue it immediately. If processed nodes < V, a cycle exists!'
+        ]
+      },
+      {
+        title: 'Step 4: All-Pairs Shortest Path: Modified Warshall / Floyd-Warshall',
+        description: 'Computes shortest path distances between every pair of vertices (i, j) using Dynamic Programming by gradually allowing vertices 1, 2, ..., k to act as intermediate hops:',
+        mathFormula: `Dynamic Programming Recurrence:
+Q^{(k)}[i, j] = \\min\\left( Q^{(k-1)}[i, j], \\quad Q^{(k-1)}[i, k] + Q^{(k-1)}[k, j] \\right)
+
+Where:
+- Q^{(0)} is the initial direct weight adjacency matrix (with 0 on diagonals, \\infty if no direct edge).
+- Step k uses row k and column k of Q^{(k-1)} to update all other cells.
+- Time Complexity: \\mathcal{O}(V^3) with triple nested loops.`,
+        bulletPoints: [
+          'High Exam Yield: CUET papers frequently ask for full step-by-step 4x4 matrix derivations of Q^(0), Q^(1), Q^(2), Q^(3), Q^(4).'
+        ]
+      }
+    ],
+    cstlReference: {
+      header: '#include <vector> / #include <queue>',
+      declaration: 'std::vector<std::vector<int>> adjList(V); // Graph of V vertices',
+      commonMethods: [
+        { method: 'addEdge(u, v)', description: 'adjList[u].push_back(v)', complexity: 'O(1)' },
+        { method: 'bfs(start)', description: 'Traverses graph using std::queue<int>', complexity: 'O(V + E)' },
+        { method: 'dfs(start)', description: 'Traverses graph using recursion / call stack', complexity: 'O(V + E)' },
+        { method: 'floydWarshall()', description: 'Calculates all-pairs shortest path matrix', complexity: 'O(V^3)' }
+      ],
+      notes: [
+        'To prevent infinite loops in cyclic graphs, always maintain a boolean visited[V] array initialized to false.',
+        'For weighted graphs, use std::vector<std::vector<std::pair<int, int>>> adjList where pair is {neighbor, weight}.'
+      ]
+    },
+    codeSnippets: [
+      {
+        language: 'cpp',
+        title: 'C++ BFS & DFS Graph Traversal Algorithms',
+        code: `#include <iostream>
+#include <vector>
+#include <queue>
+
+class Graph {
+    int V;
+    std::vector<std::vector<int>> adj;
+
+public:
+    Graph(int v) : V(v), adj(v) {}
+
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u); // Undirected graph
+    }
+
+    // 1. Breadth-First Search (BFS)
+    void bfs(int start) {
+        std::vector<bool> visited(V, false);
+        std::queue<int> q;
+
+        visited[start] = true;
+        q.push(start);
+
+        std::cout << "BFS Traversal: ";
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            std::cout << u << " ";
+
+            for (int neighbor : adj[u]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    q.push(neighbor);
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    // 2. Depth-First Search (DFS)
+    void dfsHelper(int u, std::vector<bool>& visited) {
+        visited[u] = true;
+        std::cout << u << " ";
+
+        for (int neighbor : adj[u]) {
+            if (!visited[neighbor]) {
+                dfsHelper(neighbor, visited);
+            }
+        }
+    }
+
+    void dfs(int start) {
+        std::vector<bool> visited(V, false);
+        std::cout << "DFS Traversal: ";
+        dfsHelper(start, visited);
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    Graph g(5);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 3);
+    g.addEdge(1, 4);
+
+    g.bfs(0); // Output: 0 1 2 3 4
+    g.dfs(0); // Output: 0 1 3 4 2
+
+    return 0;
+}`,
+        explanation: 'Implements BFS with a FIFO Queue and DFS with recursion on an adjacency list graph.'
+      }
+    ],
+    examQuestions: [
+      {
+        id: 'cuet-graph-1',
+        year: 'CUET 2024 / 2021',
+        marks: 14,
+        difficulty: 'Hard',
+        question: 'Compute the all-pairs shortest path matrices Q^(0), Q^(1), Q^(2), Q^(3), Q^(4) using Modified Warshall\'s (Floyd-Warshall) algorithm for the directed weighted graph with 4 vertices and edge weights:\n(1->2: 3), (1->3: 8), (2->4: 1), (3->4: 4), (2->1: 2).',
+        solution: `Step-by-Step Floyd-Warshall Computation:
+
+Formula: Q^(k)[i, j] = min( Q^(k-1)[i, j], Q^(k-1)[i, k] + Q^(k-1)[k, j] )
+
+1. Initial Distance Matrix Q^(0):
+   Q^(0) =
+   [ 0,  3,  8, ∞ ]
+   [ 2,  0, ∞,  1 ]
+   [ ∞, ∞,  0,  4 ]
+   [ ∞, ∞, ∞,  0 ]
+
+2. Intermediate Step k = 1 (Allowing Vertex 1 as intermediate):
+   - Row 1 and Column 1 remain identical.
+   - For cell (2, 3): Q^(0)[2, 3] = ∞, Q^(0)[2, 1] + Q^(0)[1, 3] = 2 + 8 = 10 -> Updated!
+   Q^(1) =
+   [ 0,  3,  8, ∞ ]
+   [ 2,  0, 10,  1 ]
+   [ ∞, ∞,  0,  4 ]
+   [ ∞, ∞, ∞,  0 ]
+
+3. Intermediate Step k = 2 (Allowing Vertex 2 as intermediate):
+   - Row 2 and Column 2 remain identical.
+   - For cell (1, 4): Q^(1)[1, 4] = ∞, Q^(1)[1, 2] + Q^(1)[2, 4] = 3 + 1 = 4 -> Updated!
+   Q^(2) =
+   [ 0,  3,  8,  4 ]
+   [ 2,  0, 10,  1 ]
+   [ ∞, ∞,  0,  4 ]
+   [ ∞, ∞, ∞,  0 ]
+
+4. Intermediate Step k = 3 and k = 4:
+   No shorter alternative routes found through 3 or 4.
+   Final Shortest Path Matrix Q^(4):
+   [ 0, 3, 8, 4 ]
+   [ 2, 0, 10, 1 ]
+   [ ∞, ∞, 0, 4 ]
+   [ ∞, ∞, ∞, 0 ]`,
+        keyTakeaway: 'At each step k, only cells outside row k and column k can change, comparing old distance with path through k.'
+      }
+    ],
+    quizzes: [
+      {
+        id: 'graph-q1',
+        question: 'Which graph traversal algorithm guarantees finding the shortest path between two vertices in an unweighted graph?',
+        options: [
+          'Depth-First Search (DFS)',
+          'Breadth-First Search (BFS)',
+          'Topological Sort',
+          'Inorder Traversal'
+        ],
+        correctIndex: 1,
+        explanation: 'BFS explores vertices in order of increasing distance from start (level 1, level 2, ...), guaranteeing shortest path in unweighted graphs.',
+        examTip: 'BFS = Shortest Path (Unweighted) using Queue; Dijkstra = Shortest Path (Weighted) using Priority Queue.'
+      }
+    ]
   }
 ];

@@ -1,6 +1,7 @@
 import React from 'react';
 import { LESSONS } from '../../data/lessonsData';
 import { TopicId } from '../../types';
+import { MathText } from '../common/Latex';
 import {
   Layers,
   ShieldCheck,
@@ -12,7 +13,9 @@ import {
   Calculator,
   Table,
   Bookmark,
-  X
+  X,
+  Network,
+  TreePine
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -32,18 +35,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
     switch (id) {
       case 'vector':
         return <Layers className="w-3.5 h-3.5" />;
-      case 'set':
-        return <ShieldCheck className="w-3.5 h-3.5" />;
-      case 'map':
-        return <Compass className="w-3.5 h-3.5" />;
+      case 'list':
+        return <GitBranch className="w-3.5 h-3.5" />;
       case 'stack':
         return <Layers className="w-3.5 h-3.5" />;
       case 'queue':
         return <Shuffle className="w-3.5 h-3.5" />;
+      case 'tree':
+        return <GitBranch className="w-3.5 h-3.5" />;
+      case 'avl-tree':
+        return <ShieldCheck className="w-3.5 h-3.5" />;
       case 'priority-queue':
         return <TrendingUp className="w-3.5 h-3.5" />;
-      case 'list':
-        return <GitBranch className="w-3.5 h-3.5" />;
+      case 'set':
+        return <ShieldCheck className="w-3.5 h-3.5" />;
+      case 'map':
+        return <Compass className="w-3.5 h-3.5" />;
+      case 'graph':
+        return <Network className="w-3.5 h-3.5" />;
       default:
         return <Layers className="w-3.5 h-3.5" />;
     }
@@ -182,7 +191,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         {idx + 1}
                       </span>
                       <span className={`truncate font-serif text-[13px] ${isSelected ? 'text-[#991B1B]' : 'text-[#1A1A1A]'}`}>
-                        {lesson.title.split(' (')[0]}
+                        <MathText text={lesson.title.split(' (')[0]} />
                       </span>
                     </div>
 
@@ -193,7 +202,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           : 'bg-[#F4F2EB] text-[#66625B] border border-[#E5E2D9]'
                       }`}
                     >
-                      {lesson.timeComplexity.access}
+                      <MathText text={lesson.timeComplexity.access.split(' ')[0]} />
                     </span>
                   </button>
                 );

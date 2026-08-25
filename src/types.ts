@@ -1,11 +1,14 @@
 export type TopicId = 
   | 'vector'
-  | 'set'
-  | 'map'
+  | 'list'
   | 'stack'
   | 'queue'
+  | 'tree'
+  | 'avl-tree'
   | 'priority-queue'
-  | 'list';
+  | 'set'
+  | 'map'
+  | 'graph';
 
 export type TabId = 'concept' | 'visualizer' | 'code' | 'exam' | 'quiz';
 

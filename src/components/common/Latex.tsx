@@ -299,11 +299,15 @@ export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
     // Second pass: on the text OUTSIDE of explicit math delimiters, find unescaped math expressions
     let processed = tokenized;
 
-    // 1. Auto-wrap asymptotic notations like O(1), O(N), O(N log N), O(N^2), Theta(N), Omega(N), \mathcal{O}(N)
+    // 1. Auto-wrap asymptotic notations like O(1), O(N), O(N log N), O(N^2), O(V + E), O(E log V), Theta(N), Omega(N), \mathcal{O}(N)
     processed = processed.replace(
-      /(?<![a-zA-Z0-9_\$])(?:\\mathcal\{O\}|O|Theta|\\Theta|Omega|\\Omega)\(([0-9a-zA-Z\s\+\-\*\/\^\log\(\)\mathcal\{\}\\_]+?)\)/g,
+      /(?<![a-zA-Z0-9_\$])(?:\\mathcal\{O\}|O|Theta|\\Theta|Omega|\\Omega)\(([0-9a-zA-Z\s\+\-\*\/\^\log\(\)\mathcal\{\}\\_\\cdot,:]+?)\)/g,
       (_match, content) => {
-        const cleanContent = content.replace(/\blog\b/g, '\\log ').replace(/\*/g, '\\cdot ');
+        let cleanContent = content
+          .replace(/\\log/g, 'LOG_PLACEHOLDER')
+          .replace(/\blog\b/g, '\\log ')
+          .replace(/LOG_PLACEHOLDER/g, '\\log ')
+          .replace(/\*/g, '\\cdot ');
         const placeholder = `__EXPLICIT_MATH_${tokens.length}__`;
         tokens.push({ type: 'inline-math', content: `\\mathcal{O}(${cleanContent})` });
         return placeholder;

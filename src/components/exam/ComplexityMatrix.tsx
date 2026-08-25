@@ -93,15 +93,48 @@ export const ComplexityMatrix: React.FC = () => {
       cache: 'Excellent (Flat array cache hits)'
     },
     {
-      container: 'std::list',
-      header: '<list>',
-      internal: 'Doubly Linked List (Nodes & Pointers)',
-      access: '$\\mathcal{O}(N)$ sequential traversal',
-      search: '$\\mathcal{O}(N)$',
-      insert: '$\\mathcal{O}(1)$ given iterator position',
-      delete: '$\\mathcal{O}(1)$ given iterator position',
+      container: 'Binary Tree',
+      header: '<custom/pointer>',
+      internal: 'Hierarchical Node Pointers (left, data, right)',
+      access: '$\\mathcal{O}(N)$ (or $\\mathcal{O}(1)$ root)',
+      search: '$\\mathcal{O}(N)$ arbitrary / $\\mathcal{O}(h)$',
+      insert: '$\\mathcal{O}(1)$ given parent position',
+      delete: '$\\mathcal{O}(1)$ given parent position',
       space: '$\\mathcal{O}(N)$',
-      cache: 'Poor (Fragmented node allocations)'
+      cache: 'Moderate-Poor'
+    },
+    {
+      container: 'AVL Tree',
+      header: '<custom/set>',
+      internal: 'Strictly Balanced BST (|BF| <= 1)',
+      access: '$\\mathcal{O}(\\log N)$ guaranteed',
+      search: '$\\mathcal{O}(\\log N)$ guaranteed',
+      insert: '$\\mathcal{O}(\\log N)$ with rotations',
+      delete: '$\\mathcal{O}(\\log N)$ with rotations',
+      space: '$\\mathcal{O}(N)$',
+      cache: 'Moderate'
+    },
+    {
+      container: 'B-Tree / B+ Tree',
+      header: '<disk/index>',
+      internal: 'Multi-Way Balanced Search Tree (Order M)',
+      access: '$\\mathcal{O}(\\log_M N)$ disk page reads',
+      search: '$\\mathcal{O}(\\log_M N)$',
+      insert: '$\\mathcal{O}(\\log_M N)$ node splits',
+      delete: '$\\mathcal{O}(\\log_M N)$ node merges',
+      space: '$\\mathcal{O}(N)$',
+      cache: 'High (Optimized for disk block / cache lines)'
+    },
+    {
+      container: 'Graph (Adj. List)',
+      header: '<vector<vector<int>>>',
+      internal: 'Array of Neighbor Lists/Vectors',
+      access: '$\\mathcal{O}(\\text{deg}(u))$ neighbors',
+      search: '$\\mathcal{O}(V + E)$ BFS/DFS',
+      insert: '$\\mathcal{O}(1)$ add edge',
+      delete: '$\\mathcal{O}(E)$ remove edge',
+      space: '$\\mathcal{O}(V + E)$',
+      cache: 'Moderate-Good'
     }
   ];
 

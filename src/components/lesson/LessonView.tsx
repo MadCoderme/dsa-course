@@ -7,6 +7,9 @@ import { StackVisualizer } from '../visualizers/StackVisualizer';
 import { QueueVisualizer } from '../visualizers/QueueVisualizer';
 import { PriorityQueueVisualizer } from '../visualizers/PriorityQueueVisualizer';
 import { ListVisualizer } from '../visualizers/ListVisualizer';
+import { TreeVisualizer } from '../visualizers/TreeVisualizer';
+import { AvlTreeVisualizer } from '../visualizers/AvlTreeVisualizer';
+import { GraphVisualizer } from '../visualizers/GraphVisualizer';
 import { CodeBlock } from '../common/CodeBlock';
 import { QuizComponent } from '../common/QuizComponent';
 import { Latex, MathText } from '../common/Latex';
@@ -72,6 +75,19 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         if (conceptIdx === 2) return <QueueVisualizer focusedMode="ring" />;
         return null;
 
+      case 'tree':
+        if (conceptIdx === 0) return <TreeVisualizer focusedMode="traversal" />;
+        if (conceptIdx === 1) return <TreeVisualizer focusedMode="properties" />;
+        if (conceptIdx === 2) return <TreeVisualizer focusedMode="expression" />;
+        if (conceptIdx === 3) return <TreeVisualizer focusedMode="threaded" />;
+        return null;
+
+      case 'avl-tree':
+        if (conceptIdx === 0) return <AvlTreeVisualizer focusedMode="rotations" />;
+        if (conceptIdx === 1) return <AvlTreeVisualizer focusedMode="bst-deletion" />;
+        if (conceptIdx === 2) return <AvlTreeVisualizer focusedMode="btree-split" />;
+        return null;
+
       case 'priority-queue':
         if (conceptIdx === 0 || conceptIdx === 1) return <PriorityQueueVisualizer />;
         return null;
@@ -85,6 +101,13 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson }) => {
         if (conceptIdx === 0) return <MapVisualizer focusedMode="frequency" />;
         if (conceptIdx === 1) return <MapVisualizer focusedMode="graph" />;
         if (conceptIdx === 2) return <MapVisualizer focusedMode="custom" />;
+        return null;
+
+      case 'graph':
+        if (conceptIdx === 0) return <GraphVisualizer focusedMode="bfs" />;
+        if (conceptIdx === 1) return <GraphVisualizer focusedMode="dfs" />;
+        if (conceptIdx === 2) return <GraphVisualizer focusedMode="topological" />;
+        if (conceptIdx === 3) return <GraphVisualizer focusedMode="warshall" />;
         return null;
 
       default:
