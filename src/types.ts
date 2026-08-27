@@ -74,6 +74,19 @@ export interface QuizQuestion {
   examTip?: string;
 }
 
+export interface PracticeProblem {
+  id: string;
+  title: string;
+  platform: 'LeetCode' | 'Codeforces' | 'CSES' | 'GeeksforGeeks';
+  problemNumber?: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard' | '800' | '800-1200' | '1300-1600' | '1700+' | string;
+  url: string;
+  description: string;
+  keyPattern: string;
+  acceptanceOrRating?: string;
+  tags?: string[];
+}
+
 export interface Lesson {
   id: TopicId;
   categoryId?: string;
@@ -110,6 +123,7 @@ export interface Lesson {
   codeSnippets?: CodeSnippet[];
   examQuestions?: ExamQuestion[];
   quizzes?: QuizQuestion[];
+  practiceProblems?: PracticeProblem[];
 }
 
 export interface WeightageTopic {

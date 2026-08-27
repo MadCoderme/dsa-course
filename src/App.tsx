@@ -24,14 +24,15 @@ export function App() {
         l.subtitle.toLowerCase().includes(q) ||
         l.overview.toLowerCase().includes(q) ||
         l.keyConcepts.some((c) => c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)) ||
-        l.examQuestions.some((eq) => eq.question.toLowerCase().includes(q) || eq.solution.toLowerCase().includes(q))
+        l.examQuestions.some((eq) => eq.question.toLowerCase().includes(q) || eq.solution.toLowerCase().includes(q)) ||
+        (l.practiceProblems && l.practiceProblems.some((p) => p.title.toLowerCase().includes(q) || p.platform.toLowerCase().includes(q) || p.tags.some((t) => t.toLowerCase().includes(q))))
     );
   }, [searchQuery]);
 
   const activeLesson = LESSONS.find((l) => l.id === currentView);
 
   return (
-    <div className="min-h-screen bg-[#F9F8F6] text-[#1A1A1A] flex flex-col font-sans selection:bg-[#991B1B] selection:text-white">
+    <div className="min-h-screen bg-[#F9F8F6] dark:bg-[#141210] text-[#1A1A1A] dark:text-[#EDE8DF] flex flex-col font-sans selection:bg-[#991B1B] selection:text-white transition-colors">
       {/* Top Header */}
       <Header
         searchQuery={searchQuery}
@@ -44,7 +45,7 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 max-w-7xl w-full mx-auto flex border-x border-[#E5E2D9] bg-white/40">
+      <div className="flex-1 max-w-7xl w-full mx-auto flex border-x border-[#E5E2D9] dark:border-[#38332B] bg-white/40 dark:bg-[#181614]/40">
         {/* Sidebar */}
         <Sidebar
           currentView={currentView}
@@ -57,24 +58,24 @@ export function App() {
         />
 
         {/* Dynamic View Body */}
-        <main className="flex-1 p-5 md:p-8 min-w-0 max-w-5xl overflow-y-auto bg-[#F9F8F6]/60">
+        <main className="flex-1 p-5 md:p-8 min-w-0 max-w-5xl overflow-y-auto bg-[#F9F8F6]/60 dark:bg-[#141210]/80">
           {/* Active Search Results if search query exists */}
           {searchQuery.trim() ? (
             <div className="space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9]">
-                <h2 className="text-xl font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                  <Search className="w-5 h-5 text-[#991B1B]" /> Search Index for <span className="italic">"{searchQuery}"</span>
+              <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
+                <h2 className="text-xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                  <Search className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Search Index for <span className="italic">"{searchQuery}"</span>
                 </h2>
-                <span className="text-xs text-[#66625B] font-mono">
+                <span className="text-xs text-[#66625B] dark:text-[#A8A29E] font-mono">
                   {searchResults.length} {searchResults.length === 1 ? 'entry' : 'entries'} indexed
                 </span>
               </div>
 
               {searchResults.length === 0 ? (
-                <div className="p-8 rounded-xl bg-white border border-[#E5E2D9] text-center space-y-2 shadow-sm">
-                  <div className="text-[#1A1A1A] font-serif text-base font-medium">No matching curriculum topics found.</div>
-                  <p className="text-xs text-[#66625B]">
-                    Try searching for terms such as "Vector", "Heap", "Circular Queue", "Stack", "BST", or "Address".
+                <div className="p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] text-center space-y-2 shadow-sm">
+                  <div className="text-[#1A1A1A] dark:text-[#EDE8DF] font-serif text-base font-medium">No matching curriculum topics found.</div>
+                  <p className="text-xs text-[#66625B] dark:text-[#A8A29E]">
+                    Try searching for terms such as "Vector", "Heap", "Circular Queue", "Stack", "BST", "LeetCode", or "Address".
                   </p>
                 </div>
               ) : (
@@ -86,17 +87,17 @@ export function App() {
                         setCurrentView(res.id);
                         setSearchQuery('');
                       }}
-                      className="p-5 rounded-xl bg-white border border-[#E5E2D9] hover:border-[#991B1B]/60 cursor-pointer transition-all space-y-2 group shadow-sm hover:shadow"
+                      className="p-5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B]/60 dark:hover:border-[#EF4444]/60 cursor-pointer transition-all space-y-2 group shadow-sm hover:shadow"
                     >
                       <div className="flex items-center justify-between">
-                        <div className="text-base font-serif font-bold text-[#1A1A1A] group-hover:text-[#991B1B] transition-colors">
+                        <div className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:group-hover:text-[#EF4444] transition-colors">
                           {res.title}
                         </div>
-                        <span className="text-xs font-mono font-medium text-[#991B1B] flex items-center gap-1">
+                        <span className="text-xs font-mono font-medium text-[#991B1B] dark:text-[#EF4444] flex items-center gap-1">
                           Read Lesson <ArrowRight className="w-3.5 h-3.5" />
                         </span>
                       </div>
-                      <p className="text-xs text-[#66625B] line-clamp-2 leading-relaxed">{res.overview}</p>
+                      <p className="text-xs text-[#66625B] dark:text-[#A8A29E] line-clamp-2 leading-relaxed">{res.overview}</p>
                     </div>
                   ))}
                 </div>

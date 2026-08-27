@@ -10,6 +10,8 @@ import {
   Network,
   Wrench,
   CheckCircle2,
+  Trophy,
+  Code2,
   Sparkles
 } from 'lucide-react';
 
@@ -35,7 +37,7 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
     {
       title: 'Phase 1: Linear Data Structures',
       subtitle: 'Contiguous buffers, node sequences, restricted access ADTs, and associative mappings.',
-      icon: <Layers className="w-4 h-4 text-[#1D4ED8]" />,
+      icon: <Layers className="w-4 h-4 text-[#1D4ED8] dark:text-[#60A5FA]" />,
       badge: 'Linear',
       items: [
         {
@@ -85,7 +87,7 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
     {
       title: 'Phase 2: Tree Data Structures',
       subtitle: 'Hierarchical node trees, recursive traversals, self-balancing search trees, and multi-way indexing.',
-      icon: <GitBranch className="w-4 h-4 text-[#15803D]" />,
+      icon: <GitBranch className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80]" />,
       badge: 'Trees',
       items: [
         {
@@ -147,7 +149,7 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
     {
       title: 'Phase 3: Graph Data Structures & Algorithms',
       subtitle: 'Networks, traversal explorations, topological ordering, shortest paths, and minimum spanning trees.',
-      icon: <Network className="w-4 h-4 text-[#7E22CE]" />,
+      icon: <Network className="w-4 h-4 text-[#7E22CE] dark:text-[#C084FC]" />,
       badge: 'Graphs',
       items: [
         {
@@ -191,7 +193,7 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
     {
       title: 'Phase 4: Examination & Diagnostic Tools',
       subtitle: 'Interactive tools to verify complexity bounds, practice address mathematics, and view exam trends.',
-      icon: <Wrench className="w-4 h-4 text-[#B45309]" />,
+      icon: <Wrench className="w-4 h-4 text-[#B45309] dark:text-[#FBBF24]" />,
       badge: 'Tools',
       items: [
         {
@@ -219,18 +221,21 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
   return (
     <div className="space-y-8 max-w-4xl mx-auto py-2">
       {/* Hero Banner */}
-      <div className="p-6 md:p-8 rounded-2xl bg-white border border-[#E5E2D9] space-y-4 shadow-sm">
-        <div className="flex items-center gap-2">
-          <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#FEF2F2] border border-[#FECACA] text-[#991B1B] flex items-center gap-1.5">
+      <div className="p-6 md:p-8 rounded-2xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-sm">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D]/60 text-[#991B1B] dark:text-[#FCA5A5] flex items-center gap-1.5">
             <Compass className="w-3.5 h-3.5" /> Welcome & Study Guide
+          </span>
+          <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#FFFBEB] dark:bg-[#78350F]/30 border border-[#FDE68A] dark:border-[#B45309]/50 text-[#D97706] dark:text-[#FBBF24] flex items-center gap-1.5">
+            <Trophy className="w-3.5 h-3.5" /> 130+ LeetCode & Codeforces Problems
           </span>
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl md:text-3xl font-serif font-bold text-[#1A1A1A] tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] tracking-tight">
             {OVERVIEW_LESSON.title}
           </h1>
-          <p className="text-sm text-[#55514B] leading-relaxed max-w-3xl font-sans">
+          <p className="text-sm text-[#55514B] dark:text-[#A8A29E] leading-relaxed max-w-3xl font-sans">
             {OVERVIEW_LESSON.overview}
           </p>
         </div>
@@ -240,13 +245,13 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
           {OVERVIEW_LESSON.keyConcepts.map((concept, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-1.5"
+              className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-1.5"
             >
-              <h3 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#991B1B] shrink-0" />
+              <h3 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444] shrink-0" />
                 {concept.title}
               </h3>
-              <p className="text-xs text-[#66625B] leading-relaxed font-sans">
+              <p className="text-xs text-[#66625B] dark:text-[#A8A29E] leading-relaxed font-sans">
                 {concept.description}
               </p>
             </div>
@@ -255,12 +260,12 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
       </div>
 
       {/* Study Flow Title */}
-      <div className="space-y-1 border-b border-[#E5E2D9] pb-3">
-        <h2 className="text-xl font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-[#991B1B]" />
+      <div className="space-y-1 border-b border-[#E5E2D9] dark:border-[#38332B] pb-3">
+        <h2 className="text-xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+          <BookOpen className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" />
           Recommended Study Flow
         </h2>
-        <p className="text-xs text-[#66625B] font-sans">
+        <p className="text-xs text-[#66625B] dark:text-[#A8A29E] font-sans">
           Follow the sequential path below or jump directly to any topic by clicking its card.
         </p>
       </div>
@@ -271,19 +276,19 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
           <div key={sIdx} className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-white border border-[#E5E2D9]">
+                <div className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
                   {stage.icon}
                 </div>
                 <div>
-                  <h3 className="text-base font-serif font-bold text-[#1A1A1A]">
+                  <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                     {stage.title}
                   </h3>
-                  <p className="text-xs text-[#66625B] font-sans">
+                  <p className="text-xs text-[#66625B] dark:text-[#A8A29E] font-sans">
                     {stage.subtitle}
                   </p>
                 </div>
               </div>
-              <span className="text-xs font-mono font-medium text-[#88847C]">
+              <span className="text-xs font-mono font-medium text-[#88847C] dark:text-[#9E988F]">
                 {stage.items.length} Topics
               </span>
             </div>
@@ -293,27 +298,27 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
                 <div
                   key={item.id}
                   onClick={() => onSelectTopic(item.id)}
-                  className="p-4 rounded-xl bg-white border border-[#E5E2D9] hover:border-[#991B1B] transition-all cursor-pointer group flex flex-col justify-between space-y-2 shadow-2xs hover:shadow"
+                  className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B] dark:hover:border-[#EF4444] transition-all cursor-pointer group flex flex-col justify-between space-y-2 shadow-2xs hover:shadow"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-serif font-bold text-sm text-[#1A1A1A] group-hover:text-[#991B1B] transition-colors">
+                      <span className="font-serif font-bold text-sm text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:group-hover:text-[#EF4444] transition-colors">
                         {item.title}
                       </span>
                       {item.tag && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FAF8F5] text-[#66625B] border border-[#E5E2D9] shrink-0 font-medium">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border border-[#E5E2D9] dark:border-[#38332B] shrink-0 font-medium">
                           {item.tag}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-[#66625B] line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-[#66625B] dark:text-[#A8A29E] line-clamp-2 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
 
-                  <div className="pt-2 border-t border-[#F0EDE6] flex items-center justify-between text-xs font-serif font-semibold text-[#1A1A1A] group-hover:text-[#991B1B]">
+                  <div className="pt-2 border-t border-[#F0EDE6] dark:border-[#2A2622] flex items-center justify-between text-xs font-serif font-semibold text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:group-hover:text-[#EF4444]">
                     <span>Open Topic</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#991B1B]" />
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#991B1B] dark:text-[#EF4444]" />
                   </div>
                 </div>
               ))}
