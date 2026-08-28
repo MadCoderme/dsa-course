@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Sun, Moon, Laptop } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -30,8 +30,8 @@ export const ThemeToggleBar: React.FC<ThemeToggleBarProps> = ({
         onClick={() => setTheme('light')}
         className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-serif font-semibold transition-all duration-200 cursor-pointer ${
           theme === 'light'
-            ? 'bg-white text-[#1A1A1A] shadow-xs border border-[#D8D4C8] font-bold'
-            : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF]'
+            ? 'bg-white dark:bg-[#201D1A] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-xs border border-[#D8D4C8] dark:border-[#423D36] font-bold'
+            : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
         } ${size === 'sm' ? 'px-2 py-0.5 text-[11px]' : ''}`}
         title="Switch to Light Theme"
       >
@@ -48,7 +48,7 @@ export const ThemeToggleBar: React.FC<ThemeToggleBarProps> = ({
         className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-serif font-semibold transition-all duration-200 cursor-pointer ${
           theme === 'dark'
             ? 'bg-[#2A2622] text-[#EDE8DF] shadow-xs border border-[#423D36] font-bold'
-            : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF]'
+            : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
         } ${size === 'sm' ? 'px-2 py-0.5 text-[11px]' : ''}`}
         title="Switch to Dark Theme"
       >

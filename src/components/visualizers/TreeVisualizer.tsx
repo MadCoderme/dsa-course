@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Latex, MathText } from '../common/Latex';
 import {
   Play,
@@ -180,24 +180,24 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
   const rightChildIdx = selectedIndex * 2 + 1 <= 7 ? selectedIndex * 2 + 1 : null;
 
   return (
-    <div className="p-4 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
+    <div className="p-4 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
       {/* Visualizer Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9]">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
         <div>
-          <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-            <GitBranch className="w-5 h-5 text-[#991B1B]" /> Binary Tree Laboratory & Traversal Engine
+          <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+            <GitBranch className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Binary Tree Laboratory & Traversal Engine
           </h3>
-          <div className="text-xs text-[#66625B] mt-0.5 font-sans">
+          <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
             Interactive visualization of tree traversals, Complete Tree Array Indexing, Knuth LCRS Transforms, Expression Trees, and Threaded Trees.
           </div>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex flex-wrap items-center gap-1 bg-[#F4F2EB] p-1 rounded-lg border border-[#E5E2D9]">
+        <div className="flex flex-wrap items-center gap-1 bg-[#F4F2EB] dark:bg-[#2A2622] p-1 rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
           <button
             onClick={() => { setActiveTab('traversal'); resetTraversal(); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'traversal' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'traversal' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Traversals
@@ -205,7 +205,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           <button
             onClick={() => setActiveTab('properties')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'properties' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'properties' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Array Storage Mapper
@@ -213,7 +213,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           <button
             onClick={() => setActiveTab('conversion')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'conversion' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'conversion' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             General $\to$ Binary Tree
@@ -221,7 +221,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           <button
             onClick={() => setActiveTab('expression')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'expression' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'expression' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Expression Trees
@@ -229,7 +229,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           <button
             onClick={() => setActiveTab('threaded')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'threaded' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'threaded' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Threaded Trees
@@ -241,9 +241,9 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
       {activeTab === 'traversal' && (
         <div className="space-y-5">
           {/* Controls */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Traversal Strategy:</span>
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Traversal Strategy:</span>
               {(['inorder', 'preorder', 'postorder', 'levelorder'] as const).map((type) => (
                 <button
                   key={type}
@@ -254,7 +254,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
                   className={`px-2.5 py-1 rounded text-xs font-mono font-bold capitalize transition-all cursor-pointer border ${
                     traversalType === type
                       ? 'bg-[#991B1B] text-white border-[#991B1B] shadow-2xs'
-                      : 'bg-white text-[#44403C] border-[#D8D4C8] hover:bg-[#F4F2EB]'
+                      : 'bg-white dark:bg-[#201D1A] text-[#44403C] dark:text-[#D6D0C5] border-[#D8D4C8] dark:border-[#423D36] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622]'
                   }`}
                 >
                   {type === 'inorder' && 'Inorder (L-N-R)'}
@@ -281,15 +281,15 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
                 onClick={() => setIsAutoPlaying(!isAutoPlaying)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                   isAutoPlaying
-                    ? 'bg-[#FEF2F2] text-[#991B1B] border-[#FECACA]'
-                    : 'bg-white text-[#15803D] border-[#DCFCE7] hover:bg-[#F0FDF4]'
+                    ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border-[#FECACA] dark:border-[#7F1D1D]'
+                    : 'bg-white dark:bg-[#064E3B]/30 text-[#15803D] dark:text-[#4ADE80] border-[#DCFCE7] dark:border-[#059669]/40 hover:bg-[#F0FDF4] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/50'
                 }`}
               >
                 <Play className="w-3.5 h-3.5" /> {isAutoPlaying ? 'Pause' : 'Auto Play'}
               </button>
               <button
                 onClick={resetTraversal}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -298,7 +298,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           </div>
 
           {/* Tree SVG Canvas */}
-          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex justify-center">
             <svg width="400" height="220" className="overflow-visible">
               {/* Edges */}
               {defaultNodes.map((node) => {
@@ -384,34 +384,34 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           </div>
 
           {/* Visited Sequence Output */}
-          <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
+          <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A] flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#15803D]" /> Traversal Sequence Output:
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80]" /> Traversal Sequence Output:
               </span>
-              <span className="text-[11px] font-mono text-[#66625B]">
+              <span className="text-[11px] font-mono text-[#66625B] dark:text-[#A8A29E]">
                 Step {traversalStep + 1} of {currentOrder.length}
               </span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 min-h-[38px] p-2 rounded bg-[#FAF8F5] border border-[#E5E2D9]">
+            <div className="flex flex-wrap items-center gap-2 min-h-[38px] p-2 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
               {traversalStep === -1 ? (
-                <span className="text-xs text-[#88847C] italic">Click "Next Step" or "Auto Play" to begin traversal trace...</span>
+                <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Click "Next Step" or "Auto Play" to begin traversal trace...</span>
               ) : (
                 currentOrder.slice(0, traversalStep + 1).map((item, idx) => (
                   <React.Fragment key={idx}>
-                    <span className="px-2.5 py-1 rounded bg-white border border-[#15803D]/40 text-[#15803D] font-mono font-bold text-xs shadow-2xs">
+                    <span className="px-2.5 py-1 rounded bg-white dark:bg-[#201D1A] border border-[#15803D]/40 text-[#15803D] dark:text-[#4ADE80] font-mono font-bold text-xs shadow-2xs">
                       {item.val}
                     </span>
-                    {idx < traversalStep && <ArrowRight className="w-3.5 h-3.5 text-[#88847C]" />}
+                    {idx < traversalStep && <ArrowRight className="w-3.5 h-3.5 text-[#88847C] dark:text-[#78716C]" />}
                   </React.Fragment>
                 ))
               )}
             </div>
 
             {traversalStep >= 0 && (
-              <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-2.5 rounded border border-[#DCFCE7] flex items-center gap-2">
-                <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+              <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-2.5 rounded border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
                 <span>
                   <strong>Step {traversalStep + 1}:</strong> {currentOrder[traversalStep].note}
                 </span>
@@ -424,19 +424,19 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
       {/* TAB 2: Complete Binary Tree Array Storage Live Mapper */}
       {activeTab === 'properties' && (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#991B1B]" /> Interactive Array Index & Node Relationship Mapper
+          <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Interactive Array Index & Node Relationship Mapper
             </h4>
-            <p className="text-xs text-[#44403C] leading-relaxed">
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
               Click any array slot below (1-based index <MathText text="$i$" />) to inspect its exact mathematical Left Child (<MathText text="$2i$" />), Right Child (<MathText text="$2i+1$" />), and Parent (<MathText text="$\lfloor i/2 \rfloor$" />) in the complete tree!
             </p>
           </div>
 
           {/* Interactive Array Bar */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-3">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
-              1-Based Contiguous Storage Array <code className="text-[#991B1B] font-mono">TreeArray[1...7]</code>:
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
+              1-Based Contiguous Storage Array <code className="text-[#991B1B] dark:text-[#EF4444] font-mono">TreeArray[1...7]</code>:
             </div>
             <div className="flex flex-wrap gap-2">
               {[1, 2, 3, 4, 5, 6, 7].map((idx) => {
@@ -460,12 +460,12 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
                       isSelected
                         ? 'bg-[#991B1B] text-white border-[#991B1B] shadow-sm'
                         : isParent
-                        ? 'bg-[#FEF3C7] text-[#92400E] border-[#F59E0B]'
+                        ? 'bg-[#FEF3C7] dark:bg-[#78350F]/40 text-[#92400E] dark:text-[#FDE68A] border-[#F59E0B]'
                         : isLeftChild
                         ? 'bg-[#DCFCE7] text-[#166534] border-[#15803D]'
                         : isRightChild
                         ? 'bg-[#E0E7FF] text-[#3730A3] border-[#4F46E5]'
-                        : 'bg-[#FAF8F5] text-[#1A1A1A] border-[#D8D4C8] hover:bg-[#F4F2EB]'
+                        : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#1A1A1A] dark:text-[#EDE8DF] border-[#D8D4C8] dark:border-[#423D36] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                     }`}
                   >
                     <div className="text-[10px] font-mono font-bold">Index [{idx}]</div>
@@ -478,7 +478,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           </div>
 
           {/* Graphical Tree with Selected, Parent, and Child Highlights */}
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] flex justify-center">
+          <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] flex justify-center">
             <svg width="400" height="220">
               {defaultNodes.map((node) => {
                 const leftChild = defaultNodes.find((n) => n.id === node.leftId);
@@ -536,11 +536,11 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
 
           {/* Mathematical Proof Box */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
-            <div className="p-3 bg-[#FEF3C7] rounded-lg border border-[#FDE68A] text-[#92400E] space-y-1">
+            <div className="p-3 bg-[#FEF3C7] dark:bg-[#78350F]/40 rounded-lg border border-[#FDE68A] dark:border-[#B45309]/50 text-[#92400E] dark:text-[#FDE68A] space-y-1">
               <div className="font-bold">Parent Node:</div>
               <div>⌊i / 2⌋ = ⌊{selectedIndex} / 2⌋ = {parentIdx > 0 ? `Index [${parentIdx}]` : 'None (Root)'}</div>
             </div>
-            <div className="p-3 bg-[#DCFCE7] rounded-lg border border-[#BBF7D0] text-[#166534] space-y-1">
+            <div className="p-3 bg-[#DCFCE7] rounded-lg border border-[#BBF7D0] dark:border-[#059669] text-[#166534] space-y-1">
               <div className="font-bold">Left Child:</div>
               <div>2i = 2 × {selectedIndex} = {leftChildIdx ? `Index [${leftChildIdx}]` : 'None (Out of Bounds)'}</div>
             </div>
@@ -555,28 +555,28 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
       {/* TAB 3: Conversion of General Tree to Binary Tree (Knuth Transform / LCRS) */}
       {activeTab === 'conversion' && (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-              <Share2 className="w-4 h-4 text-[#991B1B]" /> Left-Child Right-Sibling (LCRS) Representation & Knuth Transform
+          <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+              <Share2 className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Left-Child Right-Sibling (LCRS) Representation & Knuth Transform
             </h4>
-            <p className="text-xs text-[#44403C] leading-relaxed">
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
               Donald Knuth's transform converts any general tree or forest with variable degree into a standardized binary tree using the <strong>Left-Child Right-Sibling</strong> rule:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-              <div className="p-3 bg-white rounded-lg border border-[#E5E2D9] space-y-1">
-                <div className="text-xs font-serif font-bold text-[#991B1B]">Rule 1: Left Pointer (Child)</div>
-                <div className="text-xs text-[#44403C]">Points to the node's <strong>very first (eldest) child</strong>.</div>
+              <div className="p-3 bg-white dark:bg-[#201D1A] rounded-lg border border-[#E5E2D9] dark:border-[#38332B] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444]">Rule 1: Left Pointer (Child)</div>
+                <div className="text-xs text-[#44403C] dark:text-[#D6D0C5]">Points to the node's <strong>very first (eldest) child</strong>.</div>
               </div>
-              <div className="p-3 bg-white rounded-lg border border-[#E5E2D9] space-y-1">
-                <div className="text-xs font-serif font-bold text-[#15803D]">Rule 2: Right Pointer (Sibling)</div>
-                <div className="text-xs text-[#44403C]">Points to the node's <strong>immediate next sibling</strong> at the same level.</div>
+              <div className="p-3 bg-white dark:bg-[#201D1A] rounded-lg border border-[#E5E2D9] dark:border-[#38332B] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#15803D] dark:text-[#4ADE80]">Rule 2: Right Pointer (Sibling)</div>
+                <div className="text-xs text-[#44403C] dark:text-[#D6D0C5]">Points to the node's <strong>immediate next sibling</strong> at the same level.</div>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-4">
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Step-by-Step Conversion Walkthrough:</span>
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Step-by-Step Conversion Walkthrough:</span>
               <div className="flex items-center gap-2">
                 {[0, 1, 2].map((s) => (
                   <button
@@ -585,7 +585,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
                     className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all cursor-pointer border ${
                       conversionStep === s
                         ? 'bg-[#991B1B] text-white border-[#991B1B]'
-                        : 'bg-[#FAF8F5] text-[#44403C] border-[#D8D4C8] hover:bg-[#F4F2EB]'
+                        : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#44403C] dark:text-[#D6D0C5] border-[#D8D4C8] dark:border-[#423D36] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                     }`}
                   >
                     {s === 0 && '1. General Tree'}
@@ -597,8 +597,8 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] flex flex-col items-center justify-center min-h-[200px]">
-                <div className="text-xs font-serif font-bold text-[#66625B] mb-2">Original General Tree (A with Children B, C, D)</div>
+              <div className="p-4 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] flex flex-col items-center justify-center min-h-[200px]">
+                <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] mb-2">Original General Tree (A with Children B, C, D)</div>
                 <svg width="260" height="140">
                   <line x1="130" y1="25" x2="50" y2="90" stroke="#88847C" strokeWidth="2" />
                   <line x1="130" y1="25" x2="130" y2="90" stroke="#88847C" strokeWidth="2" />
@@ -620,8 +620,8 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
                 </svg>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] flex flex-col items-center justify-center min-h-[200px]">
-                <div className="text-xs font-serif font-bold text-[#991B1B] mb-2">Equivalent Binary Tree (Left=Child, Right=Sibling)</div>
+              <div className="p-4 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] flex flex-col items-center justify-center min-h-[200px]">
+                <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444] mb-2">Equivalent Binary Tree (Left=Child, Right=Sibling)</div>
                 <svg width="260" height="140">
                   <line x1="70" y1="25" x2="70" y2="70" stroke="#991B1B" strokeWidth="2" />
                   <line x1="70" y1="70" x2="130" y2="90" stroke="#15803D" strokeWidth="2" />
@@ -644,18 +644,18 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
       {/* TAB 4: Expression Trees Simulation */}
       {activeTab === 'expression' && (
         <div className="space-y-4">
-          <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-              <Calculator className="w-4 h-4 text-[#991B1B]" /> Interactive Expression Tree Construction & Evaluation
+          <div className="p-4 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+              <Calculator className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Interactive Expression Tree Construction & Evaluation
             </h4>
-            <p className="text-xs text-[#44403C] leading-relaxed">
-              In an Expression Tree, internal nodes are operators (<code className="text-[#991B1B] font-mono font-bold">+ - * / ^</code>) and leaves are operands ($3, 5, 9, 4$). Bottom-up postorder evaluation evaluates subexpressions into simplified terms.
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
+              In an Expression Tree, internal nodes are operators (<code className="text-[#991B1B] dark:text-[#EF4444] font-mono font-bold">+ - * / ^</code>) and leaves are operands ($3, 5, 9, 4$). Bottom-up postorder evaluation evaluates subexpressions into simplified terms.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-white border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
-              Expression: <span className="font-mono text-[#991B1B] font-bold">((3 + 5) * (9 - 4))</span>
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
+              Expression: <span className="font-mono text-[#991B1B] dark:text-[#EF4444] font-bold">((3 + 5) * (9 - 4))</span>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -669,7 +669,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
               </button>
               <button
                 onClick={() => setEvalStep(-1)}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -677,7 +677,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
             </div>
           </div>
 
-          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex justify-center">
             <svg width="400" height="220">
               {expressionNodes.map((node) => {
                 const leftChild = expressionNodes.find((n) => n.id === node.leftId);
@@ -722,8 +722,8 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           </div>
 
           {evalStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {evalStep + 1}:</strong> {evalSteps[evalStep].note}
               </span>
@@ -735,17 +735,17 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
       {/* TAB 5: Threaded Binary Trees Simulation */}
       {activeTab === 'threaded' && (
         <div className="space-y-4">
-          <div className="p-4 sm:p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#B45309]" /> Threaded Binary Tree Pointer Simulation
+          <div className="p-4 sm:p-5 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
+            <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#B45309] dark:text-[#FBBF24]" /> Threaded Binary Tree Pointer Simulation
             </h4>
-            <p className="text-xs text-[#44403C] leading-relaxed">
-              In a regular binary tree with <MathText text="$N$" /> nodes, exactly <MathText text="$N + 1$" /> pointer fields are <code className="text-[#991B1B] font-mono">NULL</code>. A Threaded Binary Tree replaces empty right pointers with dashed red <strong>threads</strong> pointing directly to the <strong>Inorder Successor</strong>, allowing <MathText text="$\mathcal{O}(1)$" /> space traversal without recursion or call stacks!
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
+              In a regular binary tree with <MathText text="$N$" /> nodes, exactly <MathText text="$N + 1$" /> pointer fields are <code className="text-[#991B1B] dark:text-[#EF4444] font-mono">NULL</code>. A Threaded Binary Tree replaces empty right pointers with dashed red <strong>threads</strong> pointing directly to the <strong>Inorder Successor</strong>, allowing <MathText text="$\mathcal{O}(1)$" /> space traversal without recursion or call stacks!
             </p>
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-white border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">Inorder Stackless Traversal Simulation:</div>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Inorder Stackless Traversal Simulation:</div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => {
@@ -758,7 +758,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
               </button>
               <button
                 onClick={() => setThreadedStep(-1)}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -766,7 +766,7 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
             </div>
           </div>
 
-          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex justify-center">
             <svg width="480" height="210">
               <line x1="240" y1="35" x2="120" y2="95" stroke="#D8D4C8" strokeWidth="2" />
               <line x1="240" y1="35" x2="360" y2="95" stroke="#D8D4C8" strokeWidth="2" />
@@ -812,8 +812,8 @@ export const TreeVisualizer: React.FC<TreeVisualizerProps> = ({ focusedMode = 't
           </div>
 
           {threadedStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {threadedStep + 1}:</strong> {threadedSequence[threadedStep].note}
               </span>

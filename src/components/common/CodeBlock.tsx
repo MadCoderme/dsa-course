@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { Copy, Check, Code2 } from 'lucide-react';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-c';
@@ -44,9 +44,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ snippets }) => {
   if (!activeSnippet) return null;
 
   return (
-    <div className="rounded-xl overflow-hidden border border-[#E5E2D9] bg-white font-mono text-xs shadow-xs">
+    <div className="rounded-xl overflow-hidden border border-[#E5E2D9] dark:border-[#38332B] bg-white dark:bg-[#201D1A] font-mono text-xs shadow-xs">
       {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between px-3.5 py-2.5 bg-[#FAF8F5] border-b border-[#E5E2D9] gap-2">
+      <div className="flex flex-wrap items-center justify-between px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#181614] border-b border-[#E5E2D9] dark:border-[#38332B] gap-2">
         <div className="flex items-center gap-1.5 overflow-x-auto max-w-full">
           {snippets.map((snip, idx) => (
             <button
@@ -54,12 +54,12 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ snippets }) => {
               onClick={() => setActiveIdx(idx)}
               className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                 activeIdx === idx
-                  ? 'bg-white text-[#991B1B] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
               }`}
             >
               <Code2 className="w-3.5 h-3.5" />
-              <span className="uppercase text-[10px] px-1 py-0.2 bg-[#F4F2EB] rounded text-[#44403C]">
+              <span className="uppercase text-[10px] px-1 py-0.2 bg-[#F4F2EB] dark:bg-[#2A2622] rounded text-[#44403C] dark:text-[#D6D0C5]">
                 {snip.language}
               </span>
               <span className="font-sans font-medium text-xs">{snip.title}</span>
@@ -69,17 +69,17 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ snippets }) => {
 
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-sans font-semibold transition-colors cursor-pointer ml-auto shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-sans font-semibold transition-colors cursor-pointer ml-auto shrink-0"
         >
-          {copied ? <Check className="w-3.5 h-3.5 text-[#15803D]" /> : <Copy className="w-3.5 h-3.5 text-[#66625B]" />}
+          {copied ? <Check className="w-3.5 h-3.5 text-[#15803D]" /> : <Copy className="w-3.5 h-3.5 text-[#66625B] dark:text-[#A8A29E]" />}
           {copied ? 'Copied' : 'Copy Code'}
         </button>
       </div>
 
       {/* Code Text with line numbers */}
-      <div className="p-4 sm:p-5 overflow-x-auto text-[#1A1A1A] bg-[#FAF8F5]/50 leading-relaxed font-mono text-[12px] sm:text-[13px] flex">
+      <div className="p-4 sm:p-5 overflow-x-auto text-[#1A1A1A] dark:text-[#EDE8DF] bg-[#FAF8F5] dark:bg-[#181614]/50 leading-relaxed font-mono text-[12px] sm:text-[13px] flex">
         {/* Line numbers */}
-        <div className="select-none pr-4 text-right text-[#A8A29E] font-mono border-r border-[#E5E2D9] mr-4 hidden sm:block shrink-0">
+        <div className="select-none pr-4 text-right text-[#A8A29E] font-mono border-r border-[#E5E2D9] dark:border-[#38332B] mr-4 hidden sm:block shrink-0">
           {codeLines.map((_, i) => (
             <div key={i} className="leading-relaxed">
               {i + 1}
@@ -98,8 +98,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ snippets }) => {
 
       {/* Explanation Footer */}
       {activeSnippet.explanation && (
-        <div className="px-4 sm:px-5 py-3 bg-[#FAF8F5] border-t border-[#E5E2D9] font-sans text-xs text-[#44403C]">
-          <span className="font-serif font-bold text-[#1A1A1A]">Key Takeaway: </span>
+        <div className="px-4 sm:px-5 py-3 bg-[#FAF8F5] dark:bg-[#181614] border-t border-[#E5E2D9] dark:border-[#38332B] font-sans text-xs text-[#44403C] dark:text-[#D6D0C5]">
+          <span className="font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Key Takeaway: </span>
           {activeSnippet.explanation}
         </div>
       )}

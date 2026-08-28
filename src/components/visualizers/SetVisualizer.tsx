@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Trash2, Search, Sparkles, RefreshCw, AlertCircle, Layers, GitBranch, ArrowDown } from 'lucide-react';
 import { Latex, MathText } from '../common/Latex';
@@ -231,36 +231,36 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
     <div className="space-y-4" id="set-visualizer-container">
       {/* Mode Switcher */}
       {!focusedMode && (
-        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white border border-[#E5E2D9] gap-2 shadow-xs">
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB]">
+        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] gap-2 shadow-xs">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622]">
             <button
               id="set-mode-ordered"
               onClick={() => setMode('ordered')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 mode === 'ordered'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <GitBranch className="w-3.5 h-3.5 text-[#991B1B]" /> std::set (Red-Black Tree Graph / <MathText text="$\\mathcal{O}(\\log N)$" />)
+              <GitBranch className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> std::set (Red-Black Tree Graph / <MathText text="$\\mathcal{O}(\\log N)$" />)
             </button>
             <button
               id="set-mode-unordered"
               onClick={() => setMode('unordered')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 mode === 'unordered'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-[#15803D]" /> std::unordered_set (Hash Table Buckets / <MathText text="$\\mathcal{O}(1)$" />)
+              <Layers className="w-3.5 h-3.5 text-[#15803D] dark:text-[#4ADE80]" /> std::unordered_set (Hash Table Buckets / <MathText text="$\\mathcal{O}(1)$" />)
             </button>
           </div>
 
           <button
             id="set-reset-btn"
             onClick={handleReset}
-            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#66625B] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Reset Set
           </button>
@@ -268,17 +268,17 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
       )}
 
       {/* Control Actions */}
-      <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] flex flex-wrap items-center justify-between gap-4 shadow-xs">
+      <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center justify-between gap-4 shadow-xs">
         {/* Insert Control */}
         <div className="flex items-center gap-2">
-          <label className="text-xs font-serif font-bold text-[#66625B] hidden sm:inline">Insert:</label>
+          <label className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] hidden sm:inline">Insert:</label>
           <input
             id="set-insert-input"
             type="number"
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
             placeholder="Key"
-            className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono focus:outline-none focus:border-[#991B1B]"
+            className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono focus:outline-none focus:border-[#991B1B]"
           />
           <button
             id="set-insert-btn"
@@ -291,21 +291,21 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
 
         {/* Query Controls */}
         <div className="flex flex-wrap items-center gap-2">
-          <label className="text-xs font-serif font-bold text-[#66625B] hidden sm:inline">Query:</label>
+          <label className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] hidden sm:inline">Query:</label>
           <input
             id="set-search-input"
             type="number"
             value={searchVal}
             onChange={(e) => setSearchVal(e.target.value)}
             placeholder="Target"
-            className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono focus:outline-none focus:border-[#991B1B]"
+            className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono focus:outline-none focus:border-[#991B1B]"
           />
           <button
             id="set-find-btn"
             onClick={handleFind}
-            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Search className="w-3.5 h-3.5 text-[#991B1B]" /> find()
+            <Search className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> find()
           </button>
           {mode === 'ordered' && (
             <>
@@ -313,7 +313,7 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
                 id="set-lower-bound-btn"
                 onClick={handleLowerBound}
                 title="Finds first element >= Target"
-                className="px-2.5 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#991B1B] text-xs font-serif font-semibold transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-semibold transition-colors cursor-pointer"
               >
                 lower_bound()
               </button>
@@ -321,7 +321,7 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
                 id="set-upper-bound-btn"
                 onClick={handleUpperBound}
                 title="Finds first element > Target"
-                className="px-2.5 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#991B1B] text-xs font-serif font-semibold transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-semibold transition-colors cursor-pointer"
               >
                 upper_bound()
               </button>
@@ -337,7 +337,7 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="p-3.5 rounded-lg bg-[#FEF2F2] border border-[#FECACA] text-[#991B1B] text-xs font-serif font-semibold flex items-center gap-2 shadow-xs"
+            className="p-3.5 rounded-lg bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-semibold flex items-center gap-2 shadow-xs"
           >
             <AlertCircle className="w-4 h-4 shrink-0" />
             Duplicate insertion rejected: Key {rejectedDuplicate} already exists! Set guarantees strictly unique elements.
@@ -347,11 +347,11 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
 
       {/* Search Result Banner */}
       {searchResult && (
-        <div className="p-3.5 rounded-lg bg-[#FAF8F5] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-mono flex items-center justify-between shadow-2xs">
+        <div className="p-3.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-mono flex items-center justify-between shadow-2xs">
           <span>{searchResult}</span>
           <button
             onClick={() => setSearchResult(null)}
-            className="text-xs text-[#88847C] hover:text-[#1A1A1A] font-serif cursor-pointer ml-2"
+            className="text-xs text-[#88847C] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] font-serif cursor-pointer ml-2"
           >
             ✕
           </button>
@@ -360,32 +360,32 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
 
       {/* Visual Canvas */}
       {mode === 'ordered' ? (
-        <div className="p-5 sm:p-7 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+        <div className="p-5 sm:p-7 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
             <div>
-              <span className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <GitBranch className="w-4 h-4 text-[#991B1B]" />
+              <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                <GitBranch className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" />
                 Self-Balancing Red-Black Binary Search Tree Graph
               </span>
-              <div className="text-xs text-[#66625B] mt-0.5">
-                Every node maintains BST Invariant: <code className="text-[#991B1B] font-mono">Left &lt; Node &lt; Right</code> with logarithmic depth <Latex math="h \le 2\log_2(N+1)" />.
+              <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5">
+                Every node maintains BST Invariant: <code className="text-[#991B1B] dark:text-[#EF4444] font-mono">Left &lt; Node &lt; Right</code> with logarithmic depth <Latex math="h \le 2\log_2(N+1)" />.
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-[#991B1B] bg-[#FEF2F2] px-2.5 py-1 rounded border border-[#FECACA] font-bold">
+              <span className="text-xs font-mono text-[#991B1B] dark:text-[#EF4444] bg-[#FEF2F2] dark:bg-[#450A0A]/40 px-2.5 py-1 rounded border border-[#FECACA] dark:border-[#7F1D1D] font-bold">
                 size() = {elements.length}
               </span>
-              <span className="text-xs font-mono text-[#15803D] bg-[#ECFDF5] px-2.5 py-1 rounded border border-[#A7F3D0] font-bold">
+              <span className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] bg-[#ECFDF5] dark:bg-[#064E3B]/40 px-2.5 py-1 rounded border border-[#A7F3D0] dark:border-[#059669] font-bold">
                 Tree Height: {treeHeight + 1}
               </span>
             </div>
           </div>
 
           {/* SVG Tree Graph Canvas */}
-          <div className="w-full bg-[#FAF8F5] rounded-xl border border-[#E5E2D9] p-2 overflow-x-auto">
+          <div className="w-full bg-[#FAF8F5] dark:bg-[#181614] rounded-xl border border-[#E5E2D9] dark:border-[#38332B] p-2 overflow-x-auto">
             <div className="min-w-[600px] flex flex-col items-center">
               {elements.length === 0 ? (
-                <div className="py-16 text-xs text-[#88847C] italic font-serif">Tree is currently empty. Insert keys above!</div>
+                <div className="py-16 text-xs text-[#88847C] dark:text-[#78716C] italic font-serif">Tree is currently empty. Insert keys above!</div>
               ) : (
                 <svg
                   viewBox="0 0 600 320"
@@ -502,7 +502,7 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
             </div>
 
             {/* Tree Graph Legend */}
-            <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-white rounded-lg border border-[#E5E2D9] text-[11px] font-mono text-[#66625B] mt-2">
+            <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-white dark:bg-[#201D1A] rounded-lg border border-[#E5E2D9] dark:border-[#38332B] text-[11px] font-mono text-[#66625B] dark:text-[#A8A29E] mt-2">
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-full bg-[#1A1A1A] inline-block" /> Black Node
@@ -514,28 +514,28 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
                   <span className="w-3 h-3 rounded-full bg-[#F59E0B] inline-block ring-2 ring-[#F59E0B]" /> Active Search Path
                 </span>
               </div>
-              <span className="text-[10px] text-[#88847C] italic">Click any tree node to erase it</span>
+              <span className="text-[10px] text-[#88847C] dark:text-[#78716C] italic">Click any tree node to erase it</span>
             </div>
           </div>
 
           {/* Linear In-Order Element Sequence (Shows Sorted Invariant) */}
           <div className="space-y-2 pt-2">
-            <span className="text-xs font-serif font-bold text-[#66625B]">In-Order Traversal Sequence (Always Sorted):</span>
+            <span className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">In-Order Traversal Sequence (Always Sorted):</span>
             <div className="flex flex-wrap items-center gap-2">
               {elements.map((val) => (
                 <div
                   key={val}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all ${
                     visitedKeys.includes(val)
-                      ? 'bg-[#FEF2F2] border-[#991B1B] text-[#991B1B]'
-                      : 'bg-[#FAF8F5] border-[#D8D4C8] text-[#1A1A1A]'
+                      ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] text-[#991B1B] dark:text-[#EF4444]'
+                      : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                   }`}
                 >
                   <span>{val}</span>
                   <button
                     onClick={() => handleErase(val)}
                     title="Erase"
-                    className="text-[#88847C] hover:text-[#991B1B] transition-colors cursor-pointer"
+                    className="text-[#88847C] dark:text-[#78716C] hover:text-[#991B1B] dark:text-[#EF4444] transition-colors cursor-pointer"
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -546,24 +546,24 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
         </div>
       ) : (
         /* Unordered Set: Hash Table Bucket View */
-        <div className="p-5 sm:p-7 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+        <div className="p-5 sm:p-7 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
             <div>
-              <span className="text-sm font-serif font-bold text-[#1A1A1A]">
+              <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                 Hash Table Bucket View (Separate Chaining with Array Buckets)
               </span>
-              <div className="text-xs text-[#66625B] mt-0.5">
+              <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5">
                 <Latex math={`h(k) = k \\bmod ${bucketCount} \\quad | \\quad \\text{Load Factor } \\alpha = \\frac{N}{B} = \\frac{${elements.length}}{${bucketCount}} = ${loadFactor.toFixed(2)}`} />
               </div>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={handleRehash}
-                className="px-3 py-1 rounded bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-xs font-serif font-bold text-[#991B1B] cursor-pointer"
+                className="px-3 py-1 rounded bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444] cursor-pointer"
               >
                 Trigger rehash()
               </button>
-              <span className="text-xs font-mono text-[#15803D] bg-[#ECFDF5] px-2.5 py-1 rounded border border-[#A7F3D0] font-bold">
+              <span className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] bg-[#ECFDF5] dark:bg-[#064E3B]/40 px-2.5 py-1 rounded border border-[#A7F3D0] dark:border-[#059669] font-bold">
                 Buckets: {bucketCount}
               </span>
             </div>
@@ -571,24 +571,24 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {hashBuckets.map((bucket, idx) => (
-              <div key={idx} className="p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-                <div className="text-[11px] font-mono text-[#66625B] mb-2 font-bold flex items-center justify-between border-b border-[#E5E2D9] pb-1">
+              <div key={idx} className="p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+                <div className="text-[11px] font-mono text-[#66625B] dark:text-[#A8A29E] mb-2 font-bold flex items-center justify-between border-b border-[#E5E2D9] dark:border-[#38332B] pb-1">
                   <span>Bucket [{idx}]</span>
-                  <span className="text-[10px] text-[#88847C]">{bucket.length} items</span>
+                  <span className="text-[10px] text-[#88847C] dark:text-[#78716C]">{bucket.length} items</span>
                 </div>
                 <div className="space-y-1.5 min-h-[50px]">
                   {bucket.length === 0 ? (
-                    <div className="text-[10px] text-[#88847C] italic py-2 text-center">empty</div>
+                    <div className="text-[10px] text-[#88847C] dark:text-[#78716C] italic py-2 text-center">empty</div>
                   ) : (
                     bucket.map((val) => (
                       <div
                         key={val}
-                        className="flex items-center justify-between px-2.5 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs font-mono text-[#1A1A1A] shadow-2xs"
+                        className="flex items-center justify-between px-2.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs font-mono text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs"
                       >
-                        <span className="font-bold text-[#991B1B]">{val}</span>
+                        <span className="font-bold text-[#991B1B] dark:text-[#EF4444]">{val}</span>
                         <button
                           onClick={() => handleErase(val)}
-                          className="text-[#88847C] hover:text-[#991B1B] transition-colors cursor-pointer"
+                          className="text-[#88847C] dark:text-[#78716C] hover:text-[#991B1B] dark:text-[#EF4444] transition-colors cursor-pointer"
                         >
                           <Trash2 className="w-3 h-3" />
                         </button>
@@ -603,13 +603,13 @@ export const SetVisualizer: React.FC<SetVisualizerProps> = ({ focusedMode }) => 
       )}
 
       {/* Activity Log */}
-      <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-        <div className="text-xs font-serif font-bold text-[#66625B] mb-2 flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-[#991B1B]" /> Real-time Set Operation Trace
+      <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+        <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] mb-2 flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Real-time Set Operation Trace
         </div>
         <div className="space-y-1 font-mono text-xs max-h-24 overflow-y-auto pr-2">
           {logs.map((log, i) => (
-            <div key={i} className="text-[#44403C] py-0.5 border-b border-[#F4F2EB]">
+            <div key={i} className="text-[#44403C] dark:text-[#D6D0C5] py-0.5 border-b border-[#F4F2EB]">
               {log}
             </div>
           ))}

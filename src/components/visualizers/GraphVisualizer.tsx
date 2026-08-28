@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Latex, MathText } from '../common/Latex';
 import {
   Play,
@@ -304,24 +304,24 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
   };
 
   return (
-    <div className="p-4 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
+    <div className="p-4 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
       {/* Visualizer Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9]">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
         <div>
-          <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-            <Network className="w-5 h-5 text-[#991B1B]" /> Graph Algorithms & Path Simulation Studio
+          <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+            <Network className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Graph Algorithms & Path Simulation Studio
           </h3>
-          <div className="text-xs text-[#66625B] mt-0.5 font-sans">
+          <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
             Interactive suite for Graph Representations ($A^k$), Traversals (BFS/DFS Edge Types), Kahn's Topological DAG Sort, Dijkstra's Shortest Path, and Floyd-Warshall DP Matrices.
           </div>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex flex-wrap items-center gap-1 bg-[#F4F2EB] p-1 rounded-lg border border-[#E5E2D9]">
+        <div className="flex flex-wrap items-center gap-1 bg-[#F4F2EB] dark:bg-[#2A2622] p-1 rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
           <button
             onClick={() => { setActiveTab('representations'); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'representations' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'representations' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Adjacency Matrix & $A^k$
@@ -329,7 +329,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
           <button
             onClick={() => { setActiveTab('bfs'); resetTraversal(); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'bfs' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'bfs' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             BFS (Queue)
@@ -337,7 +337,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
           <button
             onClick={() => { setActiveTab('dfs'); resetTraversal(); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'dfs' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'dfs' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             DFS (4 Edge Types)
@@ -345,7 +345,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
           <button
             onClick={() => { setActiveTab('topological'); resetTopo(); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'topological' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'topological' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Topological Sort (DAG)
@@ -353,7 +353,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
           <button
             onClick={() => { setActiveTab('dijkstra'); resetDijkstra(); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'dijkstra' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'dijkstra' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Dijkstra (PQ)
@@ -361,7 +361,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
           <button
             onClick={() => { setActiveTab('warshall'); }}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'warshall' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'warshall' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Floyd-Warshall Q^(k)
@@ -374,63 +374,63 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Adjacency Matrix */}
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-              <h4 className="text-xs font-serif font-bold text-[#1A1A1A] flex items-center gap-1.5">
-                <Table className="w-4 h-4 text-[#991B1B]" /> 1. Adjacency Matrix Representation ($A$)
+            <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
+              <h4 className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-1.5">
+                <Table className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> 1. Adjacency Matrix Representation ($A$)
               </h4>
               <div className="overflow-x-auto">
                 <table className="w-full text-center text-xs font-mono border-collapse">
                   <thead>
                     <tr className="bg-[#E5E2D9] font-bold">
-                      <th className="p-1 border border-[#D8D4C8]">-</th>
-                      <th className="p-1 border border-[#D8D4C8]">A</th>
-                      <th className="p-1 border border-[#D8D4C8]">B</th>
-                      <th className="p-1 border border-[#D8D4C8]">C</th>
-                      <th className="p-1 border border-[#D8D4C8]">D</th>
-                      <th className="p-1 border border-[#D8D4C8]">E</th>
+                      <th className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">-</th>
+                      <th className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">A</th>
+                      <th className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">B</th>
+                      <th className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">C</th>
+                      <th className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">D</th>
+                      <th className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">E</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8]">A</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8] font-bold text-[#15803D]">1</td><td className="p-1 border border-[#D8D4C8] font-bold text-[#15803D]">1</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td></tr>
-                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8]">B</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8] font-bold text-[#15803D]">1</td><td className="p-1 border border-[#D8D4C8] font-bold text-[#15803D]">1</td></tr>
-                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8]">C</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8] font-bold text-[#15803D]">1</td><td className="p-1 border border-[#D8D4C8]">0</td></tr>
-                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8]">D</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8] font-bold text-[#15803D]">1</td></tr>
-                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8]">E</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td><td className="p-1 border border-[#D8D4C8]">0</td></tr>
+                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8] dark:border-[#423D36]">A</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36] font-bold text-[#15803D] dark:text-[#4ADE80]">1</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36] font-bold text-[#15803D] dark:text-[#4ADE80]">1</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td></tr>
+                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8] dark:border-[#423D36]">B</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36] font-bold text-[#15803D] dark:text-[#4ADE80]">1</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36] font-bold text-[#15803D] dark:text-[#4ADE80]">1</td></tr>
+                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8] dark:border-[#423D36]">C</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36] font-bold text-[#15803D] dark:text-[#4ADE80]">1</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td></tr>
+                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8] dark:border-[#423D36]">D</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36] font-bold text-[#15803D] dark:text-[#4ADE80]">1</td></tr>
+                    <tr><td className="p-1 font-bold bg-[#E5E2D9] border border-[#D8D4C8] dark:border-[#423D36]">E</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td><td className="p-1 border border-[#D8D4C8] dark:border-[#423D36]">0</td></tr>
                   </tbody>
                 </table>
               </div>
-              <div className="text-[11px] text-[#66625B]">
+              <div className="text-[11px] text-[#66625B] dark:text-[#A8A29E]">
                 Memory: <Latex math="\mathcal{O}(V^2)" />. Direct edge check in <Latex math="\mathcal{O}(1)" />.
               </div>
             </div>
 
             {/* Adjacency List */}
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-              <h4 className="text-xs font-serif font-bold text-[#1A1A1A] flex items-center gap-1.5">
-                <ListOrdered className="w-4 h-4 text-[#15803D]" /> 2. Adjacency List Representation
+            <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
+              <h4 className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-1.5">
+                <ListOrdered className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80]" /> 2. Adjacency List Representation
               </h4>
-              <div className="p-2.5 rounded bg-white border border-[#E5E2D9] space-y-1.5 font-mono text-xs">
+              <div className="p-2.5 rounded bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-1.5 font-mono text-xs">
                 <div><strong>A:</strong> &rarr; [B, w=4] &rarr; [C, w=2] &rarr; NULL</div>
                 <div><strong>B:</strong> &rarr; [D, w=5] &rarr; [E, w=10] &rarr; NULL</div>
                 <div><strong>C:</strong> &rarr; [D, w=1] &rarr; NULL</div>
                 <div><strong>D:</strong> &rarr; [E, w=3] &rarr; NULL</div>
                 <div><strong>E:</strong> &rarr; NULL</div>
               </div>
-              <div className="text-[11px] text-[#66625B]">
+              <div className="text-[11px] text-[#66625B] dark:text-[#A8A29E]">
                 Memory: <Latex math="\mathcal{O}(V + E)" />. Optimal for sparse graphs.
               </div>
             </div>
           </div>
 
           {/* Path Matrix Power Formula */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-2">
-            <h4 className="text-xs font-serif font-bold text-[#991B1B] flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-[#991B1B]" /> Fundamental Theorem: Length-$k$ Paths via $A^k$
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+            <h4 className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444] flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Fundamental Theorem: Length-$k$ Paths via $A^k$
             </h4>
-            <p className="text-xs text-[#44403C] leading-relaxed">
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
               If <MathText text="$A$" /> is the adjacency matrix of a graph, then the entry <Latex math="A^k[i][j]" /> gives the <strong>exact number of distinct walks of length $k$</strong> from vertex <MathText text="$i$" /> to vertex <MathText text="$j$" />.
             </p>
-            <div className="p-2.5 bg-[#FAF8F5] rounded border border-[#E5E2D9] text-xs font-mono text-[#1A1A1A]">
+            <div className="p-2.5 bg-[#FAF8F5] dark:bg-[#181614] rounded border border-[#E5E2D9] dark:border-[#38332B] text-xs font-mono text-[#1A1A1A] dark:text-[#EDE8DF]">
               Length-2 Paths from A: A &rarr; D has 2 paths (A-B-D and A-C-D) &rArr; A²[A][D] = 2.
             </div>
           </div>
@@ -440,8 +440,8 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
       {/* TAB 2 & 3: BFS and DFS Traversals */}
       {(activeTab === 'bfs' || activeTab === 'dfs') && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               {activeTab === 'bfs' ? 'Breadth-First Search (FIFO Queue):' : 'Depth-First Search (Recursion Call Stack):'}
             </div>
             <div className="flex items-center gap-2">
@@ -458,15 +458,15 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
                 onClick={() => setIsAutoPlaying(!isAutoPlaying)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                   isAutoPlaying
-                    ? 'bg-[#FEF2F2] text-[#991B1B] border-[#FECACA]'
-                    : 'bg-white text-[#15803D] border-[#DCFCE7] hover:bg-[#F0FDF4]'
+                    ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border-[#FECACA] dark:border-[#7F1D1D]'
+                    : 'bg-white dark:bg-[#064E3B]/30 text-[#15803D] dark:text-[#4ADE80] border-[#DCFCE7] dark:border-[#059669]/40 hover:bg-[#F0FDF4] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/50'
                 }`}
               >
                 <Play className="w-3.5 h-3.5" /> {isAutoPlaying ? 'Pause' : 'Auto Play'}
               </button>
               <button
                 onClick={resetTraversal}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -475,7 +475,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
           </div>
 
           {/* SVG Canvas */}
-          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex justify-center">
             <svg width="400" height="210">
               <defs>
                 <marker id="graph-arrow" markerWidth="8" markerHeight="6" refX="17" refY="3" orient="auto">
@@ -547,54 +547,54 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
 
           {/* Buffer State (Queue or Stack) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">
+            <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                 {activeTab === 'bfs' ? 'FIFO Queue State:' : 'Call Stack Buffer:'}
               </span>
-              <div className="flex items-center gap-2 p-2 rounded bg-[#FAF8F5] border border-[#E5E2D9] min-h-[36px] font-mono text-xs font-bold text-[#991B1B]">
+              <div className="flex items-center gap-2 p-2 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] min-h-[36px] font-mono text-xs font-bold text-[#991B1B] dark:text-[#EF4444]">
                 {traversalStep >= 0 ? (
                   activeTab === 'bfs' ? (
                     (currentTraversalSteps[traversalStep] as any).queue.length > 0 ? (
                       (currentTraversalSteps[traversalStep] as any).queue.map((item: string, i: number) => (
-                        <span key={i} className="px-2 py-0.5 rounded bg-white border border-[#E5E2D9]">
+                        <span key={i} className="px-2 py-0.5 rounded bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
                           {item}
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-[#88847C] italic">Queue is empty</span>
+                      <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Queue is empty</span>
                     )
                   ) : (
                     (currentTraversalSteps[traversalStep] as any).stack.length > 0 ? (
                       (currentTraversalSteps[traversalStep] as any).stack.map((item: string, i: number) => (
-                        <span key={i} className="px-2 py-0.5 rounded bg-white border border-[#E5E2D9]">
+                        <span key={i} className="px-2 py-0.5 rounded bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
                           {item}
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-[#88847C] italic">Stack is empty</span>
+                      <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Stack is empty</span>
                     )
                   )
                 ) : (
-                  <span className="text-xs text-[#88847C] italic">Click Next Step to begin...</span>
+                  <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Click Next Step to begin...</span>
                 )}
               </div>
             </div>
 
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Visited Set:</span>
-              <div className="flex items-center gap-1.5 p-2 rounded bg-[#F0FDF4] border border-[#DCFCE7] min-h-[36px] font-mono text-xs text-[#15803D] font-bold">
+            <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Visited Set:</span>
+              <div className="flex items-center gap-1.5 p-2 rounded bg-[#F0FDF4] dark:bg-[#064E3B]/40 border border-[#DCFCE7] dark:border-[#059669]/50 min-h-[36px] font-mono text-xs text-[#15803D] dark:text-[#4ADE80] font-bold">
                 {traversalStep >= 0 ? (
                   `{ ${currentTraversalSteps[traversalStep].visited.join(', ')} }`
                 ) : (
-                  <span className="text-xs text-[#88847C] italic">{`{ }`}</span>
+                  <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">{`{ }`}</span>
                 )}
               </div>
             </div>
           </div>
 
           {traversalStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {traversalStep + 1}:</strong> {currentTraversalSteps[traversalStep].note}
               </span>
@@ -606,8 +606,8 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
       {/* TAB 4: Topological Sort (Kahn's DAG Algorithm) */}
       {activeTab === 'topological' && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               Kahn's Algorithm (In-Degree Zero Reduction on DAG):
             </div>
             <div className="flex items-center gap-2">
@@ -624,15 +624,15 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
                 onClick={() => setIsTopoPlaying(!isTopoPlaying)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                   isTopoPlaying
-                    ? 'bg-[#FEF2F2] text-[#991B1B] border-[#FECACA]'
-                    : 'bg-white text-[#15803D] border-[#DCFCE7] hover:bg-[#F0FDF4]'
+                    ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border-[#FECACA] dark:border-[#7F1D1D]'
+                    : 'bg-white dark:bg-[#064E3B]/30 text-[#15803D] dark:text-[#4ADE80] border-[#DCFCE7] dark:border-[#059669]/40 hover:bg-[#F0FDF4] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/50'
                 }`}
               >
                 <Play className="w-3.5 h-3.5" /> {isTopoPlaying ? 'Pause' : 'Auto Play'}
               </button>
               <button
                 onClick={resetTopo}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -642,15 +642,15 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
 
           {/* In-Degree Table & Output Sequence */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Live In-Degree Table:</span>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Live In-Degree Table:</span>
               <div className="grid grid-cols-5 gap-1.5 text-center font-mono text-xs">
                 {['A', 'B', 'C', 'D', 'E'].map((v) => {
                   const deg = topoStep >= 0 ? (topoSteps[topoStep].inDegrees as any)[v] : (topoSteps[0].inDegrees as any)[v];
                   return (
-                    <div key={v} className="p-2 rounded bg-[#FAF8F5] border border-[#E5E2D9]">
-                      <div className="font-bold text-[#66625B]">{v}</div>
-                      <div className={`font-bold mt-1 text-sm ${deg === 0 ? 'text-[#15803D]' : 'text-[#991B1B]'}`}>
+                    <div key={v} className="p-2 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+                      <div className="font-bold text-[#66625B] dark:text-[#A8A29E]">{v}</div>
+                      <div className={`font-bold mt-1 text-sm ${deg === 0 ? 'text-[#15803D]' : 'text-[#991B1B] dark:text-[#EF4444]'}`}>
                         {deg}
                       </div>
                     </div>
@@ -659,28 +659,28 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Topological Ordering Output:</span>
-              <div className="flex items-center gap-2 p-2.5 rounded bg-[#FAF8F5] border border-[#E5E2D9] min-h-[44px]">
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Topological Ordering Output:</span>
+              <div className="flex items-center gap-2 p-2.5 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] min-h-[44px]">
                 {topoStep >= 0 && topoSteps[topoStep].output.length > 0 ? (
                   topoSteps[topoStep].output.map((v, i) => (
                     <React.Fragment key={v}>
                       <span className="px-2.5 py-1 rounded bg-[#15803D] text-white font-mono font-bold text-xs shadow-2xs">
                         {v}
                       </span>
-                      {i < topoSteps[topoStep].output.length - 1 && <ArrowRight className="w-3.5 h-3.5 text-[#88847C]" />}
+                      {i < topoSteps[topoStep].output.length - 1 && <ArrowRight className="w-3.5 h-3.5 text-[#88847C] dark:text-[#78716C]" />}
                     </React.Fragment>
                   ))
                 ) : (
-                  <span className="text-xs text-[#88847C] italic">Output will populate as nodes hit in-degree 0...</span>
+                  <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Output will populate as nodes hit in-degree 0...</span>
                 )}
               </div>
             </div>
           </div>
 
           {topoStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {topoStep + 1}:</strong> {topoSteps[topoStep].note}
               </span>
@@ -692,8 +692,8 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
       {/* TAB 5: Dijkstra's Algorithm */}
       {activeTab === 'dijkstra' && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               Dijkstra's Single-Source Shortest Path (Source: A):
             </div>
             <div className="flex items-center gap-2">
@@ -710,15 +710,15 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
                 onClick={() => setIsDijkstraPlaying(!isDijkstraPlaying)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                   isDijkstraPlaying
-                    ? 'bg-[#FEF2F2] text-[#991B1B] border-[#FECACA]'
-                    : 'bg-white text-[#15803D] border-[#DCFCE7] hover:bg-[#F0FDF4]'
+                    ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border-[#FECACA] dark:border-[#7F1D1D]'
+                    : 'bg-white dark:bg-[#064E3B]/30 text-[#15803D] dark:text-[#4ADE80] border-[#DCFCE7] dark:border-[#059669]/40 hover:bg-[#F0FDF4] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/50'
                 }`}
               >
                 <Play className="w-3.5 h-3.5" /> {isDijkstraPlaying ? 'Pause' : 'Auto Play'}
               </button>
               <button
                 onClick={resetDijkstra}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -728,17 +728,17 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
 
           {/* Distance Table & Settled State */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Tentative Distance Table $d[v]$:</span>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Tentative Distance Table $d[v]$:</span>
               <div className="grid grid-cols-5 gap-1.5 text-center font-mono text-xs">
                 {['A', 'B', 'C', 'D', 'E'].map((v) => {
                   const d = dijkstraStep >= 0 ? (dijkstraSteps[dijkstraStep].dist as any)[v] : '∞';
                   const isSettled = dijkstraStep >= 0 && dijkstraSteps[dijkstraStep].settled.includes(v);
 
                   return (
-                    <div key={v} className={`p-2 rounded border ${isSettled ? 'bg-[#F0FDF4] border-[#86EFAC]' : 'bg-[#FAF8F5] border-[#E5E2D9]'}`}>
-                      <div className="font-bold text-[#66625B]">{v}</div>
-                      <div className={`font-bold mt-1 text-sm ${isSettled ? 'text-[#15803D]' : 'text-[#1A1A1A]'}`}>
+                    <div key={v} className={`p-2 rounded border ${isSettled ? 'bg-[#F0FDF4] border-[#86EFAC]' : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#E5E2D9] dark:border-[#38332B]'}`}>
+                      <div className="font-bold text-[#66625B] dark:text-[#A8A29E]">{v}</div>
+                      <div className={`font-bold mt-1 text-sm ${isSettled ? 'text-[#15803D]' : 'text-[#1A1A1A] dark:text-[#EDE8DF]'}`}>
                         {d}
                       </div>
                     </div>
@@ -747,27 +747,27 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Min-Priority Queue Contents:</span>
-              <div className="flex flex-wrap items-center gap-1.5 p-2 rounded bg-[#FAF8F5] border border-[#E5E2D9] min-h-[44px] font-mono text-xs">
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Min-Priority Queue Contents:</span>
+              <div className="flex flex-wrap items-center gap-1.5 p-2 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] min-h-[44px] font-mono text-xs">
                 {dijkstraStep >= 0 && dijkstraSteps[dijkstraStep].pq.length > 0 ? (
                   dijkstraSteps[dijkstraStep].pq.map((item, i) => (
-                    <span key={i} className="px-2.5 py-1 rounded bg-white border border-[#991B1B] text-[#991B1B] font-bold">
+                    <span key={i} className="px-2.5 py-1 rounded bg-white dark:bg-[#201D1A] border border-[#991B1B] text-[#991B1B] dark:text-[#EF4444] font-bold">
                       {item}
                     </span>
                   ))
                 ) : dijkstraStep >= 0 ? (
-                  <span className="text-xs text-[#15803D] font-bold">PQ Empty (All settled)</span>
+                  <span className="text-xs text-[#15803D] dark:text-[#4ADE80] font-bold">PQ Empty (All settled)</span>
                 ) : (
-                  <span className="text-xs text-[#88847C] italic">Click Relax Next Vertex to step...</span>
+                  <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Click Relax Next Vertex to step...</span>
                 )}
               </div>
             </div>
           </div>
 
           {dijkstraStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {dijkstraStep + 1}:</strong> {dijkstraSteps[dijkstraStep].note}
               </span>
@@ -779,8 +779,8 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
       {/* TAB 6: Floyd-Warshall Dynamic Programming Matrix */}
       {activeTab === 'warshall' && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               Floyd-Warshall Step: Matrix Stage Q^({warshallK})
             </div>
             <div className="flex items-center gap-1">
@@ -791,7 +791,7 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
                   className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all cursor-pointer border ${
                     warshallK === k
                       ? 'bg-[#991B1B] text-white border-[#991B1B] shadow-2xs'
-                      : 'bg-white text-[#44403C] border-[#D8D4C8] hover:bg-[#F4F2EB]'
+                      : 'bg-white dark:bg-[#201D1A] text-[#44403C] dark:text-[#D6D0C5] border-[#D8D4C8] dark:border-[#423D36] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622]'
                   }`}
                 >
                   Q^({k})
@@ -800,23 +800,23 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
             </div>
           </div>
 
-          <div className="p-3.5 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-            <div className="text-xs font-serif font-bold text-[#991B1B]">
+          <div className="p-3.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+            <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444]">
               {warshallMatrices[warshallK].title}
             </div>
-            <div className="text-xs font-mono text-[#44403C]">
+            <div className="text-xs font-mono text-[#44403C] dark:text-[#D6D0C5]">
               DP Recurrence: <Latex math="Q^{(k)}[i][j] = \min\left(Q^{(k-1)}[i][j], \; Q^{(k-1)}[i][k] + Q^{(k-1)}[k][j]\right)" />
             </div>
           </div>
 
           {/* Matrix Display */}
-          <div className="overflow-x-auto rounded-xl border border-[#E5E2D9] bg-white p-4 flex justify-center">
+          <div className="overflow-x-auto rounded-xl border border-[#E5E2D9] dark:border-[#38332B] bg-white dark:bg-[#201D1A] p-4 flex justify-center">
             <table className="text-center font-mono text-xs border-collapse">
               <thead>
-                <tr className="bg-[#FAF8F5] font-bold">
-                  <th className="p-2 border border-[#E5E2D9]">Q^({warshallK})</th>
+                <tr className="bg-[#FAF8F5] dark:bg-[#181614] font-bold">
+                  <th className="p-2 border border-[#E5E2D9] dark:border-[#38332B]">Q^({warshallK})</th>
                   {['A', 'B', 'C', 'D', 'E'].map((v) => (
-                    <th key={v} className="p-2 border border-[#E5E2D9] min-w-[40px] text-[#991B1B]">
+                    <th key={v} className="p-2 border border-[#E5E2D9] dark:border-[#38332B] min-w-[40px] text-[#991B1B] dark:text-[#EF4444]">
                       {v}
                     </th>
                   ))}
@@ -824,13 +824,13 @@ export const GraphVisualizer: React.FC<GraphVisualizerProps> = ({ focusedMode = 
               </thead>
               <tbody>
                 {['A', 'B', 'C', 'D', 'E'].map((rowV, rIdx) => (
-                  <tr key={rowV} className="hover:bg-[#FAF8F5]">
-                    <td className="p-2 font-bold bg-[#FAF8F5] border border-[#E5E2D9] text-[#991B1B]">{rowV}</td>
+                  <tr key={rowV} className="hover:bg-[#FAF8F5] dark:bg-[#181614]">
+                    <td className="p-2 font-bold bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] text-[#991B1B] dark:text-[#EF4444]">{rowV}</td>
                     {warshallMatrices[warshallK].matrix[rIdx].map((val, cIdx) => (
                       <td
                         key={cIdx}
-                        className={`p-2 border border-[#E5E2D9] ${
-                          val === 0 ? 'bg-[#F4F2EB] text-[#88847C]' : val !== '∞' ? 'font-bold text-[#15803D]' : 'text-[#88847C]'
+                        className={`p-2 border border-[#E5E2D9] dark:border-[#38332B] ${
+                          val === 0 ? 'bg-[#F4F2EB] dark:bg-[#2A2622] text-[#88847C] dark:text-[#78716C]' : val !== '∞' ? 'font-bold text-[#15803D]' : 'text-[#88847C] dark:text-[#78716C]'
                         }`}
                       >
                         {val}

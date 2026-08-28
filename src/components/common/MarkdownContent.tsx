@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MathText, Latex } from './Latex';
@@ -30,7 +30,7 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
         components={{
           p: ({ children }) => {
             return (
-              <div className="mb-2.5 text-xs text-[#2C2B29] leading-relaxed">
+              <div className="mb-2.5 text-xs text-[#2C2B29] dark:text-[#D6D0C5] leading-relaxed">
                 {React.Children.map(children, (child) => {
                   if (typeof child === 'string') {
                     return <MathText text={child} />;
@@ -42,7 +42,7 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
           },
           li: ({ children }) => {
             return (
-              <li className="mb-1 text-xs text-[#2C2B29] leading-relaxed">
+              <li className="mb-1 text-xs text-[#2C2B29] dark:text-[#D6D0C5] leading-relaxed">
                 {React.Children.map(children, (child) => {
                   if (typeof child === 'string') {
                     return <MathText text={child} />;
@@ -54,7 +54,7 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
           },
           th: ({ children }) => {
             return (
-              <th className="px-3 py-2 text-xs font-serif font-bold text-[#1A1A1A] bg-[#F5F3ED] border border-[#E5E2D9]">
+              <th className="px-3 py-2 text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] bg-[#F5F3ED] dark:bg-[#2A2622] border border-[#E5E2D9] dark:border-[#38332B]">
                 {React.Children.map(children, (child) => {
                   if (typeof child === 'string') {
                     return <MathText text={child} />;
@@ -66,7 +66,7 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
           },
           td: ({ children }) => {
             return (
-              <td className="px-3 py-2 text-xs text-[#2C2B29] font-sans border border-[#F0ECE1]">
+              <td className="px-3 py-2 text-xs text-[#2C2B29] dark:text-[#D6D0C5] font-sans border border-[#F0ECE1] dark:border-[#38332B]">
                 {React.Children.map(children, (child) => {
                   if (typeof child === 'string') {
                     return <MathText text={child} />;
@@ -83,7 +83,7 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
 
             if (isInline) {
               return (
-                <code className="px-1.5 py-0.5 rounded bg-[#F4F2EB] border border-[#E5E2D9] text-[#991B1B] font-mono text-[11px]" {...props}>
+                <code className="px-1.5 py-0.5 rounded bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#E5E2D9] dark:border-[#38332B] text-[#991B1B] dark:text-[#EF4444] font-mono text-[11px]" {...props}>
                   {codeString}
                 </code>
               );
@@ -102,12 +102,12 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
               </div>
             );
           },
-          h1: ({ children }) => <h1 className="text-base font-serif font-bold text-[#1A1A1A] mt-3 mb-1.5">{children}</h1>,
-          h2: ({ children }) => <h2 className="text-sm font-serif font-bold text-[#1A1A1A] mt-3 mb-1.5">{children}</h2>,
-          h3: ({ children }) => <h3 className="text-xs font-serif font-bold text-[#1A1A1A] mt-2 mb-1">{children}</h3>,
-          h4: ({ children }) => <h4 className="text-xs font-serif font-bold text-[#1A1A1A] mt-2 mb-1">{children}</h4>,
+          h1: ({ children }) => <h1 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-3 mb-1.5">{children}</h1>,
+          h2: ({ children }) => <h2 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-3 mb-1.5">{children}</h2>,
+          h3: ({ children }) => <h3 className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-2 mb-1">{children}</h3>,
+          h4: ({ children }) => <h4 className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-2 mb-1">{children}</h4>,
           blockquote: ({ children }) => (
-            <blockquote className="border-l-3 border-[#991B1B] pl-3 italic text-xs text-[#57534E] my-2 bg-[#FAF8F5] py-1.5 pr-2 rounded-r">
+            <blockquote className="border-l-3 border-[#991B1B] pl-3 italic text-xs text-[#57534E] dark:text-[#A8A29E] my-2 bg-[#FAF8F5] dark:bg-[#181614] py-1.5 pr-2 rounded-r">
               {children}
             </blockquote>
           ),

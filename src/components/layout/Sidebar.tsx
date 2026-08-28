@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { CATEGORIES } from '../../data/categoriesData';
 import { LESSONS, LESSON_MAP } from '../../data/lessonsData';
 import { TopicId } from '../../types';
@@ -15,12 +15,12 @@ import {
   Network,
   ChevronDown,
   ChevronRight,
-  FolderTree
+  FolderTree, Sparkles
 } from 'lucide-react';
 
 interface SidebarProps {
-  currentView: 'report' | 'calculator' | 'matrix' | TopicId;
-  onSelectView: (view: 'report' | 'calculator' | 'matrix' | TopicId) => void;
+  currentView: 'report' | 'calculator' | 'matrix' | 'flashcards' | TopicId;
+  onSelectView: (view: 'report' | 'calculator' | 'matrix' | 'flashcards' | TopicId) => void;
   mobileOpen: boolean;
   onCloseMobile: () => void;
 }
@@ -82,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] uppercase tracking-wider">Curriculum Index</span>
             <button
               onClick={onCloseMobile}
-              className="p-1 rounded-lg text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF]"
+              className="p-1 rounded-lg text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]"
               aria-label="Close sidebar"
             >
               <X className="w-5 h-5" />
@@ -105,7 +105,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-all cursor-pointer border ${
                   currentView === 'report'
                     ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] border-[#1A1A1A] dark:border-[#EDE8DF] shadow-2xs font-bold'
-                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:bg-[#201D1A] dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:border-[#38332B] dark:hover:border-[#38332B]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -126,7 +126,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-all cursor-pointer border ${
                   currentView === 'calculator'
                     ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] border-[#1A1A1A] dark:border-[#EDE8DF] shadow-2xs font-bold'
-                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:bg-[#201D1A] dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:border-[#38332B] dark:hover:border-[#38332B]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -147,7 +147,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-all cursor-pointer border ${
                   currentView === 'matrix'
                     ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] border-[#1A1A1A] dark:border-[#EDE8DF] shadow-2xs font-bold'
-                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:bg-[#201D1A] dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:border-[#38332B] dark:hover:border-[#38332B]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -185,7 +185,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   {/* Category Header */}
                   <button
                     onClick={() => toggleCategory(category.id)}
-                    className="w-full px-3 py-2.5 bg-[#FAF8F5] dark:bg-[#181614] border-b border-[#E5E2D9] dark:border-[#38332B] flex items-center justify-between hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] transition-colors cursor-pointer text-left"
+                    className="w-full px-3 py-2.5 bg-[#FAF8F5] dark:bg-[#181614] border-b border-[#E5E2D9] dark:border-[#38332B] flex items-center justify-between hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] transition-colors cursor-pointer text-left"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="text-[#991B1B] dark:text-[#EF4444]">{getCategoryIcon(category.icon)}</span>
@@ -234,7 +234,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                                   className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-all cursor-pointer border ${
                                     isSelected
                                       ? 'bg-white dark:bg-[#2A2622] border-[#991B1B] dark:border-[#EF4444] shadow-2xs text-[#1A1A1A] dark:text-[#EDE8DF] font-bold'
-                                      : 'bg-white/30 dark:bg-[#201D1A]/30 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                                      : 'bg-white/30 dark:bg-[#201D1A]/30 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:bg-[#201D1A] dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:border-[#38332B] dark:hover:border-[#38332B]'
                                   }`}
                                 >
                                   <div className="flex items-center gap-2 min-w-0 pr-1">
