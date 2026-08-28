@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Plus,
@@ -77,27 +77,27 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
     if (elements.length >= capacity) {
       const newCap = capacity === 0 ? 1 : capacity * 2;
       setIsReallocatingNow(true);
-      addLog(`⚠️ Capacity reached (${capacity})! Allocating 2x block (${newCap}) & migrating ${elements.length} elements...`);
+      addLog(`âš ï¸ Capacity reached (${capacity})! Allocating 2x block (${newCap}) & migrating ${elements.length} elements...`);
       setTimeout(() => {
         setCapacity(newCap);
         setElements((prev) => [...prev, val]);
         setIsReallocatingNow(false);
-        addLog(`✅ push_back(${val}) complete. Elements migrated to contiguous block. New size: ${elements.length + 1}, capacity: ${newCap}.`);
+        addLog(`âœ… push_back(${val}) complete. Elements migrated to contiguous block. New size: ${elements.length + 1}, capacity: ${newCap}.`);
       }, 700);
     } else {
       setElements((prev) => [...prev, val]);
-      addLog(`✅ push_back(${val}). Size: ${elements.length + 1}, Capacity: ${capacity}.`);
+      addLog(`âœ… push_back(${val}). Size: ${elements.length + 1}, Capacity: ${capacity}.`);
     }
   };
 
   const handlePopBack = () => {
     if (elements.length === 0) {
-      addLog('❌ Cannot pop_back(): Vector is empty!');
+      addLog('âŒ Cannot pop_back(): Vector is empty!');
       return;
     }
     const popped = elements[elements.length - 1];
     setElements((prev) => prev.slice(0, prev.length - 1));
-    addLog(`🗑️ pop_back() removed ${popped}. Size: ${elements.length - 1}, Capacity: ${capacity}.`);
+    addLog(`ðŸ—‘ï¸ pop_back() removed ${popped}. Size: ${elements.length - 1}, Capacity: ${capacity}.`);
     if (selectedIdx === elements.length - 1) setSelectedIdx(null);
   };
 
@@ -109,7 +109,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
     if (elements.length >= capacity) {
       const newCap = capacity === 0 ? 1 : capacity * 2;
       setCapacity(newCap);
-      addLog(`⚠️ Capacity doubled to ${newCap} during insert()`);
+      addLog(`âš ï¸ Capacity doubled to ${newCap} during insert()`);
     }
 
     setTimeout(() => {
@@ -117,7 +117,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
       nextElements.splice(idx, 0, val);
       setElements(nextElements);
       setShiftingIndex(null);
-      addLog(`📌 insert(index=${idx}, value=${val}). Right-shifted ${elements.length - idx} elements in O(N - i) time.`);
+      addLog(`ðŸ“Œ insert(index=${idx}, value=${val}). Right-shifted ${elements.length - idx} elements in O(N - i) time.`);
     }, 400);
   };
 
@@ -128,7 +128,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
       const nextElements = elements.filter((_, i) => i !== idx);
       setElements(nextElements);
       setShiftingIndex(null);
-      addLog(`❌ erase(index=${idx}, value=${deleted}). Left-shifted elements in O(N - i) time.`);
+      addLog(`âŒ erase(index=${idx}, value=${deleted}). Left-shifted elements in O(N - i) time.`);
       setSelectedIdx(null);
     }, 300);
   };
@@ -409,7 +409,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       onClick={() => isFilled && setSelectedIdx(isSelected ? null : idx)}
-                      className={`relative flex flex-col items-center justify-between w-20 h-28 rounded-lg border p-2 cursor-pointer transition-all duration-200 ${
+                      className={`group relative flex flex-col items-center justify-between w-20 h-28 rounded-lg border p-2 cursor-pointer transition-all duration-200 ${
                         isSelected
                           ? 'bg-[#FEF2F2] border-[#991B1B] ring-2 ring-[#FECACA] shadow-sm'
                           : isShifting
@@ -455,7 +455,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                           title="Delete this element"
                           className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#991B1B] text-white flex items-center justify-center text-xs opacity-0 hover:opacity-100 group-hover:opacity-100 transition-opacity"
                         >
-                          ×
+                          Ã—
                         </button>
                       )}
                     </motion.div>

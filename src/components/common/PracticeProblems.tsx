@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import { PracticeProblem } from '../../types';
-import { ExternalLink, CheckCircle2, Circle, Filter, Code2, Sparkles, BookOpen } from 'lucide-react';
+import { ExternalLink, CheckCircle2, Circle, Code2, Sparkles } from 'lucide-react';
 
 interface PracticeProblemsProps {
   problems?: PracticeProblem[];
@@ -21,15 +21,13 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
   });
 
   const toggleSolved = (id: string) => {
-    setSolvedMap((prev) => {
-      const next = { ...prev, [id]: !prev[id] };
-      try {
-        localStorage.setItem('dsa_solved_problems', JSON.stringify(next));
-      } catch (e) {
-        console.error(e);
-      }
-      return next;
-    });
+    const next = { ...solvedMap, [id]: !solvedMap[id] };
+    setSolvedMap(next);
+    try {
+      localStorage.setItem('dsa_solved_problems', JSON.stringify(next));
+    } catch (e) {
+      console.error('Failed to persist solved status:', e);
+    }
   };
 
   const filteredProblems = problems.filter((p) => {
@@ -47,11 +45,11 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
 
     const matchesSearch =
       !searchQuery.trim() ||
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.keyPattern.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.title && p.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (p.keyPattern && p.keyPattern.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (p.problemNumber && p.problemNumber.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (p.tags && p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
+      (p.tags && p.tags.some((t) => t && t.toLowerCase().includes(searchQuery.toLowerCase())));
 
     return matchesPlatform && matchesDifficulty && matchesSearch;
   });
@@ -106,21 +104,41 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
 
         {/* Filter controls */}
         <div className="pt-2 border-t border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center justify-between gap-2">
-          {/* Platform Tabs */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {(['All', 'LeetCode', 'Codeforces', 'Other'] as const).map((plat) => (
-              <button
-                key={plat}
-                onClick={() => setPlatformFilter(plat)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer border ${
-                  platformFilter === plat
-                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#181614] border-[#1A1A1A] dark:border-[#EDE8DF]'
-                    : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border-[#E5E2D9] dark:border-[#38332B] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622]'
-                }`}
-              >
-                {plat === 'All' ? `All (${problems.length})` : plat}
-              </button>
-            ))}
+          {/* Platform & Difficulty Tabs */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Platform Tabs */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {(['All', 'LeetCode', 'Codeforces', 'Other'] as const).map((plat) => (
+                <button
+                  key={plat}
+                  onClick={() => setPlatformFilter(plat)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer border ${
+                    platformFilter === plat
+                      ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#181614] border-[#1A1A1A] dark:border-[#EDE8DF]'
+                      : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border-[#E5E2D9] dark:border-[#38332B] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622]'
+                  }`}
+                >
+                  {plat === 'All' ? `All (${problems.length})` : plat}
+                </button>
+              ))}
+            </div>
+
+            {/* Difficulty Tabs */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {(['All', 'Easy', 'Medium', 'Hard'] as const).map((diff) => (
+                <button
+                  key={diff}
+                  onClick={() => setDifficultyFilter(diff)}
+                  className={`px-2 py-1 rounded-lg text-[11px] font-mono transition-colors cursor-pointer border ${
+                    difficultyFilter === diff
+                      ? 'bg-[#991B1B] dark:bg-[#EF4444] text-white border-[#991B1B] dark:border-[#EF4444] font-bold'
+                      : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border-[#E5E2D9] dark:border-[#38332B] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622]'
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Search Box */}
@@ -257,3 +275,5 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
     </div>
   );
 };
+
+export default PracticeProblems;
