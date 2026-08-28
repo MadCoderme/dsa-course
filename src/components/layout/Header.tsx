@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Search, Calculator, Award, Table, Menu, Compass } from 'lucide-react';
+import { Search, Calculator, Award, Table, Menu, Compass, Sparkles } from 'lucide-react';
 import { ThemeToggleBar } from '../common/ThemeToggleBar';
 
 interface HeaderProps {
@@ -7,7 +7,7 @@ interface HeaderProps {
   onSearchChange: (q: string) => void;
   onOpenReport: () => void;
   onOpenCalculator: () => void;
-  onOpenMatrix: () => void;
+  onOpenMatrix: () => void;`n  onOpenFlashcards?: () => void;
   onOpenGuide?: () => void;
   onToggleMobileMenu: () => void;
 }
@@ -17,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   onOpenReport,
   onOpenCalculator,
-  onOpenMatrix,
+  onOpenMatrix,`n  onOpenFlashcards,
   onOpenGuide,
   onToggleMobileMenu
 }) => {

@@ -1,19 +1,60 @@
-﻿import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Header } from './components/layout/Header';
 import { Sidebar } from './components/layout/Sidebar';
 import { LessonView } from './components/lesson/LessonView';
 import { ExamReportDashboard } from './components/exam/ExamReportDashboard';
 import { AddressCalculator } from './components/exam/AddressCalculator';
 import { ComplexityMatrix } from './components/exam/ComplexityMatrix';
+import { FlashcardStudio } from './components/exam/FlashcardStudio';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { LESSONS } from './data/lessonsData';
 import { TopicId } from './types';
 import { Search, ArrowRight } from 'lucide-react';
 
+type ViewState = 'report' | 'calculator' | 'matrix' | 'flashcards' | TopicId;
+
+// Helper to parse URL hash into valid ViewState
+function getViewFromHash(): ViewState {
+  if (typeof window === 'undefined') return 'course-overview';
+  const hash = window.location.hash.replace(/^#\/?/, '').trim();
+  
+  if (hash === 'report') return 'report';
+  if (hash === 'calculator') return 'calculator';
+  if (hash === 'matrix') return 'matrix';
+  if (hash === 'flashcards') return 'flashcards';
+  if (hash === 'course-overview' || hash === '') return 'course-overview';
+  
+  const found = LESSONS.find((l) => l.id === hash);
+  if (found) return found.id;
+  
+  return 'course-overview';
+}
+
 export function App() {
-  const [currentView, setCurrentView] = useState<'report' | 'calculator' | 'matrix' | TopicId>('course-overview');
+  const [currentView, setCurrentView] = useState<ViewState>(() => getViewFromHash());
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+
+  // Sync state with URL hash navigation and browser back/forward buttons
+  useEffect(() => {
+    const handleHashChange = () => {
+      const targetView = getViewFromHash();
+      setCurrentView(targetView);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Update view and sync window.location.hash for deep linking
+  const navigateToView = useCallback((view: ViewState) => {
+    setCurrentView(view);
+    setSearchQuery('');
+    const targetHash = view === 'course-overview' ? '#/' : `#/${view}`;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+    }
+  }, []);
 
   // Search filter across lessons and concepts with safe null-checking
   const searchResults = useMemo(() => {
@@ -38,10 +79,11 @@ export function App() {
       <Header
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
-        onOpenReport={() => setCurrentView('report')}
-        onOpenCalculator={() => setCurrentView('calculator')}
-        onOpenMatrix={() => setCurrentView('matrix')}
-        onOpenGuide={() => setCurrentView('course-overview')}
+        onOpenReport={() => navigateToView('report')}
+        onOpenCalculator={() => navigateToView('calculator')}
+        onOpenMatrix={() => navigateToView('matrix')}
+        onOpenFlashcards={() => navigateToView('flashcards')}
+        onOpenGuide={() => navigateToView('course-overview')}
         onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
       />
 
@@ -50,10 +92,7 @@ export function App() {
         {/* Sidebar */}
         <Sidebar
           currentView={currentView}
-          onSelectView={(view) => {
-            setCurrentView(view);
-            setSearchQuery('');
-          }}
+          onSelectView={(view) => navigateToView(view)}
           mobileOpen={mobileMenuOpen}
           onCloseMobile={() => setMobileMenuOpen(false)}
         />
@@ -85,10 +124,7 @@ export function App() {
                     {searchResults.map((res) => (
                       <div
                         key={res.id}
-                        onClick={() => {
-                          setCurrentView(res.id);
-                          setSearchQuery('');
-                        }}
+                        onClick={() => navigateToView(res.id)}
                         className="p-5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B]/60 dark:hover:border-[#EF4444]/60 cursor-pointer transition-all space-y-2 group shadow-sm hover:shadow"
                       >
                         <div className="flex items-center justify-between">
@@ -106,15 +142,17 @@ export function App() {
                 )}
               </div>
             ) : currentView === 'report' ? (
-              <ExamReportDashboard onSelectTopic={(id) => setCurrentView(id)} />
+              <ExamReportDashboard onSelectTopic={(id) => navigateToView(id)} />
             ) : currentView === 'calculator' ? (
               <AddressCalculator />
             ) : currentView === 'matrix' ? (
               <ComplexityMatrix />
+            ) : currentView === 'flashcards' ? (
+              <FlashcardStudio />
             ) : activeLesson ? (
-              <LessonView lesson={activeLesson} onSelectTopic={(id) => setCurrentView(id)} />
+              <LessonView lesson={activeLesson} onSelectTopic={(id) => navigateToView(id)} />
             ) : (
-              <ExamReportDashboard onSelectTopic={(id) => setCurrentView(id)} />
+              <ExamReportDashboard onSelectTopic={(id) => navigateToView(id)} />
             )}
           </ErrorBoundary>
         </main>

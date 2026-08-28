@@ -1,4 +1,5 @@
-﻿import React, { useState } from 'react';
+﻿import { LessonFooterNav } from './LessonFooterNav';
+import React, { useState } from 'react';
 import { Lesson, TopicId } from '../../types';
 import { getCategoryForTopic } from '../../data/categoriesData';
 import { VectorVisualizer } from '../visualizers/VectorVisualizer';
