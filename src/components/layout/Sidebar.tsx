@@ -15,12 +15,12 @@ import {
   Network,
   ChevronDown,
   ChevronRight,
-  FolderTree
+  FolderTree, Sparkles
 } from 'lucide-react';
 
 interface SidebarProps {
-  currentView: 'report' | 'calculator' | 'matrix' | TopicId;
-  onSelectView: (view: 'report' | 'calculator' | 'matrix' | TopicId) => void;
+  currentView: 'report' | 'calculator' | 'matrix' | 'flashcards' | TopicId;
+  onSelectView: (view: 'report' | 'calculator' | 'matrix' | 'flashcards' | TopicId) => void;
   mobileOpen: boolean;
   onCloseMobile: () => void;
 }
