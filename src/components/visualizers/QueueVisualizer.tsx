@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus, RefreshCw, AlertCircle, Sparkles, RotateCw, Play, SkipForward, ArrowRight } from 'lucide-react';
 import { Latex } from '../common/Latex';
@@ -51,7 +51,7 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
     const val = parseInt(inputVal) || Math.floor(Math.random() * 90 + 10);
     if (isCircularFull) {
       setAlertMsg('Queue Overflow! (REAR + 1) % N == FRONT');
-      addLog(`❌ Queue Overflow! Cannot insert ${val}.`);
+      addLog(`âŒ Queue Overflow! Cannot insert ${val}.`);
       setTimeout(() => setAlertMsg(null), 2000);
       return;
     }
@@ -62,13 +62,13 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
       setRear(0);
       nextArr[0] = val;
       setLastAction(`Enqueued ${val} at index 0 (FRONT=0, REAR=0)`);
-      addLog(`✅ First element enqueued: ${val} at index 0. FRONT=0, REAR=0.`);
+      addLog(`âœ… First element enqueued: ${val} at index 0. FRONT=0, REAR=0.`);
     } else {
       const nextRear = (rear + 1) % capacity;
       setRear(nextRear);
       nextArr[nextRear] = val;
       setLastAction(`Enqueued ${val} at index ${nextRear}: (${rear} + 1) % ${capacity} = ${nextRear}`);
-      addLog(`✅ Enqueued ${val} at index ${nextRear}. REAR updated to (REAR + 1) % ${capacity} = ${nextRear}.`);
+      addLog(`âœ… Enqueued ${val} at index ${nextRear}. REAR updated to (REAR + 1) % ${capacity} = ${nextRear}.`);
     }
     setCircularArr(nextArr);
   };
@@ -76,7 +76,7 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
   const handleCircularDequeue = () => {
     if (isCircularEmpty) {
       setAlertMsg('Queue Underflow! FRONT == -1');
-      addLog('❌ Queue Underflow! Cannot dequeue from empty queue.');
+      addLog('âŒ Queue Underflow! Cannot dequeue from empty queue.');
       setTimeout(() => setAlertMsg(null), 2000);
       return;
     }
@@ -89,12 +89,12 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
       setFront(-1);
       setRear(-1);
       setLastAction(`Dequeued last element ${removed}. Reset FRONT=-1, REAR=-1`);
-      addLog(`⬇️ Dequeued last item (${removed}). Reset FRONT = -1, REAR = -1.`);
+      addLog(`â¬‡ï¸ Dequeued last item (${removed}). Reset FRONT = -1, REAR = -1.`);
     } else {
       const nextFront = (front + 1) % capacity;
       setFront(nextFront);
       setLastAction(`Dequeued ${removed} from index ${front}. FRONT -> (${front} + 1) % ${capacity} = ${nextFront}`);
-      addLog(`⬇️ Dequeued ${removed} from index ${front}. FRONT updated to ${nextFront}.`);
+      addLog(`â¬‡ï¸ Dequeued ${removed} from index ${front}. FRONT updated to ${nextFront}.`);
     }
     setCircularArr(nextArr);
   };
@@ -103,15 +103,20 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
     setCircularArr([10, 20, 30, null, null, null]);
     setFront(0);
     setRear(2);
+    setLinearArr([null, null, 30, 40, 50, 60]);
+    setLinFront(2);
+    setLinRear(5);
+    setInputVal("40");
+    setAlertMsg(null);
     setLastAction(null);
-    setLogs(['Queue reset to initial state.']);
+    setLogs(["Queue reset to initial state."]);
   };
 
   // Linear Queue Handlers
   const handleLinearEnqueue = () => {
     const val = parseInt(inputVal) || 70;
     if (linRear === capacity - 1) {
-      setAlertMsg('⚠️ False Overflow! REAR is at index MAX-1, but indices 0 and 1 are empty!');
+      setAlertMsg('âš ï¸ False Overflow! REAR is at index MAX-1, but indices 0 and 1 are empty!');
       setTimeout(() => setAlertMsg(null), 2500);
       return;
     }

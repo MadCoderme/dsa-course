@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, ArrowRight, ArrowLeftRight, Sparkles, RefreshCw, Calculator, Play, SkipForward, RotateCcw, Cpu } from 'lucide-react';
 import { Latex, MathText } from '../common/Latex';
@@ -16,6 +16,8 @@ interface PolyTerm {
 interface ListVisualizerProps {
   focusedMode?: 'singly' | 'doubly' | 'reversalLab' | 'poly';
 }
+
+let nodeCounter = 100;
 
 export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) => {
   const [listType, setListType] = useState<'singly' | 'doubly' | 'reversalLab' | 'poly'>(
@@ -68,25 +70,25 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
 
   const handleInsert = () => {
     const val = parseInt(inputVal) || Math.floor(Math.random() * 90 + 10);
-    const newNode: ListNode = { id: Date.now().toString(), info: val };
+    const newNode: ListNode = { id: `node-${++nodeCounter}`, info: val };
 
     if (insertPos === 'head') {
       setNodes([newNode, ...nodes]);
-      addLog(`📌 Inserted node(${val}) at HEAD (O(1)).`);
+      addLog(`ðŸ“Œ Inserted node(${val}) at HEAD (O(1)).`);
     } else {
       setNodes([...nodes, newNode]);
-      addLog(`📌 Inserted node(${val}) at TAIL (O(1) with tail pointer).`);
+      addLog(`ðŸ“Œ Inserted node(${val}) at TAIL (O(1) with tail pointer).`);
     }
   };
 
   const handleDelete = (id: string, val: number) => {
     setNodes(nodes.filter((n) => n.id !== id));
-    addLog(`🗑️ Deleted node(${val}). Pointers updated to bypass node.`);
+    addLog(`ðŸ—‘ï¸ Deleted node(${val}). Pointers updated to bypass node.`);
   };
 
   const handleReverse = () => {
     setNodes([...nodes].reverse());
-    addLog('🔄 Inverted list pointers in-place in O(N) time.');
+    addLog('ðŸ”„ Inverted list pointers in-place in O(N) time.');
   };
 
   // Polynomial Addition Calculator with COEF, EXP, LINK logic
@@ -105,7 +107,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
       .sort((a, b) => b.exp - a.exp);
 
     setPolyResult(res);
-    addLog('🧮 Polynomials P1(x) + P2(x) added using parallel COEF and EXP array logic.');
+    addLog('ðŸ§® Polynomials P1(x) + P2(x) added using parallel COEF and EXP array logic.');
   };
 
   const handleReset = () => {
@@ -266,7 +268,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
                 {listType === 'singly' ? 'Singly Linked Node Chain' : 'Doubly (Two-Way) Linked Node Chain'}
               </span>
               <span className="text-xs text-[#66625B] font-mono">
-                HEAD → {nodes.length > 0 ? `[Node ${nodes[0].info}]` : 'NULL'}
+                HEAD â†’ {nodes.length > 0 ? `[Node ${nodes[0].info}]` : 'NULL'}
               </span>
             </div>
 
@@ -276,7 +278,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
                 <div className="flex flex-col items-center">
                   <span className="text-[11px] font-serif font-bold text-[#15803D]">START / HEAD</span>
                   <div className="w-8 h-8 rounded-md bg-[#ECFDF5] border border-[#10B981] flex items-center justify-center text-[#15803D] text-xs font-mono mt-1">
-                    ●
+                    â—
                   </div>
                 </div>
 
@@ -301,7 +303,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
                           <div className="px-2 py-3 bg-[#FAF5FF] border-r border-[#E5E2D9] text-[10px] font-mono text-[#7E22CE] flex flex-col items-center justify-center">
                             <span>PREV</span>
                             <span className="text-[9px] text-[#88847C]">
-                              {idx === 0 ? 'NULL' : '●'}
+                              {idx === 0 ? 'NULL' : 'â—'}
                             </span>
                           </div>
                         )}
@@ -316,7 +318,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
                         <div className="px-2 py-3 bg-[#FEF2F2] border-l border-[#E5E2D9] text-[10px] font-mono text-[#991B1B] flex flex-col items-center justify-center">
                           <span>NEXT</span>
                           <span className="text-[9px] text-[#88847C]">
-                            {idx === nodes.length - 1 ? 'NULL' : '●'}
+                            {idx === nodes.length - 1 ? 'NULL' : 'â—'}
                           </span>
                         </div>
 
@@ -325,7 +327,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
                           onClick={() => handleDelete(n.id, n.info)}
                           className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#991B1B] text-white text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                         >
-                          ×
+                          Ã—
                         </button>
                       </motion.div>
 
@@ -423,7 +425,7 @@ export const ListVisualizer: React.FC<ListVisualizerProps> = ({ focusedMode }) =
                       <span className="text-[10px] text-[#66625B]">Node [{idx}]</span>
                       <span className="text-lg font-bold text-[#1A1A1A]">{val}</span>
                       <span className="text-[9px] text-[#88847C]">
-                        {isReversedSoFar ? '← Points Left' : '→ Points Right'}
+                        {isReversedSoFar ? 'â† Points Left' : 'â†’ Points Right'}
                       </span>
                     </motion.div>
 
