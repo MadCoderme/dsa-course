@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import { PracticeProblem } from '../../types';
-import { ExternalLink, CheckCircle2, Circle, Filter, Code2, Sparkles, BookOpen } from 'lucide-react';
+import { ExternalLink, CheckCircle2, Circle, Code2, Sparkles } from 'lucide-react';
 
 interface PracticeProblemsProps {
   problems?: PracticeProblem[];
@@ -21,15 +21,13 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
   });
 
   const toggleSolved = (id: string) => {
-    setSolvedMap((prev) => {
-      const next = { ...prev, [id]: !prev[id] };
-      try {
-        localStorage.setItem('dsa_solved_problems', JSON.stringify(next));
-      } catch (e) {
-        console.error(e);
-      }
-      return next;
-    });
+    const next = { ...solvedMap, [id]: !solvedMap[id] };
+    setSolvedMap(next);
+    try {
+      localStorage.setItem('dsa_solved_problems', JSON.stringify(next));
+    } catch (e) {
+      console.error('Failed to persist solved status:', e);
+    }
   };
 
   const filteredProblems = problems.filter((p) => {
@@ -47,11 +45,11 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
 
     const matchesSearch =
       !searchQuery.trim() ||
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.keyPattern.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.title && p.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (p.keyPattern && p.keyPattern.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (p.problemNumber && p.problemNumber.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (p.tags && p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
+      (p.tags && p.tags.some((t) => t && t.toLowerCase().includes(searchQuery.toLowerCase())));
 
     return matchesPlatform && matchesDifficulty && matchesSearch;
   });
@@ -106,21 +104,41 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
 
         {/* Filter controls */}
         <div className="pt-2 border-t border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center justify-between gap-2">
-          {/* Platform Tabs */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {(['All', 'LeetCode', 'Codeforces', 'Other'] as const).map((plat) => (
-              <button
-                key={plat}
-                onClick={() => setPlatformFilter(plat)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer border ${
-                  platformFilter === plat
-                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#181614] border-[#1A1A1A] dark:border-[#EDE8DF]'
-                    : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border-[#E5E2D9] dark:border-[#38332B] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622]'
-                }`}
-              >
-                {plat === 'All' ? `All (${problems.length})` : plat}
-              </button>
-            ))}
+          {/* Platform & Difficulty Tabs */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Platform Tabs */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {(['All', 'LeetCode', 'Codeforces', 'Other'] as const).map((plat) => (
+                <button
+                  key={plat}
+                  onClick={() => setPlatformFilter(plat)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer border ${
+                    platformFilter === plat
+                      ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#181614] border-[#1A1A1A] dark:border-[#EDE8DF]'
+                      : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border-[#E5E2D9] dark:border-[#38332B] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622]'
+                  }`}
+                >
+                  {plat === 'All' ? `All (${problems.length})` : plat}
+                </button>
+              ))}
+            </div>
+
+            {/* Difficulty Tabs */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {(['All', 'Easy', 'Medium', 'Hard'] as const).map((diff) => (
+                <button
+                  key={diff}
+                  onClick={() => setDifficultyFilter(diff)}
+                  className={`px-2 py-1 rounded-lg text-[11px] font-mono transition-colors cursor-pointer border ${
+                    difficultyFilter === diff
+                      ? 'bg-[#991B1B] dark:bg-[#EF4444] text-white border-[#991B1B] dark:border-[#EF4444] font-bold'
+                      : 'bg-[#FAF8F5] dark:bg-[#181614] text-[#66625B] dark:text-[#A8A29E] border-[#E5E2D9] dark:border-[#38332B] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622]'
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Search Box */}
@@ -155,7 +173,7 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
                 <div className="flex items-start gap-3 min-w-0">
                   <button
                     onClick={() => toggleSolved(prob.id)}
-                    className="mt-0.5 text-[#88847C] hover:text-[#15803D] dark:hover:text-[#4ADE80] transition-colors cursor-pointer shrink-0"
+                    className="mt-0.5 text-[#88847C] dark:text-[#78716C] hover:text-[#15803D] dark:text-[#4ADE80] dark:hover:text-[#4ADE80] transition-colors cursor-pointer shrink-0"
                     title={isSolved ? 'Mark as Unsolved' : 'Mark as Solved'}
                   >
                     {isSolved ? (
@@ -205,7 +223,7 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
                         href={prob.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-[#991B1B] dark:hover:text-[#EF4444] inline-flex items-center gap-1.5 transition-colors"
+                        className="hover:text-[#991B1B] dark:text-[#EF4444] dark:hover:text-[#EF4444] inline-flex items-center gap-1.5 transition-colors"
                       >
                         <span>{prob.title}</span>
                         <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100" />
@@ -223,7 +241,7 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
                   href={prob.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] border border-[#E5E2D9] dark:border-[#38332B] text-xs font-mono font-semibold text-[#1A1A1A] dark:text-[#EDE8DF] hover:text-[#991B1B] dark:hover:text-[#EF4444] transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  className="px-3 py-1.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] border border-[#E5E2D9] dark:border-[#38332B] text-xs font-mono font-semibold text-[#1A1A1A] dark:text-[#EDE8DF] hover:text-[#991B1B] dark:text-[#EF4444] dark:hover:text-[#EF4444] transition-colors shrink-0 flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 >
                   <span>Solve</span>
                   <ExternalLink className="w-3 h-3" />
@@ -231,7 +249,7 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
               </div>
 
               {/* Core Invariant & Pattern Callout */}
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#E5E2D9]/70 dark:border-[#38332B] text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#E5E2D9] dark:border-[#38332B]/70 dark:border-[#38332B] text-xs">
                 <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#991B1B] dark:text-[#EF4444]">
                   <Sparkles className="w-3.5 h-3.5 shrink-0" />
                   <span>Pattern: <strong>{prob.keyPattern}</strong></span>
@@ -257,3 +275,5 @@ export const PracticeProblems: React.FC<PracticeProblemsProps> = ({ problems = [
     </div>
   );
 };
+
+export default PracticeProblems;

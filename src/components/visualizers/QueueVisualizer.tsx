@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus, RefreshCw, AlertCircle, Sparkles, RotateCw, Play, SkipForward, ArrowRight } from 'lucide-react';
 import { Latex } from '../common/Latex';
@@ -51,7 +51,7 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
     const val = parseInt(inputVal) || Math.floor(Math.random() * 90 + 10);
     if (isCircularFull) {
       setAlertMsg('Queue Overflow! (REAR + 1) % N == FRONT');
-      addLog(`❌ Queue Overflow! Cannot insert ${val}.`);
+      addLog(`âŒ Queue Overflow! Cannot insert ${val}.`);
       setTimeout(() => setAlertMsg(null), 2000);
       return;
     }
@@ -62,13 +62,13 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
       setRear(0);
       nextArr[0] = val;
       setLastAction(`Enqueued ${val} at index 0 (FRONT=0, REAR=0)`);
-      addLog(`✅ First element enqueued: ${val} at index 0. FRONT=0, REAR=0.`);
+      addLog(`âœ… First element enqueued: ${val} at index 0. FRONT=0, REAR=0.`);
     } else {
       const nextRear = (rear + 1) % capacity;
       setRear(nextRear);
       nextArr[nextRear] = val;
       setLastAction(`Enqueued ${val} at index ${nextRear}: (${rear} + 1) % ${capacity} = ${nextRear}`);
-      addLog(`✅ Enqueued ${val} at index ${nextRear}. REAR updated to (REAR + 1) % ${capacity} = ${nextRear}.`);
+      addLog(`âœ… Enqueued ${val} at index ${nextRear}. REAR updated to (REAR + 1) % ${capacity} = ${nextRear}.`);
     }
     setCircularArr(nextArr);
   };
@@ -76,7 +76,7 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
   const handleCircularDequeue = () => {
     if (isCircularEmpty) {
       setAlertMsg('Queue Underflow! FRONT == -1');
-      addLog('❌ Queue Underflow! Cannot dequeue from empty queue.');
+      addLog('âŒ Queue Underflow! Cannot dequeue from empty queue.');
       setTimeout(() => setAlertMsg(null), 2000);
       return;
     }
@@ -89,12 +89,12 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
       setFront(-1);
       setRear(-1);
       setLastAction(`Dequeued last element ${removed}. Reset FRONT=-1, REAR=-1`);
-      addLog(`⬇️ Dequeued last item (${removed}). Reset FRONT = -1, REAR = -1.`);
+      addLog(`â¬‡ï¸ Dequeued last item (${removed}). Reset FRONT = -1, REAR = -1.`);
     } else {
       const nextFront = (front + 1) % capacity;
       setFront(nextFront);
       setLastAction(`Dequeued ${removed} from index ${front}. FRONT -> (${front} + 1) % ${capacity} = ${nextFront}`);
-      addLog(`⬇️ Dequeued ${removed} from index ${front}. FRONT updated to ${nextFront}.`);
+      addLog(`â¬‡ï¸ Dequeued ${removed} from index ${front}. FRONT updated to ${nextFront}.`);
     }
     setCircularArr(nextArr);
   };
@@ -103,15 +103,20 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
     setCircularArr([10, 20, 30, null, null, null]);
     setFront(0);
     setRear(2);
+    setLinearArr([null, null, 30, 40, 50, 60]);
+    setLinFront(2);
+    setLinRear(5);
+    setInputVal("40");
+    setAlertMsg(null);
     setLastAction(null);
-    setLogs(['Queue reset to initial state.']);
+    setLogs(["Queue reset to initial state."]);
   };
 
   // Linear Queue Handlers
   const handleLinearEnqueue = () => {
     const val = parseInt(inputVal) || 70;
     if (linRear === capacity - 1) {
-      setAlertMsg('⚠️ False Overflow! REAR is at index MAX-1, but indices 0 and 1 are empty!');
+      setAlertMsg('âš ï¸ False Overflow! REAR is at index MAX-1, but indices 0 and 1 are empty!');
       setTimeout(() => setAlertMsg(null), 2500);
       return;
     }
@@ -138,47 +143,47 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
     <div className="space-y-4" id="queue-visualizer-container">
       {/* Mode Switcher */}
       {!focusedMode && (
-        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white border border-[#E5E2D9] gap-2 shadow-xs">
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB]">
+        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] gap-2 shadow-xs">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622]">
             <button
               id="queue-mode-circular"
               onClick={() => setMode('circular')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 mode === 'circular'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <RotateCw className="w-3.5 h-3.5 text-[#991B1B]" /> Circular Queue (Linear Buffer)
+              <RotateCw className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Circular Queue (Linear Buffer)
             </button>
             <button
               id="queue-mode-ring"
               onClick={() => setMode('ring')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 mode === 'ring'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <RotateCw className="w-3.5 h-3.5 text-[#15803D]" /> Ring Topology (Orbital Wraparound View)
+              <RotateCw className="w-3.5 h-3.5 text-[#15803D] dark:text-[#4ADE80]" /> Ring Topology (Orbital Wraparound View)
             </button>
             <button
               id="queue-mode-linear"
               onClick={() => setMode('linear')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 mode === 'linear'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <AlertCircle className="w-3.5 h-3.5 text-[#B45309]" /> Linear Queue "False Overflow" Demo
+              <AlertCircle className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" /> Linear Queue "False Overflow" Demo
             </button>
           </div>
 
           <button
             id="queue-reset-btn"
             onClick={handleReset}
-            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#66625B] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Reset
           </button>
@@ -193,7 +198,7 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="p-3 rounded-lg bg-[#FEF2F2] border border-[#FECACA] text-[#991B1B] text-xs font-serif font-semibold flex items-center gap-2"
+            className="p-3 rounded-lg bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-semibold flex items-center gap-2"
           >
             <AlertCircle className="w-4 h-4" />
             {alertMsg}
@@ -205,16 +210,16 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
       {mode !== 'linear' ? (
         <div className="space-y-6">
           {/* Controls */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] flex flex-wrap items-center gap-3 shadow-xs">
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center gap-3 shadow-xs">
             <div className="flex items-center gap-2">
-              <label className="text-xs font-serif font-bold text-[#44403C]">Value:</label>
+              <label className="text-xs font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">Value:</label>
               <input
                 id="queue-val-input"
                 type="number"
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 placeholder="Value"
-                className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
               />
             </div>
             <button
@@ -229,19 +234,19 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
               id="queue-dequeue-btn"
               onClick={handleCircularDequeue}
               disabled={isCircularEmpty}
-              className="px-3.5 py-1.5 rounded-md bg-white hover:bg-[#FEF2F2] border border-[#FECACA] disabled:opacity-40 text-[#991B1B] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] hover:bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] disabled:opacity-40 text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Minus className="w-3.5 h-3.5" /> DEQUEUE()
             </button>
 
             <div className="ml-auto flex items-center gap-2">
-              <span className="text-xs font-mono text-[#15803D] bg-[#ECFDF5] px-2.5 py-1 rounded border border-[#A7F3D0] font-bold">
+              <span className="text-xs font-mono text-[#15803D] dark:text-[#4ADE80] bg-[#ECFDF5] dark:bg-[#064E3B]/40 px-2.5 py-1 rounded border border-[#A7F3D0] dark:border-[#059669] font-bold">
                 FRONT = {front}
               </span>
-              <span className="text-xs font-mono text-[#991B1B] bg-[#FEF2F2] px-2.5 py-1 rounded border border-[#FECACA] font-bold">
+              <span className="text-xs font-mono text-[#991B1B] dark:text-[#EF4444] bg-[#FEF2F2] dark:bg-[#450A0A]/40 px-2.5 py-1 rounded border border-[#FECACA] dark:border-[#7F1D1D] font-bold">
                 REAR = {rear}
               </span>
-              <span className="text-xs font-mono text-[#44403C] bg-[#FAF8F5] px-2.5 py-1 rounded border border-[#E5E2D9] font-bold">
+              <span className="text-xs font-mono text-[#44403C] dark:text-[#D6D0C5] bg-[#FAF8F5] dark:bg-[#181614] px-2.5 py-1 rounded border border-[#E5E2D9] dark:border-[#38332B] font-bold">
                 Count = {currentCount} / {capacity}
               </span>
             </div>
@@ -249,30 +254,30 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
 
           {/* Mathematical Formulations Banner */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-[11px] font-serif font-bold text-[#66625B]">Full Condition</div>
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Full Condition</div>
               <div className="mt-1 text-xs">
                 <Latex math="(\text{REAR} + 1) \bmod N = \text{FRONT}" />
               </div>
-              <div className="text-[10px] text-[#88847C] mt-1 font-mono">
-                Status: {isCircularFull ? <span className="text-[#991B1B] font-bold">FULL</span> : 'Space Available'}
+              <div className="text-[10px] text-[#88847C] dark:text-[#78716C] mt-1 font-mono">
+                Status: {isCircularFull ? <span className="text-[#991B1B] dark:text-[#EF4444] font-bold">FULL</span> : 'Space Available'}
               </div>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-[11px] font-serif font-bold text-[#66625B]">Enqueue Pointer Shift</div>
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Enqueue Pointer Shift</div>
               <div className="mt-1 text-xs">
                 <Latex math="\text{REAR} \leftarrow (\text{REAR} + 1) \bmod N" />
               </div>
-              <div className="text-[10px] text-[#88847C] mt-1 font-mono">
+              <div className="text-[10px] text-[#88847C] dark:text-[#78716C] mt-1 font-mono">
                 Next: {front === -1 ? '0' : `(${rear} + 1) % 6 = ${(rear + 1) % 6}`}
               </div>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-[11px] font-serif font-bold text-[#66625B]">Dequeue Pointer Shift</div>
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Dequeue Pointer Shift</div>
               <div className="mt-1 text-xs">
                 <Latex math="\text{FRONT} \leftarrow (\text{FRONT} + 1) \bmod N" />
               </div>
-              <div className="text-[10px] text-[#88847C] mt-1 font-mono">
+              <div className="text-[10px] text-[#88847C] dark:text-[#78716C] mt-1 font-mono">
                 Next: {front === -1 ? '-1' : front === rear ? '-1 (Reset)' : `(${front} + 1) % 6 = ${(front + 1) % 6}`}
               </div>
             </div>
@@ -280,13 +285,13 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
 
           {/* Linear Unrolled vs Circular Ring Representation */}
           {mode === 'circular' ? (
-            <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-              <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9]">
-                <span className="text-sm font-serif font-bold text-[#1A1A1A]">
+            <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+              <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
+                <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                   Linear Array Buffer with Modulo Wraparound Logic ($N = {capacity}$)
                 </span>
-                <span className="text-xs font-mono text-[#66625B]">
-                  Index Domain: <code className="text-[#B45309] font-bold">0 \dots {capacity - 1}</code>
+                <span className="text-xs font-mono text-[#66625B] dark:text-[#A8A29E]">
+                  Index Domain: <code className="text-[#B45309] dark:text-[#FBBF24] font-bold">0 \dots {capacity - 1}</code>
                 </span>
               </div>
 
@@ -302,19 +307,19 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
                       layout
                       className={`relative p-3 rounded-lg border flex flex-col items-center justify-between h-28 font-mono transition-all ${
                         isFront && isRear
-                          ? 'bg-[#FEF3C7]/40 border-[#F59E0B] ring-2 ring-[#FDE68A]'
+                          ? 'bg-[#FEF3C7] dark:bg-[#78350F]/40/40 border-[#F59E0B] ring-2 ring-[#FDE68A]'
                           : isFront
-                          ? 'bg-[#ECFDF5] border-[#10B981] ring-2 ring-[#A7F3D0]'
+                          ? 'bg-[#ECFDF5] dark:bg-[#064E3B]/40 border-[#10B981] ring-2 ring-[#A7F3D0]'
                           : isRear
-                          ? 'bg-[#FEF2F2] border-[#991B1B] ring-2 ring-[#FECACA]'
+                          ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] ring-2 ring-[#FECACA]'
                           : isOccupied
-                          ? 'bg-[#FAF8F5] border-[#D8D4C8]'
-                          : 'bg-[#F4F2EB]/50 border-dashed border-[#D8D4C8] opacity-60'
+                          ? 'bg-[#FAF8F5] dark:bg-[#181614] border-[#D8D4C8] dark:border-[#423D36]'
+                          : 'bg-[#F4F2EB] dark:bg-[#2A2622]/50 border-dashed border-[#D8D4C8] dark:border-[#423D36] opacity-60'
                       }`}
                     >
-                      <span className="text-[11px] text-[#66625B] font-bold">Slot [{idx}]</span>
+                      <span className="text-[11px] text-[#66625B] dark:text-[#A8A29E] font-bold">Slot [{idx}]</span>
 
-                      <div className="text-lg font-bold text-[#1A1A1A]">
+                      <div className="text-lg font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                         {isOccupied ? val : <span className="text-xs text-[#A8A29E] font-normal italic">empty</span>}
                       </div>
 
@@ -337,26 +342,26 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
               </div>
 
               {lastAction && (
-                <div className="p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] text-xs font-mono text-[#1A1A1A] flex items-center gap-2">
-                  <ArrowRight className="w-3.5 h-3.5 text-[#991B1B]" />
+                <div className="p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] text-xs font-mono text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                  <ArrowRight className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" />
                   <span>{lastAction}</span>
                 </div>
               )}
             </div>
           ) : (
             /* Ring Topology Orbital View */
-            <div className="p-8 rounded-xl bg-white border border-[#E5E2D9] flex flex-col items-center justify-center space-y-6 shadow-xs">
+            <div className="p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] flex flex-col items-center justify-center space-y-6 shadow-xs">
               <div className="text-center">
-                <span className="text-sm font-serif font-bold text-[#1A1A1A]">
+                <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                   Circular Orbital Topology ($N=6$)
                 </span>
-                <p className="text-xs text-[#66625B] mt-0.5">
+                <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5">
                   Slot 5 seamlessly connects back to Slot 0 through the modulo operator $\pmod 6$.
                 </p>
               </div>
 
               {/* 6-node Ring Layout */}
-              <div className="relative w-72 h-72 rounded-full border-2 border-dashed border-[#D8D4C8] flex items-center justify-center">
+              <div className="relative w-72 h-72 rounded-full border-2 border-dashed border-[#D8D4C8] dark:border-[#423D36] flex items-center justify-center">
                 {circularArr.map((val, idx) => {
                   const angle = (idx * 60 - 90) * (Math.PI / 180);
                   const radius = 105;
@@ -375,39 +380,39 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
                       }}
                       className={`w-14 h-14 rounded-full border flex flex-col items-center justify-center font-mono shadow-xs ${
                         isFront && isRear
-                          ? 'bg-[#FEF3C7] border-[#F59E0B] ring-2 ring-[#FDE68A]'
+                          ? 'bg-[#FEF3C7] dark:bg-[#78350F]/40 border-[#F59E0B] ring-2 ring-[#FDE68A]'
                           : isFront
-                          ? 'bg-[#ECFDF5] border-[#10B981] ring-2 ring-[#A7F3D0]'
+                          ? 'bg-[#ECFDF5] dark:bg-[#064E3B]/40 border-[#10B981] ring-2 ring-[#A7F3D0]'
                           : isRear
-                          ? 'bg-[#FEF2F2] border-[#991B1B] ring-2 ring-[#FECACA]'
+                          ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] ring-2 ring-[#FECACA]'
                           : val !== null
-                          ? 'bg-white border-[#D8D4C8]'
-                          : 'bg-[#FAF8F5] border-dashed border-[#D8D4C8] opacity-50'
+                          ? 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36]'
+                          : 'bg-[#FAF8F5] dark:bg-[#181614] border-dashed border-[#D8D4C8] dark:border-[#423D36] opacity-50'
                       }`}
                     >
-                      <span className="text-[9px] text-[#66625B]">[{idx}]</span>
-                      <span className="text-xs font-bold text-[#1A1A1A]">{val ?? '-'}</span>
+                      <span className="text-[9px] text-[#66625B] dark:text-[#A8A29E]">[{idx}]</span>
+                      <span className="text-xs font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">{val ?? '-'}</span>
                     </motion.div>
                   );
                 })}
 
                 {/* Center Hub */}
-                <div className="text-center p-3 rounded-full bg-[#FAF8F5] border border-[#E5E2D9] shadow-2xs">
-                  <div className="text-[10px] font-serif font-bold text-[#66625B]">MODULO RING</div>
-                  <div className="text-xs font-mono font-bold text-[#991B1B]">N = 6</div>
+                <div className="text-center p-3 rounded-full bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] shadow-2xs">
+                  <div className="text-[10px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">MODULO RING</div>
+                  <div className="text-xs font-mono font-bold text-[#991B1B] dark:text-[#EF4444]">N = 6</div>
                 </div>
               </div>
             </div>
           )}
 
           {/* Activity Log */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-            <div className="text-xs font-serif font-bold text-[#66625B] mb-2 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#991B1B]" /> Circular Queue Activity Log
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+            <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] mb-2 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Circular Queue Activity Log
             </div>
             <div className="space-y-1 font-mono text-xs max-h-28 overflow-y-auto pr-2">
               {logs.map((log, i) => (
-                <div key={i} className="text-[#44403C] py-0.5 border-b border-[#F4F2EB]">
+                <div key={i} className="text-[#44403C] dark:text-[#D6D0C5] py-0.5 border-b border-[#F4F2EB]">
                   {log}
                 </div>
               ))}
@@ -416,13 +421,13 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
         </div>
       ) : (
         /* Linear False Overflow Demo */
-        <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-5 shadow-xs">
+        <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-5 shadow-xs">
           <div>
-            <span className="text-sm font-serif font-bold text-[#1A1A1A]">
+            <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               The "False Overflow" Phenomenon in Linear Queues (CUET Exam Question)
             </span>
-            <p className="text-xs text-[#66625B] mt-0.5 font-sans">
-              Notice below: Slots [0] and [1] are vacant, yet because <span className="font-mono text-[#B45309] font-bold">REAR == 5 (MAX - 1)</span>, a naive linear queue falsely rejects new insertions!
+            <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
+              Notice below: Slots [0] and [1] are vacant, yet because <span className="font-mono text-[#B45309] dark:text-[#FBBF24] font-bold">REAR == 5 (MAX - 1)</span>, a naive linear queue falsely rejects new insertions!
             </p>
           </div>
 
@@ -437,17 +442,17 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
                   key={idx}
                   className={`p-3 rounded-lg border flex flex-col items-center justify-between h-28 font-mono ${
                     isVacant
-                      ? 'bg-[#FEF2F2]/40 border-dashed border-[#FECACA] text-[#991B1B]'
-                      : 'bg-[#FAF8F5] border-[#D8D4C8] text-[#1A1A1A]'
+                      ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40/40 border-dashed border-[#FECACA] dark:border-[#7F1D1D] text-[#991B1B] dark:text-[#EF4444]'
+                      : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                   }`}
                 >
-                  <span className="text-[11px] text-[#66625B]">[{idx}]</span>
+                  <span className="text-[11px] text-[#66625B] dark:text-[#A8A29E]">[{idx}]</span>
                   <span className="text-base font-bold">
-                    {val !== null ? val : <span className="text-xs text-[#991B1B]/80 font-sans">Wasted Slot</span>}
+                    {val !== null ? val : <span className="text-xs text-[#991B1B] dark:text-[#EF4444]/80 font-sans">Wasted Slot</span>}
                   </span>
                   <div className="flex gap-1 text-[9px] font-bold">
-                    {isFront && <span className="text-[#15803D]">FRONT (2)</span>}
-                    {isRear && <span className="text-[#991B1B]">REAR (5=MAX-1)</span>}
+                    {isFront && <span className="text-[#15803D] dark:text-[#4ADE80]">FRONT (2)</span>}
+                    {isRear && <span className="text-[#991B1B] dark:text-[#EF4444]">REAR (5=MAX-1)</span>}
                   </div>
                 </div>
               );
@@ -463,7 +468,7 @@ export const QueueVisualizer: React.FC<QueueVisualizerProps> = ({ focusedMode })
             </button>
             <button
               onClick={handleLinearDequeue}
-              className="px-3.5 py-2 rounded-lg bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-serif font-semibold cursor-pointer"
+              className="px-3.5 py-2 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold cursor-pointer"
             >
               Linear Dequeue
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Calculator, Sparkles, BookOpen, Layers } from 'lucide-react';
 import { Latex, MathText } from '../common/Latex';
 
@@ -129,20 +129,20 @@ export const AddressCalculator: React.FC = () => {
 
   return (
     <div className="space-y-6" id="address-calculator-container">
-      <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
+      <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
         {/* Header */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E5E2D9] pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E5E2D9] dark:border-[#38332B] pb-4">
           <div>
-            <h2 className="text-lg font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-              <Calculator className="w-5 h-5 text-[#B45309]" /> Array Memory Address Formula Solver (CUET Standard)
+            <h2 className="text-lg font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+              <Calculator className="w-5 h-5 text-[#B45309] dark:text-[#FBBF24]" /> Array Memory Address Formula Solver (CUET Standard)
             </h2>
-            <p className="text-xs text-[#66625B] mt-0.5 font-sans">
+            <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
               Calculates 1D, 2D, 3D, and Special Matrix memory addresses with complete mathematical examination proofs.
             </p>
           </div>
 
           {/* Dimension Selector */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] border border-[#E5E2D9]">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#E5E2D9] dark:border-[#38332B]">
             {(['1D', '2D', '3D', 'special'] as const).map((d) => (
               <button
                 key={d}
@@ -150,7 +150,7 @@ export const AddressCalculator: React.FC = () => {
                 className={`px-3 py-1 rounded text-xs font-mono font-bold transition-all cursor-pointer ${
                   dimensions === d
                     ? 'bg-[#1A1A1A] text-white shadow-2xs'
-                    : 'text-[#66625B] hover:text-[#1A1A1A]'
+                    : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
                 }`}
               >
                 {d === 'special' ? 'Triangular / Tridiagonal' : `${d} Array`}
@@ -162,12 +162,12 @@ export const AddressCalculator: React.FC = () => {
         {/* Order Selector for 2D/3D */}
         {dimensions === '2D' || dimensions === '3D' ? (
           <div className="flex items-center gap-3">
-            <span className="text-xs font-serif font-bold text-[#1A1A1A]">Memory Major:</span>
-            <div className="flex items-center rounded-lg bg-[#FAF8F5] p-1 border border-[#E5E2D9]">
+            <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Memory Major:</span>
+            <div className="flex items-center rounded-lg bg-[#FAF8F5] dark:bg-[#181614] p-1 border border-[#E5E2D9] dark:border-[#38332B]">
               <button
                 onClick={() => setOrder('column')}
                 className={`px-3 py-1 rounded text-xs font-serif font-semibold cursor-pointer transition-all ${
-                  order === 'column' ? 'bg-[#991B1B] text-white shadow-2xs' : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  order === 'column' ? 'bg-[#991B1B] text-white shadow-2xs' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
                 }`}
               >
                 Column-Major Order (CUET Standard Exam Style)
@@ -175,7 +175,7 @@ export const AddressCalculator: React.FC = () => {
               <button
                 onClick={() => setOrder('row')}
                 className={`px-3 py-1 rounded text-xs font-serif font-semibold cursor-pointer transition-all ${
-                  order === 'row' ? 'bg-[#991B1B] text-white shadow-2xs' : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  order === 'row' ? 'bg-[#991B1B] text-white shadow-2xs' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
                 }`}
               >
                 Row-Major Order
@@ -184,12 +184,12 @@ export const AddressCalculator: React.FC = () => {
           </div>
         ) : dimensions === 'special' ? (
           <div className="flex items-center gap-3">
-            <span className="text-xs font-serif font-bold text-[#1A1A1A]">Matrix Type:</span>
-            <div className="flex items-center rounded-lg bg-[#FAF8F5] p-1 border border-[#E5E2D9]">
+            <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Matrix Type:</span>
+            <div className="flex items-center rounded-lg bg-[#FAF8F5] dark:bg-[#181614] p-1 border border-[#E5E2D9] dark:border-[#38332B]">
               <button
                 onClick={() => setSpecialType('lower_triangular')}
                 className={`px-3 py-1 rounded text-xs font-serif font-semibold cursor-pointer ${
-                  specialType === 'lower_triangular' ? 'bg-[#991B1B] text-white' : 'text-[#66625B]'
+                  specialType === 'lower_triangular' ? 'bg-[#991B1B] text-white' : 'text-[#66625B] dark:text-[#A8A29E]'
                 }`}
               >
                 Lower Triangular
@@ -197,7 +197,7 @@ export const AddressCalculator: React.FC = () => {
               <button
                 onClick={() => setSpecialType('upper_triangular')}
                 className={`px-3 py-1 rounded text-xs font-serif font-semibold cursor-pointer ${
-                  specialType === 'upper_triangular' ? 'bg-[#991B1B] text-white' : 'text-[#66625B]'
+                  specialType === 'upper_triangular' ? 'bg-[#991B1B] text-white' : 'text-[#66625B] dark:text-[#A8A29E]'
                 }`}
               >
                 Upper Triangular
@@ -205,7 +205,7 @@ export const AddressCalculator: React.FC = () => {
               <button
                 onClick={() => setSpecialType('tridiagonal')}
                 className={`px-3 py-1 rounded text-xs font-serif font-semibold cursor-pointer ${
-                  specialType === 'tridiagonal' ? 'bg-[#991B1B] text-white' : 'text-[#66625B]'
+                  specialType === 'tridiagonal' ? 'bg-[#991B1B] text-white' : 'text-[#66625B] dark:text-[#A8A29E]'
                 }`}
               >
                 Tridiagonal
@@ -215,31 +215,31 @@ export const AddressCalculator: React.FC = () => {
         ) : null}
 
         {/* Input Parameters Matrix */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
           {/* Base & W */}
           <div className="space-y-1">
-            <label className="text-[11px] font-serif font-bold text-[#44403C]">Base Address ($B$):</label>
+            <label className="text-[11px] font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">Base Address ($B$):</label>
             <input
               type="number"
               value={base}
               onChange={(e) => setBase(parseInt(e.target.value) || 0)}
-              className="w-full px-2.5 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono focus:border-[#991B1B] focus:outline-none"
+              className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono focus:border-[#991B1B] focus:outline-none"
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-[11px] font-serif font-bold text-[#44403C]">Word Size $W$ (Bytes):</label>
+            <label className="text-[11px] font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">Word Size $W$ (Bytes):</label>
             <input
               type="number"
               value={wordSize}
               onChange={(e) => setWordSize(parseInt(e.target.value) || 1)}
-              className="w-full px-2.5 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono focus:border-[#991B1B] focus:outline-none"
+              className="w-full px-2.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono focus:border-[#991B1B] focus:outline-none"
             />
           </div>
 
           {/* Dimension 1 */}
           <div className="space-y-1">
-            <label className="text-[11px] font-serif font-bold text-[#44403C]">
+            <label className="text-[11px] font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">
               {dimensions === 'special' ? 'Target Index i:' : 'Dim 1 [L1 : U1] & i:'}
             </label>
             <div className="flex items-center gap-1">
@@ -249,15 +249,15 @@ export const AddressCalculator: React.FC = () => {
                     type="number"
                     value={l1}
                     onChange={(e) => setL1(parseInt(e.target.value) || 0)}
-                    className="w-1/3 px-2 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                    className="w-1/3 px-2 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                     placeholder="L1"
                   />
-                  <span className="text-[#88847C]">:</span>
+                  <span className="text-[#88847C] dark:text-[#78716C]">:</span>
                   <input
                     type="number"
                     value={u1}
                     onChange={(e) => setU1(parseInt(e.target.value) || 0)}
-                    className="w-1/3 px-2 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                    className="w-1/3 px-2 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                     placeholder="U1"
                   />
                 </>
@@ -266,7 +266,7 @@ export const AddressCalculator: React.FC = () => {
                 type="number"
                 value={iCoord}
                 onChange={(e) => setICoord(parseInt(e.target.value) || 0)}
-                className="flex-1 px-2 py-1.5 rounded-md bg-[#FEF2F2] border border-[#FECACA] text-xs text-[#991B1B] font-mono font-bold"
+                className="flex-1 px-2 py-1.5 rounded-md bg-[#FEF2F2] dark:bg-[#450A0A]/50 border border-[#FECACA] dark:border-[#7F1D1D] text-xs text-[#991B1B] dark:text-[#FCA5A5] font-mono font-bold"
                 placeholder="i"
               />
             </div>
@@ -275,7 +275,7 @@ export const AddressCalculator: React.FC = () => {
           {/* Dimension 2 */}
           {(dimensions === '2D' || dimensions === '3D' || dimensions === 'special') && (
             <div className="space-y-1">
-              <label className="text-[11px] font-serif font-bold text-[#44403C]">
+              <label className="text-[11px] font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">
                 {dimensions === 'special' ? 'Target Index j:' : 'Dim 2 [L2 : U2] & j:'}
               </label>
               <div className="flex items-center gap-1">
@@ -285,15 +285,15 @@ export const AddressCalculator: React.FC = () => {
                       type="number"
                       value={l2}
                       onChange={(e) => setL2(parseInt(e.target.value) || 0)}
-                      className="w-1/3 px-2 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                      className="w-1/3 px-2 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                       placeholder="L2"
                     />
-                    <span className="text-[#88847C]">:</span>
+                    <span className="text-[#88847C] dark:text-[#78716C]">:</span>
                     <input
                       type="number"
                       value={u2}
                       onChange={(e) => setU2(parseInt(e.target.value) || 0)}
-                      className="w-1/3 px-2 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                      className="w-1/3 px-2 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                       placeholder="U2"
                     />
                   </>
@@ -302,7 +302,7 @@ export const AddressCalculator: React.FC = () => {
                   type="number"
                   value={jCoord}
                   onChange={(e) => setJCoord(parseInt(e.target.value) || 0)}
-                  className="flex-1 px-2 py-1.5 rounded-md bg-[#FEF2F2] border border-[#FECACA] text-xs text-[#991B1B] font-mono font-bold"
+                  className="flex-1 px-2 py-1.5 rounded-md bg-[#FEF2F2] dark:bg-[#450A0A]/50 border border-[#FECACA] dark:border-[#7F1D1D] text-xs text-[#991B1B] dark:text-[#FCA5A5] font-mono font-bold"
                   placeholder="j"
                 />
               </div>
@@ -312,28 +312,28 @@ export const AddressCalculator: React.FC = () => {
           {/* Dimension 3 */}
           {dimensions === '3D' && (
             <div className="space-y-1">
-              <label className="text-[11px] font-serif font-bold text-[#44403C]">Dim 3 [L3 : U3] & k:</label>
+              <label className="text-[11px] font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">Dim 3 [L3 : U3] & k:</label>
               <div className="flex items-center gap-1">
                 <input
                   type="number"
                   value={l3}
                   onChange={(e) => setL3(parseInt(e.target.value) || 0)}
-                  className="w-1/3 px-2 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                  className="w-1/3 px-2 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                   placeholder="L3"
                 />
-                <span className="text-[#88847C]">:</span>
+                <span className="text-[#88847C] dark:text-[#78716C]">:</span>
                 <input
                   type="number"
                   value={u3}
                   onChange={(e) => setU3(parseInt(e.target.value) || 0)}
-                  className="w-1/3 px-2 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                  className="w-1/3 px-2 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                   placeholder="U3"
                 />
                 <input
                   type="number"
                   value={kCoord}
                   onChange={(e) => setKCoord(parseInt(e.target.value) || 0)}
-                  className="flex-1 px-2 py-1.5 rounded-md bg-[#FEF2F2] border border-[#FECACA] text-xs text-[#991B1B] font-mono font-bold"
+                  className="flex-1 px-2 py-1.5 rounded-md bg-[#FEF2F2] dark:bg-[#450A0A]/50 border border-[#FECACA] dark:border-[#7F1D1D] text-xs text-[#991B1B] dark:text-[#FCA5A5] font-mono font-bold"
                   placeholder="k"
                 />
               </div>
@@ -342,8 +342,8 @@ export const AddressCalculator: React.FC = () => {
         </div>
 
         {/* LaTeX Formula Banner */}
-        <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-          <div className="text-xs font-serif font-bold text-[#66625B] uppercase tracking-wider">
+        <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+          <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] uppercase tracking-wider">
             Standard Examination Formula:
           </div>
           <div className="text-sm">
@@ -352,19 +352,19 @@ export const AddressCalculator: React.FC = () => {
         </div>
 
         {/* Step-by-Step LaTeX Derivation */}
-        <div className="p-6 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E5E2D9] pb-3">
-            <span className="text-xs font-serif font-bold text-[#1A1A1A] uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#991B1B]" /> Step-by-Step Formal Exam Proof:
+        <div className="p-6 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E5E2D9] dark:border-[#38332B] pb-3">
+            <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] uppercase tracking-wider flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Step-by-Step Formal Exam Proof:
             </span>
-            <div className="text-sm font-mono font-bold text-[#065F46] bg-[#ECFDF5] px-3 py-1 rounded-md border border-[#A7F3D0]">
+            <div className="text-sm font-mono font-bold text-[#065F46] dark:text-[#34D399] bg-[#ECFDF5] dark:bg-[#064E3B]/40 px-3 py-1 rounded-md border border-[#A7F3D0] dark:border-[#059669]">
               Physical Address = {calculatedAddress} (0x{calculatedAddress.toString(16).toUpperCase()})
             </div>
           </div>
 
           <div className="space-y-3">
             {stepByStepLatex.map((step, idx) => (
-              <div key={idx} className="p-2.5 rounded-md bg-white border border-[#E5E2D9]">
+              <div key={idx} className="p-2.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
                 <Latex math={step} block />
               </div>
             ))}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, Calculator, Award, Table, Menu, Compass } from 'lucide-react';
+﻿import React from 'react';
+import { Search, Calculator, Award, Table, Menu, Compass, Sparkles } from 'lucide-react';
 import { ThemeToggleBar } from '../common/ThemeToggleBar';
 
 interface HeaderProps {
@@ -8,6 +8,7 @@ interface HeaderProps {
   onOpenReport: () => void;
   onOpenCalculator: () => void;
   onOpenMatrix: () => void;
+  onOpenFlashcards?: () => void;
   onOpenGuide?: () => void;
   onToggleMobileMenu: () => void;
 }
@@ -18,6 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenReport,
   onOpenCalculator,
   onOpenMatrix,
+  onOpenFlashcards,
   onOpenGuide,
   onToggleMobileMenu
 }) => {
@@ -28,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={onToggleMobileMenu}
-            className="p-2 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#38332B] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] lg:hidden cursor-pointer shadow-2xs"
+            className="p-2 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#38332B] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] lg:hidden cursor-pointer shadow-2xs"
             aria-label="Toggle Navigation Menu"
           >
             <Menu className="w-5 h-5" />
@@ -39,11 +41,11 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-3 cursor-pointer group"
           >
             <div className="w-9 h-9 rounded-lg bg-[#1A1A1A] dark:bg-[#EDE8DF] text-[#F9F8F6] dark:text-[#181614] flex flex-col items-center justify-center font-serif font-bold text-base shadow-sm border border-[#2D2C2A] dark:border-[#E5E2D9] group-hover:bg-[#991B1B] dark:group-hover:bg-[#EF4444] dark:group-hover:text-white transition-colors">
-              <span>§</span>
+              <span>🗂️</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] tracking-tight group-hover:text-[#991B1B] dark:group-hover:text-[#EF4444] transition-colors">
+                <span className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] tracking-tight group-hover:text-[#991B1B] dark:text-[#EF4444] dark:group-hover:text-[#EF4444] transition-colors">
                   DSA Notes
                 </span>
               </div>
@@ -83,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             id="nav-exam-report-btn"
             onClick={onOpenReport}
-            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
           >
             <Award className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" />
             <span className="hidden sm:inline">Exam Report</span>
@@ -92,16 +94,27 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             id="nav-address-calc-btn"
             onClick={onOpenCalculator}
-            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
           >
             <Calculator className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" />
             <span className="hidden sm:inline">Address Solver</span>
           </button>
 
+          {onOpenFlashcards && (
+            <button
+              id="nav-flashcards-btn"
+              onClick={onOpenFlashcards}
+              className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#7E22CE] dark:text-[#C084FC]" />
+              <span className="hidden sm:inline">Flashcards</span>
+            </button>
+          )}
+
           <button
             id="nav-complexity-matrix-btn"
             onClick={onOpenMatrix}
-            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
           >
             <Table className="w-3.5 h-3.5 text-[#15803D] dark:text-[#4ADE80]" />
             <span className="hidden sm:inline">STL Matrix</span>

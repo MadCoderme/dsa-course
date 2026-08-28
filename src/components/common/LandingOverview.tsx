@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { TopicId } from '../../types';
 import { OVERVIEW_LESSON } from '../../data/lessons/overviewLesson';
 import {
@@ -302,7 +302,7 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
                 >
                   <div className="space-y-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-serif font-bold text-sm text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:group-hover:text-[#EF4444] transition-colors">
+                      <span className="font-serif font-bold text-sm text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:text-[#EF4444] dark:group-hover:text-[#EF4444] transition-colors">
                         {item.title}
                       </span>
                       {item.tag && (
@@ -316,7 +316,7 @@ export const LandingOverview: React.FC<LandingOverviewProps> = ({ onSelectTopic 
                     </p>
                   </div>
 
-                  <div className="pt-2 border-t border-[#F0EDE6] dark:border-[#2A2622] flex items-center justify-between text-xs font-serif font-semibold text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:group-hover:text-[#EF4444]">
+                  <div className="pt-2 border-t border-[#F0EDE6] dark:border-[#2A2622] flex items-center justify-between text-xs font-serif font-semibold text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:text-[#EF4444] dark:group-hover:text-[#EF4444]">
                     <span>Open Topic</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#991B1B] dark:text-[#EF4444]" />
                   </div>

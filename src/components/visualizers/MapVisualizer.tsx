@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Plus, Trash2, Search, Type, Sparkles, Network } from 'lucide-react';
 
@@ -74,40 +74,40 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
     <div className="space-y-4" id="map-visualizer-container">
       {/* Sub-view Switcher */}
       {!focusedMode && (
-        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white border border-[#E5E2D9] gap-2 shadow-xs">
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB]">
+        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] gap-2 shadow-xs">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622]">
             <button
               id="map-view-freq"
               onClick={() => setViewMode('frequency')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'frequency'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Type className="w-3.5 h-3.5 text-[#991B1B]" /> Word Frequency Counter (O(N))
+              <Type className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Word Frequency Counter (O(N))
             </button>
             <button
               id="map-view-graph"
               onClick={() => setViewMode('graph')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'graph'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Network className="w-3.5 h-3.5 text-[#15803D]" /> Graph Adjacency Map
+              <Network className="w-3.5 h-3.5 text-[#15803D] dark:text-[#4ADE80]" /> Graph Adjacency Map
             </button>
             <button
               id="map-view-custom"
               onClick={() => setViewMode('custom')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'custom'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#B45309]" /> Custom Key-Value Store
+              <Sparkles className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" /> Custom Key-Value Store
             </button>
           </div>
         </div>
@@ -116,12 +116,12 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
 
       {/* View 1: Word Frequency Visualizer */}
       {viewMode === 'frequency' && (
-        <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
+        <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
           <div>
-            <span className="text-sm font-serif font-bold text-[#1A1A1A]">
-              Interactive Text Frequency Mapper (C++ Pattern: <code className="text-[#991B1B] font-mono">freqMap[word]++</code>)
+            <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
+              Interactive Text Frequency Mapper (C++ Pattern: <code className="text-[#991B1B] dark:text-[#EF4444] font-mono">freqMap[word]++</code>)
             </span>
-            <p className="text-xs text-[#66625B] mt-0.5 font-sans">
+            <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
               Type words below to see how std::map constructs key-value entries in real-time.
             </p>
           </div>
@@ -131,12 +131,12 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
             rows={2}
             value={sampleText}
             onChange={(e) => setSampleText(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono focus:outline-none focus:border-[#991B1B]"
+            className="w-full px-3 py-2 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono focus:outline-none focus:border-[#991B1B]"
             placeholder="Type words separated by spaces..."
           />
 
           <div className="space-y-2 mt-4">
-            <div className="text-xs font-serif font-bold text-[#66625B] flex items-center justify-between pb-1 border-b border-[#E5E2D9]">
+            <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] flex items-center justify-between pb-1 border-b border-[#E5E2D9] dark:border-[#38332B]">
               <span>Key (Word)</span>
               <span>Value (Frequency Count)</span>
             </div>
@@ -144,9 +144,9 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
               {sortedFreq.map(([word, count]) => (
                 <div
                   key={word}
-                  className="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] flex items-center justify-between gap-4"
+                  className="p-2.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] flex items-center justify-between gap-4"
                 >
-                  <span className="font-mono text-xs font-bold text-[#991B1B] min-w-[100px]">
+                  <span className="font-mono text-xs font-bold text-[#991B1B] dark:text-[#EF4444] min-w-[100px]">
                     "{word}"
                   </span>
                   <div className="flex-1 flex items-center gap-3">
@@ -157,7 +157,7 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
                         className="h-full bg-[#991B1B] rounded-full"
                       />
                     </div>
-                    <span className="font-mono text-xs font-bold text-[#15803D] min-w-[30px] text-right">
+                    <span className="font-mono text-xs font-bold text-[#15803D] dark:text-[#4ADE80] min-w-[30px] text-right">
                       {count}
                     </span>
                   </div>
@@ -170,13 +170,13 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
 
       {/* View 2: Graph Adjacency Map */}
       {viewMode === 'graph' && (
-        <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9]">
+        <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+          <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
             <div>
-              <span className="text-sm font-serif font-bold text-[#1A1A1A]">
+              <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                 Graph Adjacency List (std::map&lt;char, vector&lt;pair&lt;char, int&gt;&gt;&gt;)
               </span>
-              <p className="text-xs text-[#66625B] mt-0.5 font-sans">
+              <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
                 Maps each Vertex key to its list of weighted outgoing edges.
               </p>
             </div>
@@ -184,26 +184,26 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             {Object.entries(graphAdjacency).map(([node, edges]) => (
-              <div key={node} className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-                <div className="flex items-center justify-between border-b border-[#E5E2D9] pb-2">
-                  <span className="w-7 h-7 rounded-md bg-[#FEF2F2] border border-[#FECACA] flex items-center justify-center font-mono font-bold text-xs text-[#991B1B]">
+              <div key={node} className="p-4 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+                <div className="flex items-center justify-between border-b border-[#E5E2D9] dark:border-[#38332B] pb-2">
+                  <span className="w-7 h-7 rounded-md bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] flex items-center justify-center font-mono font-bold text-xs text-[#991B1B] dark:text-[#EF4444]">
                     {node}
                   </span>
-                  <span className="text-[11px] font-mono text-[#66625B]">
+                  <span className="text-[11px] font-mono text-[#66625B] dark:text-[#A8A29E]">
                     Out-degree: {edges.length}
                   </span>
                 </div>
                 <div className="space-y-1 pt-1">
                   {edges.length === 0 ? (
-                    <div className="text-xs text-[#88847C] italic">No outgoing edges (sink)</div>
+                    <div className="text-xs text-[#88847C] dark:text-[#78716C] italic">No outgoing edges (sink)</div>
                   ) : (
                     edges.map((e, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center justify-between px-2 py-1 rounded bg-white border border-[#E5E2D9] text-xs font-mono text-[#1A1A1A]"
+                        className="flex items-center justify-between px-2 py-1 rounded bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] text-xs font-mono text-[#1A1A1A] dark:text-[#EDE8DF]"
                       >
                         <span>→ {e.neighbor}</span>
-                        <span className="text-[#B45309] font-semibold">weight: {e.weight}</span>
+                        <span className="text-[#B45309] dark:text-[#FBBF24] font-semibold">weight: {e.weight}</span>
                       </div>
                     ))
                   )}
@@ -216,15 +216,15 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
 
       {/* View 3: Custom Key-Value Store */}
       {viewMode === 'custom' && (
-        <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-          <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
+        <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+          <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
             <input
               id="map-custom-key-input"
               type="text"
               value={customKey}
               onChange={(e) => setCustomKey(e.target.value)}
               placeholder="Key"
-              className="px-2.5 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+              className="px-2.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
             />
             <input
               id="map-custom-val-input"
@@ -232,7 +232,7 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
               value={customVal}
               onChange={(e) => setCustomVal(e.target.value)}
               placeholder="Value"
-              className="px-2.5 py-1.5 rounded-md bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+              className="px-2.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
             />
             <button
               id="map-custom-add-btn"
@@ -250,19 +250,19 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
               value={searchKey}
               onChange={(e) => setSearchKey(e.target.value)}
               placeholder="Search Key"
-              className="px-2.5 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+              className="px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
             />
             <button
               id="map-search-btn"
               onClick={handleSearch}
-              className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <Search className="w-3.5 h-3.5 text-[#991B1B]" /> find(key)
+              <Search className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> find(key)
             </button>
           </div>
 
           {searchResult && (
-            <div className="p-3 rounded-lg bg-[#FAF8F5] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-mono">
+            <div className="p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-mono">
               {searchResult}
             </div>
           )}
@@ -271,18 +271,18 @@ export const MapVisualizer: React.FC<MapVisualizerProps> = ({ focusedMode }) => 
             {Object.entries(customMap).map(([k, v]) => (
               <div
                 key={k}
-                className="flex items-center justify-between p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]"
+                className="flex items-center justify-between p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]"
               >
                 <div className="flex items-center gap-3">
-                  <span className="px-2 py-0.5 rounded bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA] font-mono text-xs font-bold">
+                  <span className="px-2 py-0.5 rounded bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border border-[#FECACA] dark:border-[#7F1D1D] font-mono text-xs font-bold">
                     Key: {k}
                   </span>
-                  <span className="text-[#88847C]">→</span>
-                  <span className="font-mono text-xs text-[#15803D] font-bold">"{v}"</span>
+                  <span className="text-[#88847C] dark:text-[#78716C]">→</span>
+                  <span className="font-mono text-xs text-[#15803D] dark:text-[#4ADE80] font-bold">"{v}"</span>
                 </div>
                 <button
                   onClick={() => handleRemoveCustom(k)}
-                  className="text-[#88847C] hover:text-[#991B1B] transition-colors cursor-pointer"
+                  className="text-[#88847C] dark:text-[#78716C] hover:text-[#991B1B] dark:text-[#EF4444] transition-colors cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>

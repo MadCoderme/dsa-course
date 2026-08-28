@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { TopicId } from '../../types';
 import { LESSON_MAP } from '../../data/lessonsData';
 import {
@@ -322,29 +322,29 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
   return (
     <div className="space-y-6" id="roadmap-navigator-root">
       {/* Header Banner */}
-      <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-3 shadow-xs">
+      <div className="p-5 rounded-2xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-3 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-[#991B1B] text-white flex items-center justify-center shadow-xs">
               <Compass className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-serif font-bold text-[#1A1A1A]">
+              <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                 Interactive Curriculum Roadmap & Master Study Plan
               </h3>
-              <p className="text-xs text-[#66625B] font-sans">
+              <p className="text-xs text-[#66625B] dark:text-[#A8A29E] font-sans">
                 Click any topic below to immediately jump directly to its interactive visualizer, mathematical proofs, and past exam questions.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-[#E5E2D9]">
+          <div className="flex items-center gap-1.5 bg-white dark:bg-[#201D1A] p-1 rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
             <button
               onClick={() => setActiveFilter('all')}
               className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
                 activeFilter === 'all'
                   ? 'bg-[#1A1A1A] text-white shadow-2xs'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
               All Stages (1–7)
@@ -356,7 +356,7 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
                 className={`w-7 h-7 flex items-center justify-center text-xs font-mono font-bold rounded-md transition-colors cursor-pointer ${
                   activeFilter === num
                     ? 'bg-[#991B1B] text-white shadow-2xs'
-                    : 'text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB]'
+                    : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                 }`}
               >
                 S{num}
@@ -371,29 +371,29 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
         {filteredStages.map((stage) => (
           <div
             key={stage.stageNumber}
-            className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs hover:border-[#D8D4C8] transition-all"
+            className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs hover:border-[#D8D4C8] dark:border-[#423D36] transition-all"
           >
             {/* Stage Title Header */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
                   <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold border ${stage.badgeColor}`}>
                     {stage.badge}
                   </span>
-                  <h4 className="text-base font-serif font-bold text-[#1A1A1A]">
+                  <h4 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                     {stage.title}
                   </h4>
                 </div>
-                <p className="text-xs text-[#66625B] font-sans">
+                <p className="text-xs text-[#66625B] dark:text-[#A8A29E] font-sans">
                   {stage.subtitle}
                 </p>
               </div>
-              <span className="text-xs font-mono font-bold text-[#88847C]">
+              <span className="text-xs font-mono font-bold text-[#88847C] dark:text-[#78716C]">
                 {stage.items.length} Modules
               </span>
             </div>
 
-            <p className="text-xs text-[#44403C] leading-relaxed">
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
               {stage.description}
             </p>
 
@@ -403,31 +403,31 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
                 <div
                   key={item.id}
                   onClick={() => onSelectTopic(item.id)}
-                  className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] hover:border-[#991B1B] hover:bg-white transition-all cursor-pointer group flex flex-col justify-between space-y-2 shadow-2xs hover:shadow-xs"
+                  className="p-3.5 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B] hover:bg-white dark:bg-[#201D1A] transition-all cursor-pointer group flex flex-col justify-between space-y-2 shadow-2xs hover:shadow-xs"
                 >
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between gap-1">
-                      <span className="font-serif font-bold text-xs text-[#1A1A1A] group-hover:text-[#991B1B] transition-colors line-clamp-1">
+                      <span className="font-serif font-bold text-xs text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:text-[#EF4444] transition-colors line-clamp-1">
                         {item.name}
                       </span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white text-[#66625B] border border-[#E5E2D9] shrink-0 font-bold">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white dark:bg-[#201D1A] text-[#66625B] dark:text-[#A8A29E] border border-[#E5E2D9] dark:border-[#38332B] shrink-0 font-bold">
                         {item.tag}
                       </span>
                     </div>
 
-                    <div className="text-[11px] font-sans font-medium text-[#991B1B] line-clamp-1 flex items-center gap-1">
+                    <div className="text-[11px] font-sans font-medium text-[#991B1B] dark:text-[#EF4444] line-clamp-1 flex items-center gap-1">
                       <Sparkles className="w-3 h-3 shrink-0" />
                       <span>{item.highlight}</span>
                     </div>
 
-                    <p className="text-[11px] text-[#66625B] line-clamp-2 leading-relaxed">
+                    <p className="text-[11px] text-[#66625B] dark:text-[#A8A29E] line-clamp-2 leading-relaxed">
                       {item.summary}
                     </p>
                   </div>
 
-                  <div className="pt-2 border-t border-[#E5E2D9]/60 flex items-center justify-between text-[11px] font-serif font-bold text-[#1A1A1A] group-hover:text-[#991B1B]">
+                  <div className="pt-2 border-t border-[#E5E2D9] dark:border-[#38332B]/60 flex items-center justify-between text-[11px] font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] group-hover:text-[#991B1B] dark:text-[#EF4444]">
                     <span>{item.type === 'tool' ? 'Launch Tool' : 'Study Lesson'}</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#991B1B]" />
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#991B1B] dark:text-[#EF4444]" />
                   </div>
                 </div>
               ))}

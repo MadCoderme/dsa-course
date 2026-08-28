@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   TrendingUp,
@@ -348,45 +348,45 @@ export const PriorityQueueVisualizer: React.FC = () => {
   return (
     <div className="space-y-6" id="priority-queue-visualizer-container">
       {/* Top Main Navigation Tabs */}
-      <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white border border-[#E5E2D9] gap-2 shadow-xs">
-        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB]">
+      <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] gap-2 shadow-xs">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622]">
           <button
             id="tab-abstract-adt"
             onClick={() => setActiveTab('abstract-adt')}
             className={`px-3 py-1.5 rounded-md text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
               activeTab === 'abstract-adt'
-                ? 'bg-white text-[#991B1B] shadow-2xs border border-[#D8D4C8]'
-                : 'text-[#66625B] hover:text-[#1A1A1A]'
+                ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
-            <Layers className="w-3.5 h-3.5 text-[#991B1B]" /> 1. Abstract ADT Model
+            <Layers className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> 1. Abstract ADT Model
           </button>
           <button
             id="tab-real-world-apps"
             onClick={() => setActiveTab('real-world-apps')}
             className={`px-3 py-1.5 rounded-md text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
               activeTab === 'real-world-apps'
-                ? 'bg-white text-[#15803D] shadow-2xs border border-[#D8D4C8]'
-                : 'text-[#66625B] hover:text-[#1A1A1A]'
+                ? 'bg-white dark:bg-[#2A2622] text-[#15803D] dark:text-[#4ADE80] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
-            <Cpu className="w-3.5 h-3.5 text-[#15803D]" /> 2. Real-World Applications
+            <Cpu className="w-3.5 h-3.5 text-[#15803D] dark:text-[#4ADE80]" /> 2. Real-World Applications
           </button>
           <button
             id="tab-internal-heap"
             onClick={() => setActiveTab('internal-heap')}
             className={`px-3 py-1.5 rounded-md text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
               activeTab === 'internal-heap'
-                ? 'bg-white text-[#B45309] shadow-2xs border border-[#D8D4C8]'
-                : 'text-[#66625B] hover:text-[#1A1A1A]'
+                ? 'bg-white dark:bg-[#2A2622] text-[#B45309] dark:text-[#FBBF24] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5 text-[#B45309]" /> 3. Internal Binary Heap
+            <TrendingUp className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" /> 3. Internal Binary Heap
           </button>
         </div>
 
-        <span className="text-[11px] font-mono text-[#66625B] hidden sm:inline px-2">
-          C++ <span className="font-bold text-[#1A1A1A]">std::priority_queue&lt;T&gt;</span>
+        <span className="text-[11px] font-mono text-[#66625B] dark:text-[#A8A29E] hidden sm:inline px-2">
+          C++ <span className="font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">std::priority_queue&lt;T&gt;</span>
         </span>
       </div>
 
@@ -396,19 +396,19 @@ export const PriorityQueueVisualizer: React.FC = () => {
       {activeTab === 'abstract-adt' && (
         <div className="space-y-6">
           {/* Conceptual Header */}
-          <div className="p-5 rounded-xl bg-white border border-[#E5E2D9] space-y-3 shadow-xs">
+          <div className="p-5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-3 shadow-xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <Layers className="w-5 h-5 text-[#991B1B]" /> Abstract Data Type (ADT) Paradigm
+              <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                <Layers className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Abstract Data Type (ADT) Paradigm
               </h3>
-              <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-lg border border-[#E5E2D9]">
+              <div className="flex items-center gap-1 bg-[#FAF8F5] dark:bg-[#181614] p-1 rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
                 <button
                   onClick={() => {
                     setAbstractMode('max');
                     setAbstractQueue((prev) => [...prev].sort((a, b) => b.priority - a.priority));
                   }}
                   className={`px-2.5 py-1 text-xs font-serif font-bold rounded ${
-                    abstractMode === 'max' ? 'bg-[#991B1B] text-white shadow-2xs' : 'text-[#66625B]'
+                    abstractMode === 'max' ? 'bg-[#991B1B] text-white shadow-2xs' : 'text-[#66625B] dark:text-[#A8A29E]'
                   }`}
                 >
                   Max-Priority (Highest First)
@@ -419,42 +419,42 @@ export const PriorityQueueVisualizer: React.FC = () => {
                     setAbstractQueue((prev) => [...prev].sort((a, b) => a.priority - b.priority));
                   }}
                   className={`px-2.5 py-1 text-xs font-serif font-bold rounded ${
-                    abstractMode === 'min' ? 'bg-[#15803D] text-white shadow-2xs' : 'text-[#66625B]'
+                    abstractMode === 'min' ? 'bg-[#15803D] text-white shadow-2xs' : 'text-[#66625B] dark:text-[#A8A29E]'
                   }`}
                 >
                   Min-Priority (Lowest First)
                 </button>
               </div>
             </div>
-            <p className="text-xs text-[#44403C] leading-relaxed">
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] leading-relaxed">
               Unlike a standard <strong>FIFO Queue</strong> (which dispatches strictly by arrival time) or a <strong>LIFO Stack</strong> (which dispatches the newest item), a <strong>Priority Queue</strong> associates an intrinsic numerical <em>Priority Key</em> with every element. Dequeue operations always dispatch the element with the highest (or lowest) priority, regardless of when it arrived.
             </p>
 
             {/* ADT Comparison Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              <div className="p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-1">
-                <div className="text-xs font-serif font-bold text-[#66625B] flex items-center gap-1.5">
+              <div className="p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] flex items-center gap-1.5">
                   <ListOrdered className="w-3.5 h-3.5 text-blue-600" /> Standard FIFO Queue
                 </div>
-                <div className="text-[11px] text-[#44403C]">
+                <div className="text-[11px] text-[#44403C] dark:text-[#D6D0C5]">
                   <strong>Policy:</strong> First-In, First-Out.<br />
                   <strong>Dispatch:</strong> Oldest element in queue.
                 </div>
               </div>
-              <div className="p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-1">
-                <div className="text-xs font-serif font-bold text-[#66625B] flex items-center gap-1.5">
+              <div className="p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] flex items-center gap-1.5">
                   <Layers className="w-3.5 h-3.5 text-amber-600" /> LIFO Stack
                 </div>
-                <div className="text-[11px] text-[#44403C]">
+                <div className="text-[11px] text-[#44403C] dark:text-[#D6D0C5]">
                   <strong>Policy:</strong> Last-In, First-Out.<br />
                   <strong>Dispatch:</strong> Most recently pushed item.
                 </div>
               </div>
-              <div className="p-3 rounded-lg bg-[#FEF2F2] border border-[#FECACA] space-y-1">
-                <div className="text-xs font-serif font-bold text-[#991B1B] flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-[#991B1B]" /> Priority Queue ADT
+              <div className="p-3 rounded-lg bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] space-y-1">
+                <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444] flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Priority Queue ADT
                 </div>
-                <div className="text-[11px] text-[#991B1B]">
+                <div className="text-[11px] text-[#991B1B] dark:text-[#EF4444]">
                   <strong>Policy:</strong> Priority-Weighted Order.<br />
                   <strong>Dispatch:</strong> Extremum element ($\max$ or $\min$).
                 </div>
@@ -463,37 +463,37 @@ export const PriorityQueueVisualizer: React.FC = () => {
           </div>
 
           {/* Interactive Abstract Priority Queue Sandbox */}
-          <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-5 shadow-xs">
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9]">
+          <div className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-5 shadow-xs">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
               <div>
-                <h4 className="text-sm font-serif font-bold text-[#1A1A1A]">
+                <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                   Interactive Abstract Priority Queue Dispatcher
                 </h4>
-                <p className="text-xs text-[#66625B]">
+                <p className="text-xs text-[#66625B] dark:text-[#A8A29E]">
                   Enqueue elements with custom priority weights and watch the queue dynamically organize its dispatch head.
                 </p>
               </div>
-              <span className="text-xs font-mono text-[#991B1B] bg-[#FEF2F2] px-2.5 py-1 rounded border border-[#FECACA] font-bold">
+              <span className="text-xs font-mono text-[#991B1B] dark:text-[#EF4444] bg-[#FEF2F2] dark:bg-[#450A0A]/40 px-2.5 py-1 rounded border border-[#FECACA] dark:border-[#7F1D1D] font-bold">
                 Queue Length: {abstractQueue.length}
               </span>
             </div>
 
             {/* Controls */}
-            <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9]">
+            <div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
               <input
                 type="text"
                 value={newValue}
                 onChange={(e) => setNewValue(e.target.value)}
                 placeholder="Element Name (e.g. Render Frame)"
-                className="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-sans"
+                className="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-sans"
               />
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-serif font-semibold text-[#66625B]">Priority:</span>
+                <span className="text-xs font-serif font-semibold text-[#66625B] dark:text-[#A8A29E]">Priority:</span>
                 <input
                   type="number"
                   value={newPriority}
                   onChange={(e) => setNewPriority(Number(e.target.value))}
-                  className="w-18 px-2 py-1.5 rounded-lg bg-white border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono font-bold"
+                  className="w-18 px-2 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono font-bold"
                 />
               </div>
               <button
@@ -505,7 +505,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
               <button
                 onClick={handleAbstractDequeue}
                 disabled={abstractQueue.length === 0}
-                className="px-3.5 py-1.5 rounded-lg bg-white hover:bg-[#FEF2F2] border border-[#FECACA] text-[#991B1B] text-xs font-serif font-bold flex items-center gap-1.5 disabled:opacity-40 transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-bold flex items-center gap-1.5 disabled:opacity-40 transition-colors cursor-pointer"
               >
                 <Minus className="w-3.5 h-3.5" /> Dequeue / Dispatch Top
               </button>
@@ -513,16 +513,16 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
             {/* Queue Visualization Track */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs font-serif font-bold text-[#66625B]">
-                <span className="text-[#991B1B] flex items-center gap-1">
+              <div className="flex items-center justify-between text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">
+                <span className="text-[#991B1B] dark:text-[#EF4444] flex items-center gap-1">
                   <ArrowRight className="w-3.5 h-3.5" /> DISPATCH HEAD (Highest Priority Out Next)
                 </span>
                 <span>TAIL (Lowest Priority)</span>
               </div>
 
-              <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] min-h-[140px] flex items-center overflow-x-auto gap-3">
+              <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] min-h-[140px] flex items-center overflow-x-auto gap-3">
                 {abstractQueue.length === 0 ? (
-                  <div className="text-xs text-[#88847C] italic mx-auto">
+                  <div className="text-xs text-[#88847C] dark:text-[#78716C] italic mx-auto">
                     Priority Queue is empty. Enqueue new elements above.
                   </div>
                 ) : (
@@ -537,12 +537,12 @@ export const PriorityQueueVisualizer: React.FC = () => {
                         transition={{ duration: 0.2 }}
                         className={`shrink-0 w-44 p-3 rounded-xl border flex flex-col justify-between shadow-xs ${
                           idx === 0
-                            ? 'bg-white border-[#991B1B] ring-2 ring-[#FECACA]'
-                            : 'bg-white border-[#E5E2D9]'
+                            ? 'bg-white dark:bg-[#201D1A] border-[#991B1B] ring-2 ring-[#FECACA]'
+                            : 'bg-white dark:bg-[#201D1A] border-[#E5E2D9] dark:border-[#38332B]'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-mono font-bold text-[#88847C]">
+                          <span className="text-[10px] font-mono font-bold text-[#88847C] dark:text-[#78716C]">
                             Rank #{idx + 1}
                           </span>
                           <span
@@ -552,10 +552,10 @@ export const PriorityQueueVisualizer: React.FC = () => {
                             Pri: {item.priority}
                           </span>
                         </div>
-                        <div className="my-2 font-serif font-bold text-xs text-[#1A1A1A] line-clamp-1">
+                        <div className="my-2 font-serif font-bold text-xs text-[#1A1A1A] dark:text-[#EDE8DF] line-clamp-1">
                           {item.value}
                         </div>
-                        <div className="text-[9px] font-mono text-[#66625B] flex items-center justify-between pt-1 border-t border-[#F4F2EB]">
+                        <div className="text-[9px] font-mono text-[#66625B] dark:text-[#A8A29E] flex items-center justify-between pt-1 border-t border-[#F4F2EB]">
                           <span>{idx === 0 ? '🔥 NEXT OUT' : 'WAITING'}</span>
                           <span>{abstractMode === 'max' ? 'Max-PQ' : 'Min-PQ'}</span>
                         </div>
@@ -567,13 +567,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
             </div>
 
             {/* ADT Activity Log */}
-            <div className="p-3.5 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-1.5">
-              <div className="text-[11px] font-serif font-bold text-[#66625B] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#991B1B]" /> ADT Operations Log
+            <div className="p-3.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-1.5">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E] flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> ADT Operations Log
               </div>
               <div className="space-y-1 font-mono text-[11px] max-h-24 overflow-y-auto">
                 {abstractLogs.map((log, i) => (
-                  <div key={i} className="text-[#44403C] py-0.5 border-b border-[#E5E2D9]/40">
+                  <div key={i} className="text-[#44403C] dark:text-[#D6D0C5] py-0.5 border-b border-[#E5E2D9] dark:border-[#38332B]/40">
                     {log}
                   </div>
                 ))}
@@ -589,10 +589,10 @@ export const PriorityQueueVisualizer: React.FC = () => {
       {activeTab === 'real-world-apps' && (
         <div className="space-y-6">
           {/* Application Selector */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] space-y-3 shadow-xs">
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-3 shadow-xs">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-[#15803D]" /> Where Are Priority Queues Used in Systems & Algorithms?
+              <h3 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80]" /> Where Are Priority Queues Used in Systems & Algorithms?
               </h3>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -601,11 +601,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 className={`p-2.5 rounded-lg text-left border transition-all cursor-pointer ${
                   appCategory === 'os-scheduler'
                     ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-xs'
-                    : 'bg-[#FAF8F5] border-[#E5E2D9] text-[#44403C] hover:bg-[#F4F2EB]'
+                    : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#E5E2D9] dark:border-[#38332B] text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                 }`}
               >
                 <div className="text-xs font-serif font-bold">1. OS Task Scheduler</div>
-                <div className={`text-[10px] ${appCategory === 'os-scheduler' ? 'text-gray-300' : 'text-[#88847C]'}`}>
+                <div className={`text-[10px] ${appCategory === 'os-scheduler' ? 'text-gray-300' : 'text-[#88847C] dark:text-[#78716C]'}`}>
                   CPU Preemptive Slicing
                 </div>
               </button>
@@ -615,11 +615,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 className={`p-2.5 rounded-lg text-left border transition-all cursor-pointer ${
                   appCategory === 'dijkstra-frontier'
                     ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-xs'
-                    : 'bg-[#FAF8F5] border-[#E5E2D9] text-[#44403C] hover:bg-[#F4F2EB]'
+                    : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#E5E2D9] dark:border-[#38332B] text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                 }`}
               >
                 <div className="text-xs font-serif font-bold">2. Dijkstra & Prim</div>
-                <div className={`text-[10px] ${appCategory === 'dijkstra-frontier' ? 'text-gray-300' : 'text-[#88847C]'}`}>
+                <div className={`text-[10px] ${appCategory === 'dijkstra-frontier' ? 'text-gray-300' : 'text-[#88847C] dark:text-[#78716C]'}`}>
                   Distance Frontier Min-PQ
                 </div>
               </button>
@@ -629,11 +629,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 className={`p-2.5 rounded-lg text-left border transition-all cursor-pointer ${
                   appCategory === 'huffman-merge'
                     ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-xs'
-                    : 'bg-[#FAF8F5] border-[#E5E2D9] text-[#44403C] hover:bg-[#F4F2EB]'
+                    : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#E5E2D9] dark:border-[#38332B] text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                 }`}
               >
                 <div className="text-xs font-serif font-bold">3. Huffman Coding</div>
-                <div className={`text-[10px] ${appCategory === 'huffman-merge' ? 'text-gray-300' : 'text-[#88847C]'}`}>
+                <div className={`text-[10px] ${appCategory === 'huffman-merge' ? 'text-gray-300' : 'text-[#88847C] dark:text-[#78716C]'}`}>
                   Greedy Frequency Merging
                 </div>
               </button>
@@ -643,11 +643,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 className={`p-2.5 rounded-lg text-left border transition-all cursor-pointer ${
                   appCategory === 'top-k'
                     ? 'bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-xs'
-                    : 'bg-[#FAF8F5] border-[#E5E2D9] text-[#44403C] hover:bg-[#F4F2EB]'
+                    : 'bg-[#FAF8F5] dark:bg-[#181614] border-[#E5E2D9] dark:border-[#38332B] text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#F4F2EB] dark:bg-[#2A2622]'
                 }`}
               >
                 <div className="text-xs font-serif font-bold">4. Top-K Streaming</div>
-                <div className={`text-[10px] ${appCategory === 'top-k' ? 'text-gray-300' : 'text-[#88847C]'}`}>
+                <div className={`text-[10px] ${appCategory === 'top-k' ? 'text-gray-300' : 'text-[#88847C] dark:text-[#78716C]'}`}>
                   Bounded Window Heap
                 </div>
               </button>
@@ -656,20 +656,20 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
           {/* APP 1: OS TASK SCHEDULER */}
           {appCategory === 'os-scheduler' && (
-            <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+            <div className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
                 <div>
-                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                    <Server className="w-4 h-4 text-[#991B1B]" /> Operating System Real-Time Task Scheduler
+                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                    <Server className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Operating System Real-Time Task Scheduler
                   </h4>
-                  <p className="text-xs text-[#66625B]">
+                  <p className="text-xs text-[#66625B] dark:text-[#A8A29E]">
                     Operating System kernels (Linux CFS, FreeRTOS) maintain priority queues of active thread contexts. The CPU scheduler always pulls the highest-priority runnable thread.
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleAddOsTask}
-                    className="px-3 py-1.5 rounded-lg bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-xs font-serif font-semibold text-[#1A1A1A] cursor-pointer"
+                    className="px-3 py-1.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-xs font-serif font-semibold text-[#1A1A1A] dark:text-[#EDE8DF] cursor-pointer"
                   >
                     + Spawn Random Process
                   </button>
@@ -684,14 +684,14 @@ export const PriorityQueueVisualizer: React.FC = () => {
               </div>
 
               {/* Active CPU Core State */}
-              <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] flex flex-wrap items-center justify-between gap-3">
+              <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-[#1A1A1A] text-emerald-400 font-mono font-bold flex items-center justify-center text-xs shadow-xs">
                     CPU0
                   </div>
                   <div>
-                    <div className="text-[10px] font-mono text-[#88847C] uppercase">Currently Executing Thread</div>
-                    <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+                    <div className="text-[10px] font-mono text-[#88847C] dark:text-[#78716C] uppercase">Currently Executing Thread</div>
+                    <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                       {activeCpuTask ? activeCpuTask : 'CPU Idle (Awaiting next interrupt / process)'}
                     </div>
                   </div>
@@ -705,7 +705,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs font-sans border-collapse">
                   <thead>
-                    <tr className="bg-[#FAF8F5] text-[#44403C] border-b border-[#E5E2D9]">
+                    <tr className="bg-[#FAF8F5] dark:bg-[#181614] text-[#44403C] dark:text-[#D6D0C5] border-b border-[#E5E2D9] dark:border-[#38332B]">
                       <th className="p-2.5 font-serif font-bold">PID</th>
                       <th className="p-2.5 font-serif font-bold">Process Name</th>
                       <th className="p-2.5 font-serif font-bold">Priority Score</th>
@@ -715,9 +715,9 @@ export const PriorityQueueVisualizer: React.FC = () => {
                   </thead>
                   <tbody>
                     {osTasks.map((t, idx) => (
-                      <tr key={t.pid} className={`border-b border-[#F4F2EB] ${idx === 0 ? 'bg-[#FEF2F2]/60 font-bold' : ''}`}>
-                        <td className="p-2.5 font-mono text-[#991B1B]">{t.pid}</td>
-                        <td className="p-2.5 text-[#1A1A1A]">{t.name}</td>
+                      <tr key={t.pid} className={`border-b border-[#F4F2EB] ${idx === 0 ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40/60 font-bold' : ''}`}>
+                        <td className="p-2.5 font-mono text-[#991B1B] dark:text-[#EF4444]">{t.pid}</td>
+                        <td className="p-2.5 text-[#1A1A1A] dark:text-[#EDE8DF]">{t.name}</td>
                         <td className="p-2.5">
                           <span className={`px-2 py-0.5 rounded font-mono text-[10px] font-bold ${
                             t.priority >= 80 ? 'bg-red-100 text-red-800' : t.priority >= 50 ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
@@ -725,8 +725,8 @@ export const PriorityQueueVisualizer: React.FC = () => {
                             {t.priority} {idx === 0 ? '(Highest - Next)' : ''}
                           </span>
                         </td>
-                        <td className="p-2.5 text-[#66625B] text-[11px]">{t.level}</td>
-                        <td className="p-2.5 font-mono text-[#88847C]">{t.burst}</td>
+                        <td className="p-2.5 text-[#66625B] dark:text-[#A8A29E] text-[11px]">{t.level}</td>
+                        <td className="p-2.5 font-mono text-[#88847C] dark:text-[#78716C]">{t.burst}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -737,13 +737,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
           {/* APP 2: DIJKSTRA / PRIM FRONTIER */}
           {appCategory === 'dijkstra-frontier' && (
-            <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+            <div className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
                 <div>
-                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                    <Network className="w-4 h-4 text-[#15803D]" /> Dijkstra Shortest Path Relaxation Frontier
+                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                    <Network className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80]" /> Dijkstra Shortest Path Relaxation Frontier
                   </h4>
-                  <p className="text-xs text-[#66625B]">
+                  <p className="text-xs text-[#66625B] dark:text-[#A8A29E]">
                     Dijkstra's and Prim's algorithms rely on a <strong>Min-Priority Queue</strong> to greedily extract the candidate vertex with the smallest tentative distance <MathText text="$d[v]$" /> in <MathText text="$\mathcal{O}((V + E) \log V)$" /> time.
                   </p>
                 </div>
@@ -759,7 +759,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setDijkstraStep(0)}
-                    className="p-1.5 rounded-lg bg-[#FAF8F5] border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] cursor-pointer"
+                    className="p-1.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] cursor-pointer"
                     title="Reset Trace"
                   >
                     <RefreshCw className="w-4 h-4" />
@@ -768,36 +768,36 @@ export const PriorityQueueVisualizer: React.FC = () => {
               </div>
 
               {/* Step Description */}
-              <div className="p-3.5 rounded-lg bg-[#F0FDF4] border border-[#DCFCE7] text-xs font-sans text-[#14532D]">
+              <div className="p-3.5 rounded-lg bg-[#F0FDF4] dark:bg-[#064E3B]/40 border border-[#DCFCE7] dark:border-[#059669]/50 text-xs font-sans text-[#14532D]">
                 <strong>Step {dijkstraStep + 1}:</strong> {dijkstraTrace[dijkstraStep].action}
               </div>
 
               {/* State Display */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Min-PQ Visual */}
-                <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-                  <div className="text-xs font-serif font-bold text-[#1A1A1A] flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+                  <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center justify-between">
                     <span>Min-Priority Queue Contents:</span>
-                    <span className="text-[10px] font-mono text-[#15803D]">std::priority_queue&lt;pair, vector, greater&gt;</span>
+                    <span className="text-[10px] font-mono text-[#15803D] dark:text-[#4ADE80]">std::priority_queue&lt;pair, vector, greater&gt;</span>
                   </div>
                   <div className="flex flex-wrap gap-2 pt-1 min-h-[50px] items-center">
                     {dijkstraTrace[dijkstraStep].pqState.length === 0 ? (
-                      <span className="text-xs text-[#88847C] italic">Min-PQ is Empty (All vertices settled)</span>
+                      <span className="text-xs text-[#88847C] dark:text-[#78716C] italic">Min-PQ is Empty (All vertices settled)</span>
                     ) : (
                       dijkstraTrace[dijkstraStep].pqState.map((item, idx) => (
                         <div
                           key={idx}
                           className={`px-3 py-2 rounded-lg border font-mono text-xs flex items-center gap-2 ${
                             idx === 0
-                              ? 'bg-white border-[#15803D] text-[#15803D] ring-2 ring-[#DCFCE7] font-bold'
-                              : 'bg-white border-[#D8D4C8] text-[#1A1A1A]'
+                              ? 'bg-white dark:bg-[#201D1A] border-[#15803D] text-[#15803D] dark:text-[#4ADE80] ring-2 ring-[#DCFCE7] font-bold'
+                              : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                           }`}
                         >
                           <span className="w-5 h-5 rounded-full bg-[#1A1A1A] text-white flex items-center justify-center text-[10px]">
                             {item.vertex}
                           </span>
                           <span>d = {item.dist}</span>
-                          {idx === 0 && <span className="text-[9px] text-[#15803D] uppercase font-bold">(Top)</span>}
+                          {idx === 0 && <span className="text-[9px] text-[#15803D] dark:text-[#4ADE80] uppercase font-bold">(Top)</span>}
                         </div>
                       ))
                     )}
@@ -805,8 +805,8 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 </div>
 
                 {/* Distance Table */}
-                <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-                  <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+                <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+                  <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                     Tentative Distance Array $d[v]$ & Settled Set:
                   </div>
                   <div className="grid grid-cols-5 gap-1.5 font-mono text-center">
@@ -818,12 +818,12 @@ export const PriorityQueueVisualizer: React.FC = () => {
                           className={`p-2 rounded-lg border text-xs ${
                             isSettled
                               ? 'bg-emerald-100 border-emerald-300 text-emerald-900 font-bold'
-                              : 'bg-white border-[#D8D4C8] text-[#1A1A1A]'
+                              : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                           }`}
                         >
-                          <div className="text-[10px] text-[#88847C]">{v}</div>
+                          <div className="text-[10px] text-[#88847C] dark:text-[#78716C]">{v}</div>
                           <div className="text-xs font-bold mt-0.5">{d}</div>
-                          <div className="text-[8px] text-[#66625B] mt-0.5">
+                          <div className="text-[8px] text-[#66625B] dark:text-[#A8A29E] mt-0.5">
                             {isSettled ? 'SETTLED' : 'UNVISITED'}
                           </div>
                         </div>
@@ -837,13 +837,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
           {/* APP 3: HUFFMAN CODING MERGE */}
           {appCategory === 'huffman-merge' && (
-            <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+            <div className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
                 <div>
-                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-[#B45309]" /> Huffman Optimal 2-Tree Greedy Construction
+                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-[#B45309] dark:text-[#FBBF24]" /> Huffman Optimal 2-Tree Greedy Construction
                   </h4>
-                  <p className="text-xs text-[#66625B]">
+                  <p className="text-xs text-[#66625B] dark:text-[#A8A29E]">
                     Huffman's algorithm repeatedly extracts the <strong>two smallest frequency nodes</strong> from a Min-Priority Queue, merges them into a compound parent, and re-inserts the parent back into the Min-PQ.
                   </p>
                 </div>
@@ -859,7 +859,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setHuffmanStep(0)}
-                    className="p-1.5 rounded-lg bg-[#FAF8F5] border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] cursor-pointer"
+                    className="p-1.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] cursor-pointer"
                     title="Reset"
                   >
                     <RefreshCw className="w-4 h-4" />
@@ -867,12 +867,12 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-lg bg-[#FFFBEB] border border-[#FDE68A] text-xs font-sans text-[#92400E]">
+              <div className="p-3.5 rounded-lg bg-[#FFFBEB] dark:bg-[#78350F]/40 border border-[#FDE68A] dark:border-[#B45309]/50 text-xs font-sans text-[#92400E] dark:text-[#FDE68A]">
                 <strong>Step {huffmanStep + 1}:</strong> {huffmanTrace[huffmanStep].step}
               </div>
 
-              <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-                <div className="text-xs font-serif font-bold text-[#66625B]">
+              <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+                <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">
                   Current Min-PQ State (Trees ordered by root frequency):
                 </div>
                 <div className="flex flex-wrap gap-2 pt-1">
@@ -882,7 +882,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
                       className={`px-3 py-2 rounded-lg border font-mono text-xs ${
                         i < 2 && huffmanStep < huffmanTrace.length - 1
                           ? 'bg-amber-100 border-amber-300 text-amber-950 font-bold'
-                          : 'bg-white border-[#D8D4C8] text-[#1A1A1A]'
+                          : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                       }`}
                     >
                       {node} {i < 2 && huffmanStep < huffmanTrace.length - 1 ? '← Next to Merge' : ''}
@@ -895,13 +895,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
           {/* APP 4: TOP-K STREAMING */}
           {appCategory === 'top-k' && (
-            <div className="p-5 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-4 shadow-xs">
-              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9]">
+            <div className="p-5 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-4 shadow-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
                 <div>
-                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A]">
+                  <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                     Top-K Largest Elements in Continuous Stream (Min-Heap of Size K)
                   </h4>
-                  <p className="text-xs text-[#66625B]">
+                  <p className="text-xs text-[#66625B] dark:text-[#A8A29E]">
                     To find the Top <MathText text="$K$" /> largest items from an infinite data stream without sorting all elements: maintain a <strong>Min-Heap of capacity $K$</strong>. When a new element arrives, if it is larger than the root (the minimum of the current top-K), pop the root and insert the new element in <MathText text="$\mathcal{O}(\log K)$" /> time!
                   </p>
                 </div>
@@ -915,8 +915,8 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
               {/* Visual Track */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-                  <div className="text-xs font-serif font-bold text-[#1A1A1A]">Incoming Data Stream:</div>
+                <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+                  <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Incoming Data Stream:</div>
                   <div className="flex flex-wrap gap-1.5">
                     {streamValues.map((val, idx) => (
                       <span
@@ -924,7 +924,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
                         className={`w-9 h-9 rounded-lg font-mono text-xs font-bold flex items-center justify-center border ${
                           idx < topKStep
                             ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]'
-                            : 'bg-white border-[#D8D4C8] text-[#88847C]'
+                            : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36] text-[#88847C] dark:text-[#78716C]'
                         }`}
                       >
                         {val}
@@ -933,8 +933,8 @@ export const PriorityQueueVisualizer: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#FEF2F2] border border-[#FECACA] space-y-2">
-                  <div className="text-xs font-serif font-bold text-[#991B1B]">
+                <div className="p-4 rounded-xl bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] space-y-2">
+                  <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444]">
                     Current Top-{kLimit} Largest Buffer (Min-Heap):
                   </div>
                   <div className="flex items-center gap-2 pt-1">
@@ -945,11 +945,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                       .map((val, idx) => (
                         <div
                           key={idx}
-                          className="w-14 h-16 rounded-xl bg-white border border-[#FECACA] flex flex-col items-center justify-between p-2 font-mono shadow-xs"
+                          className="w-14 h-16 rounded-xl bg-white dark:bg-[#201D1A] border border-[#FECACA] dark:border-[#7F1D1D] flex flex-col items-center justify-between p-2 font-mono shadow-xs"
                         >
-                          <span className="text-[10px] text-[#991B1B] font-bold">#{idx + 1}</span>
-                          <span className="text-base font-bold text-[#1A1A1A]">{val}</span>
-                          <span className="text-[8px] text-[#66625B]">{idx === kLimit - 1 ? 'Heap Root' : 'Top-K'}</span>
+                          <span className="text-[10px] text-[#991B1B] dark:text-[#EF4444] font-bold">#{idx + 1}</span>
+                          <span className="text-base font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">{val}</span>
+                          <span className="text-[8px] text-[#66625B] dark:text-[#A8A29E]">{idx === kLimit - 1 ? 'Heap Root' : 'Top-K'}</span>
                         </div>
                       ))}
                   </div>
@@ -966,8 +966,8 @@ export const PriorityQueueVisualizer: React.FC = () => {
       {activeTab === 'internal-heap' && (
         <div className="space-y-6">
           {/* Sub-Header Actions */}
-          <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white border border-[#E5E2D9] gap-2 shadow-xs">
-            <div className="flex items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB]">
+          <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] gap-2 shadow-xs">
+            <div className="flex items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622]">
               <button
                 id="heap-mode-max"
                 onClick={() => {
@@ -976,11 +976,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 }}
                 className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   heapType === 'max'
-                    ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                    : 'text-[#66625B] hover:text-[#1A1A1A]'
+                    ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                    : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
                 }`}
               >
-                <TrendingUp className="w-3.5 h-3.5 text-[#991B1B]" /> Max-Heap (Default C++)
+                <TrendingUp className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Max-Heap (Default C++)
               </button>
               <button
                 id="heap-mode-min"
@@ -990,32 +990,32 @@ export const PriorityQueueVisualizer: React.FC = () => {
                 }}
                 className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                   heapType === 'min'
-                    ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                    : 'text-[#66625B] hover:text-[#1A1A1A]'
+                    ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                    : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
                 }`}
               >
-                <TrendingUp className="w-3.5 h-3.5 rotate-180 text-[#15803D]" /> Min-Heap (greater&lt;T&gt;)
+                <TrendingUp className="w-3.5 h-3.5 rotate-180 text-[#15803D] dark:text-[#4ADE80]" /> Min-Heap (greater&lt;T&gt;)
               </button>
             </div>
 
             <button
               id="heap-reset-btn"
               onClick={handleHeapReset}
-              className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#66625B] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Reset Heap
             </button>
           </div>
 
           {/* Control Actions */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] flex flex-wrap items-center gap-3 shadow-xs">
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center gap-3 shadow-xs">
             <input
               id="heap-val-input"
               type="number"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
               placeholder="Value"
-              className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono font-bold"
+              className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono font-bold"
             />
             <button
               id="heap-push-btn"
@@ -1028,16 +1028,16 @@ export const PriorityQueueVisualizer: React.FC = () => {
               id="heap-pop-btn"
               onClick={handlePop}
               disabled={heap.length === 0}
-              className="px-3.5 py-1.5 rounded-md bg-white hover:bg-[#FEF2F2] border border-[#FECACA] disabled:opacity-40 text-[#991B1B] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] hover:bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] disabled:opacity-40 text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Minus className="w-3.5 h-3.5" /> extract_root() / pop()
             </button>
             <button
               id="heap-random-btn"
               onClick={handleBuildHeap}
-              className="px-3.5 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <Shuffle className="w-3.5 h-3.5 text-[#B45309]" /> Build-Heap <MathText text="$\mathcal{O}(N)$" />
+              <Shuffle className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" /> Build-Heap <MathText text="$\mathcal{O}(N)$" />
             </button>
             <button
               id="heap-sort-btn"
@@ -1051,20 +1051,20 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
           {/* Formulas Bar */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-[11px] font-serif font-bold text-[#66625B]">Parent Pointer Formula</div>
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Parent Pointer Formula</div>
               <div className="mt-1 text-xs">
                 <Latex math="\text{Parent}(i) = \left\lfloor \frac{i - 1}{2} \right\rfloor" />
               </div>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-[11px] font-serif font-bold text-[#66625B]">Left Child Formula</div>
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Left Child Formula</div>
               <div className="mt-1 text-xs">
                 <Latex math="\text{LeftChild}(i) = 2i + 1" />
               </div>
             </div>
-            <div className="p-3.5 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-[11px] font-serif font-bold text-[#66625B]">Right Child Formula</div>
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-[11px] font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Right Child Formula</div>
               <div className="mt-1 text-xs">
                 <Latex math="\text{RightChild}(i) = 2i + 2" />
               </div>
@@ -1072,25 +1072,25 @@ export const PriorityQueueVisualizer: React.FC = () => {
           </div>
 
           {/* Heap Tree Visual Representation */}
-          <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
-            <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9]">
+          <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
               <div>
-                <span className="text-sm font-serif font-bold text-[#1A1A1A]">
+                <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                   Binary Heap Tree Structure ({heapType.toUpperCase()}-Heap)
                 </span>
-                <p className="text-xs text-[#66625B] font-sans">
+                <p className="text-xs text-[#66625B] dark:text-[#A8A29E] font-sans">
                   Complete binary tree implicitly mapped into contiguous 0-indexed memory.
                 </p>
               </div>
-              <span className="text-xs font-mono text-[#991B1B] bg-[#FEF2F2] px-2.5 py-1 rounded border border-[#FECACA] font-bold">
+              <span className="text-xs font-mono text-[#991B1B] dark:text-[#EF4444] bg-[#FEF2F2] dark:bg-[#450A0A]/40 px-2.5 py-1 rounded border border-[#FECACA] dark:border-[#7F1D1D] font-bold">
                 size() = {heap.length}
               </span>
             </div>
 
             {/* Tree Hierarchical Levels */}
-            <div className="p-6 bg-[#FAF8F5] rounded-xl border border-[#E5E2D9] flex flex-col items-center gap-4 min-h-[180px] justify-center">
+            <div className="p-6 bg-[#FAF8F5] dark:bg-[#181614] rounded-xl border border-[#E5E2D9] dark:border-[#38332B] flex flex-col items-center gap-4 min-h-[180px] justify-center">
               {heap.length === 0 ? (
-                <div className="text-xs text-[#88847C] italic">Heap is currently empty (all items extracted!)</div>
+                <div className="text-xs text-[#88847C] dark:text-[#78716C] italic">Heap is currently empty (all items extracted!)</div>
               ) : (
                 <div className="space-y-4 w-full flex flex-col items-center">
                   {/* Level 0: Root */}
@@ -1101,12 +1101,12 @@ export const PriorityQueueVisualizer: React.FC = () => {
                         className={`w-12 h-12 rounded-full font-bold font-mono text-sm flex items-center justify-center shadow-xs border-2 ${
                           activeIndices.includes(0)
                             ? 'bg-[#991B1B] text-white ring-4 ring-[#FECACA]'
-                            : 'bg-[#1A1A1A] text-white border-[#D8D4C8]'
+                            : 'bg-[#1A1A1A] text-white border-[#D8D4C8] dark:border-[#423D36]'
                         }`}
                       >
                         {heap[0]}
                       </motion.div>
-                      <span className="text-[10px] font-mono text-[#991B1B] font-bold mt-1">Root [0]</span>
+                      <span className="text-[10px] font-mono text-[#991B1B] dark:text-[#EF4444] font-bold mt-1">Root [0]</span>
                     </div>
                   </div>
 
@@ -1123,13 +1123,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
                               layout
                               className={`w-10 h-10 rounded-full font-bold font-mono text-xs flex items-center justify-center shadow-xs border ${
                                 isActive
-                                  ? 'bg-[#FEF2F2] border-[#991B1B] text-[#991B1B] ring-2 ring-[#FECACA]'
-                                  : 'bg-white border-[#D8D4C8] text-[#1A1A1A]'
+                                  ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] text-[#991B1B] dark:text-[#EF4444] ring-2 ring-[#FECACA]'
+                                  : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                               }`}
                             >
                               {val}
                             </motion.div>
-                            <span className="text-[9px] font-mono text-[#66625B] mt-0.5">[{realIdx}]</span>
+                            <span className="text-[9px] font-mono text-[#66625B] dark:text-[#A8A29E] mt-0.5">[{realIdx}]</span>
                           </div>
                         );
                       })}
@@ -1149,13 +1149,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
                               layout
                               className={`w-9 h-9 rounded-full font-bold font-mono text-xs flex items-center justify-center border ${
                                 isActive
-                                  ? 'bg-[#FEF2F2] border-[#991B1B] text-[#991B1B] ring-2 ring-[#FECACA]'
-                                  : 'bg-[#F4F2EB] border-[#D8D4C8] text-[#1A1A1A]'
+                                  ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] text-[#991B1B] dark:text-[#EF4444] ring-2 ring-[#FECACA]'
+                                  : 'bg-[#F4F2EB] dark:bg-[#2A2622] border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                               }`}
                             >
                               {val}
                             </motion.div>
-                            <span className="text-[9px] font-mono text-[#88847C] mt-0.5">[{realIdx}]</span>
+                            <span className="text-[9px] font-mono text-[#88847C] dark:text-[#78716C] mt-0.5">[{realIdx}]</span>
                           </div>
                         );
                       })}
@@ -1167,7 +1167,7 @@ export const PriorityQueueVisualizer: React.FC = () => {
 
             {/* Flat Array Representation */}
             <div>
-              <div className="text-xs font-serif font-bold text-[#66625B] mb-2">
+              <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] mb-2">
                 Contiguous Sequential Array in Memory:
               </div>
               <div className="flex flex-wrap items-center gap-2">
@@ -1175,11 +1175,11 @@ export const PriorityQueueVisualizer: React.FC = () => {
                   <motion.div
                     key={idx}
                     layout
-                    className="w-14 h-16 rounded-lg bg-[#FAF8F5] border border-[#D8D4C8] flex flex-col items-center justify-between p-1.5 font-mono shadow-2xs"
+                    className="w-14 h-16 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] flex flex-col items-center justify-between p-1.5 font-mono shadow-2xs"
                   >
-                    <span className="text-[10px] text-[#88847C]">[{idx}]</span>
-                    <span className="text-sm font-bold text-[#1A1A1A]">{val}</span>
-                    <span className="text-[8px] text-[#991B1B] font-bold">
+                    <span className="text-[10px] text-[#88847C] dark:text-[#78716C]">[{idx}]</span>
+                    <span className="text-sm font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">{val}</span>
+                    <span className="text-[8px] text-[#991B1B] dark:text-[#EF4444] font-bold">
                       {idx === 0 ? 'ROOT' : `P:${Math.floor((idx - 1) / 2)}`}
                     </span>
                   </motion.div>
@@ -1191,10 +1191,10 @@ export const PriorityQueueVisualizer: React.FC = () => {
                     {sortedArray.map((val, idx) => (
                       <div
                         key={`s-${idx}`}
-                        className="w-14 h-16 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex flex-col items-center justify-between p-1.5 font-mono shadow-2xs"
+                        className="w-14 h-16 rounded-lg bg-[#ECFDF5] dark:bg-[#064E3B]/40 border border-[#A7F3D0] dark:border-[#059669] flex flex-col items-center justify-between p-1.5 font-mono shadow-2xs"
                       >
-                        <span className="text-[10px] text-[#15803D] font-bold">Sorted</span>
-                        <span className="text-sm font-bold text-[#065F46]">{val}</span>
+                        <span className="text-[10px] text-[#15803D] dark:text-[#4ADE80] font-bold">Sorted</span>
+                        <span className="text-sm font-bold text-[#065F46] dark:text-[#34D399]">{val}</span>
                         <span className="text-[8px] text-[#059669]">Extracted</span>
                       </div>
                     ))}
@@ -1205,13 +1205,13 @@ export const PriorityQueueVisualizer: React.FC = () => {
           </div>
 
           {/* Activity Log */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-            <div className="text-xs font-serif font-bold text-[#66625B] mb-2 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#991B1B]" /> Binary Heap Memory Activity Log
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+            <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] mb-2 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Binary Heap Memory Activity Log
             </div>
             <div className="space-y-1 font-mono text-xs max-h-28 overflow-y-auto pr-2">
               {heapLogs.map((log, i) => (
-                <div key={i} className="text-[#44403C] py-0.5 border-b border-[#F4F2EB]">
+                <div key={i} className="text-[#44403C] dark:text-[#D6D0C5] py-0.5 border-b border-[#F4F2EB]">
                   {log}
                 </div>
               ))}
