@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Latex, MathText } from '../common/Latex';
 import {
   Binary,
@@ -123,24 +123,24 @@ export const HuffmanVisualizer: React.FC = () => {
   const compressionRatio = (((fixedBits - totalWPL) / fixedBits) * 100).toFixed(1);
 
   return (
-    <div className="p-4 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
+    <div className="p-4 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9]">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
         <div>
-          <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-            <Binary className="w-5 h-5 text-[#991B1B]" /> Huffman Optimal Prefix 2-Tree Simulator
+          <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+            <Binary className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Huffman Optimal Prefix 2-Tree Simulator
           </h3>
-          <div className="text-xs text-[#66625B] mt-0.5 font-sans">
+          <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
             Build optimal variable-length prefix binary trees, eliminate ambiguity without delimiters, and minimize Weighted External Path Length (<MathText text="$\text{WPL} = \sum f_i \cdot d_i$" />).
           </div>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex items-center gap-1 bg-[#F4F2EB] p-1 rounded-lg border border-[#E5E2D9]">
+        <div className="flex items-center gap-1 bg-[#F4F2EB] dark:bg-[#2A2622] p-1 rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
           <button
             onClick={() => setActiveTab('construction')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'construction' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'construction' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             1. Step-by-Step Tree Merge
@@ -148,7 +148,7 @@ export const HuffmanVisualizer: React.FC = () => {
           <button
             onClick={() => setActiveTab('codes')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'codes' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'codes' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             2. Prefix Code Table
@@ -156,7 +156,7 @@ export const HuffmanVisualizer: React.FC = () => {
           <button
             onClick={() => setActiveTab('wpl')}
             className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'wpl' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'wpl' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             3. WPL & Compression Proof
@@ -167,8 +167,8 @@ export const HuffmanVisualizer: React.FC = () => {
       {/* TAB 1: Step by Step Merge */}
       {activeTab === 'construction' && (
         <div className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               Heap Reduction Step {step} of 5:
             </div>
             <div className="flex items-center gap-2">
@@ -183,7 +183,7 @@ export const HuffmanVisualizer: React.FC = () => {
               </button>
               <button
                 onClick={() => setStep(0)}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -192,17 +192,17 @@ export const HuffmanVisualizer: React.FC = () => {
           </div>
 
           {/* Current Step Description */}
-          <div className="p-3.5 rounded-lg bg-[#FEF2F2]/50 border border-[#FECACA] space-y-1">
-            <div className="text-xs font-serif font-bold text-[#991B1B]">
+          <div className="p-3.5 rounded-lg bg-[#FEF2F2] dark:bg-[#450A0A]/40/50 border border-[#FECACA] dark:border-[#7F1D1D] space-y-1">
+            <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444]">
               {constructionSteps[step].title}
             </div>
-            <div className="text-xs text-[#44403C]">
+            <div className="text-xs text-[#44403C] dark:text-[#D6D0C5]">
               {constructionSteps[step].note}
             </div>
           </div>
 
           {/* Render Full Tree SVG on Final Step or Dynamic Partial Forest */}
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex flex-col items-center justify-center min-h-[250px]">
+          <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex flex-col items-center justify-center min-h-[250px]">
             {step === 5 ? (
               <svg width="440" height="230" className="overflow-visible">
                 {/* Edges */}
@@ -282,12 +282,12 @@ export const HuffmanVisualizer: React.FC = () => {
                 {constructionSteps[step].forest.map((item, idx) => (
                   <div
                     key={item.id}
-                    className="p-3 rounded-lg bg-white border-2 border-[#1A1A1A] flex flex-col items-center gap-1 shadow-xs min-w-[70px]"
+                    className="p-3 rounded-lg bg-white dark:bg-[#201D1A] border-2 border-[#1A1A1A] flex flex-col items-center gap-1 shadow-xs min-w-[70px]"
                   >
-                    <span className="text-xs font-mono font-bold text-[#991B1B]">
+                    <span className="text-xs font-mono font-bold text-[#991B1B] dark:text-[#EF4444]">
                       {item.char?.length === 1 ? `Leaf '${item.char}'` : `Subtree`}
                     </span>
-                    <span className="text-sm font-mono font-bold text-[#1A1A1A]">
+                    <span className="text-sm font-mono font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                       Freq: {item.freq}
                     </span>
                   </div>
@@ -301,14 +301,14 @@ export const HuffmanVisualizer: React.FC = () => {
       {/* TAB 2: Prefix Code Table */}
       {activeTab === 'codes' && (
         <div className="space-y-4">
-          <div className="p-3.5 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-1 text-xs text-[#44403C]">
-            <strong className="text-[#1A1A1A] font-serif">Prefix Code Invariant:</strong>
+          <div className="p-3.5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-1 text-xs text-[#44403C] dark:text-[#D6D0C5]">
+            <strong className="text-[#1A1A1A] dark:text-[#EDE8DF] font-serif">Prefix Code Invariant:</strong>
             <p>No character's codeword is a prefix of any other codeword. This guarantees unambiguous, instantaneous decoding without requiring spaces or delimiter symbols!</p>
           </div>
 
-          <div className="overflow-x-auto rounded-lg border border-[#E5E2D9]">
+          <div className="overflow-x-auto rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
             <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-[#F4F2EB] text-[#2C2B29] border-b border-[#E5E2D9]">
+              <thead className="bg-[#F4F2EB] dark:bg-[#2A2622] text-[#2C2B29] dark:text-[#D6D0C5] border-b border-[#E5E2D9] dark:border-[#38332B]">
                 <tr>
                   <th className="p-3 font-serif font-bold">Character</th>
                   <th className="p-3 font-serif font-bold">Frequency</th>
@@ -317,14 +317,14 @@ export const HuffmanVisualizer: React.FC = () => {
                   <th className="p-3 font-serif font-bold">Total Weighted Bits ($f_i \cdot d_i$)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5E2D9] bg-white">
+              <tbody className="divide-y divide-[#E5E2D9] dark:divide-[#38332B] bg-white dark:bg-[#201D1A]">
                 {assignedCodes.map((item) => (
-                  <tr key={item.char} className="hover:bg-[#FAF8F5]">
-                    <td className="p-3 font-bold text-[#1A1A1A] font-sans">'{item.char}'</td>
+                  <tr key={item.char} className="hover:bg-[#FAF8F5] dark:bg-[#181614]">
+                    <td className="p-3 font-bold text-[#1A1A1A] dark:text-[#EDE8DF] font-sans">'{item.char}'</td>
                     <td className="p-3">{item.freq}%</td>
-                    <td className="p-3 font-bold text-[#991B1B] bg-[#FEF2F2]/40">{item.code}</td>
+                    <td className="p-3 font-bold text-[#991B1B] dark:text-[#EF4444] bg-[#FEF2F2] dark:bg-[#450A0A]/40/40">{item.code}</td>
                     <td className="p-3">{item.depth} bits</td>
-                    <td className="p-3 font-bold text-[#15803D]">{item.bits}</td>
+                    <td className="p-3 font-bold text-[#15803D] dark:text-[#4ADE80]">{item.bits}</td>
                   </tr>
                 ))}
               </tbody>
@@ -337,36 +337,36 @@ export const HuffmanVisualizer: React.FC = () => {
       {activeTab === 'wpl' && (
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-              <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-1.5">
-                <Calculator className="w-4 h-4 text-[#991B1B]" /> Weighted External Path Length (WPL)
+            <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-1.5">
+                <Calculator className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Weighted External Path Length (WPL)
               </h4>
-              <div className="p-3 rounded bg-white border border-[#E5E2D9] space-y-2 text-xs font-mono">
+              <div className="p-3 rounded bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2 text-xs font-mono">
                 <div><Latex math="\text{WPL} = \sum_{i=1}^{N} (\text{weight}_i \cdot \text{depth}_i)" /></div>
-                <div className="text-[#66625B] text-[11px] leading-relaxed">
+                <div className="text-[#66625B] dark:text-[#A8A29E] text-[11px] leading-relaxed">
                   = (45×1) + (12×3) + (13×3) + (5×4) + (9×4) + (16×3)<br />
                   = 45 + 36 + 39 + 20 + 36 + 48<br />
-                  = <strong className="text-[#15803D] text-sm">224 Bits / 100 Characters</strong>
+                  = <strong className="text-[#15803D] dark:text-[#4ADE80] text-sm">224 Bits / 100 Characters</strong>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] space-y-2">
-              <h4 className="text-sm font-serif font-bold text-[#1A1A1A] flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-[#15803D]" /> Compression Efficiency vs. Fixed Length
+            <div className="p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <h4 className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80]" /> Compression Efficiency vs. Fixed Length
               </h4>
-              <div className="p-3 rounded bg-white border border-[#E5E2D9] space-y-2 text-xs">
-                <div className="flex justify-between border-b border-[#E5E2D9] pb-1">
-                  <span className="text-[#66625B]">Fixed 3-bit Code:</span>
+              <div className="p-3 rounded bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2 text-xs">
+                <div className="flex justify-between border-b border-[#E5E2D9] dark:border-[#38332B] pb-1">
+                  <span className="text-[#66625B] dark:text-[#A8A29E]">Fixed 3-bit Code:</span>
                   <span className="font-mono font-bold">100 × 3 = 300 Bits</span>
                 </div>
-                <div className="flex justify-between border-b border-[#E5E2D9] pb-1">
-                  <span className="text-[#66625B]">Optimal Huffman Code:</span>
-                  <span className="font-mono font-bold text-[#15803D]">224 Bits</span>
+                <div className="flex justify-between border-b border-[#E5E2D9] dark:border-[#38332B] pb-1">
+                  <span className="text-[#66625B] dark:text-[#A8A29E]">Optimal Huffman Code:</span>
+                  <span className="font-mono font-bold text-[#15803D] dark:text-[#4ADE80]">224 Bits</span>
                 </div>
                 <div className="flex justify-between pt-1">
-                  <span className="text-[#66625B]">Storage Space Saved:</span>
-                  <span className="font-mono font-bold text-[#991B1B]">+{compressionRatio}% Compression</span>
+                  <span className="text-[#66625B] dark:text-[#A8A29E]">Storage Space Saved:</span>
+                  <span className="font-mono font-bold text-[#991B1B] dark:text-[#EF4444]">+{compressionRatio}% Compression</span>
                 </div>
               </div>
             </div>

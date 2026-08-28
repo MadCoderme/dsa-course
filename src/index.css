@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -342,4 +342,57 @@ html.dark body {
 .dark .markdown-body blockquote {
   border-left: 3px solid #EF4444;
   color: #A1A1AA;
+}
+
+
+/* KaTeX and Markdown dark mode text visibility */
+.dark .katex,
+.dark .katex-display,
+.dark .katex * {
+  color: #EDE8DF !important;
+}
+
+.dark .markdown-body {
+  color: #D6D0C5 !important;
+}
+
+.dark .markdown-body p,
+.dark .markdown-body li,
+.dark .markdown-body td,
+.dark .markdown-body div {
+  color: #D6D0C5 !important;
+}
+
+.dark .markdown-body h1,
+.dark .markdown-body h2,
+.dark .markdown-body h3,
+.dark .markdown-body h4,
+.dark .markdown-body strong {
+  color: #EDE8DF !important;
+}
+
+.dark .markdown-body code:not(pre code) {
+  background-color: #2A2622 !important;
+  border-color: #423D36 !important;
+  color: #F87171 !important;
+}
+
+.dark .markdown-body table {
+  background-color: #201D1A !important;
+  border-color: #38332B !important;
+}
+
+.dark .markdown-body th {
+  background-color: #2A2622 !important;
+  border-color: #38332B !important;
+  color: #EDE8DF !important;
+}
+
+.dark .markdown-body td {
+  border-color: #38332B !important;
+  color: #D6D0C5 !important;
+}
+
+.dark svg text {
+  fill: #EDE8DF !important;
 }

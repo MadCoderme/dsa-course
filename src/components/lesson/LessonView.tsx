@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Lesson, TopicId } from '../../types';
 import { getCategoryForTopic } from '../../data/categoriesData';
 import { VectorVisualizer } from '../visualizers/VectorVisualizer';
@@ -240,20 +240,20 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, onSelectTopic })
       <div className="sticky top-2 z-20 flex items-center gap-1.5 p-1.5 rounded-xl bg-white/95 dark:bg-[#201D1A]/95 backdrop-blur-md border border-[#D8D4C8] dark:border-[#38332B] shadow-sm overflow-x-auto">
         <button
           onClick={() => scrollToSection('sec-fundamentals')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] transition-colors whitespace-nowrap cursor-pointer shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] transition-colors whitespace-nowrap cursor-pointer shrink-0"
         >
           <BookOpen className="w-3.5 h-3.5 text-[#2C2B29] dark:text-[#D6D0C5]" /> 1. Fundamentals & Labs
         </button>
         <button
           onClick={() => scrollToSection('sec-stl-ref')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#15803D] dark:text-[#4ADE80] hover:bg-[#ECFDF5] dark:hover:bg-[#064E3B]/30 transition-colors whitespace-nowrap cursor-pointer shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#15803D] dark:text-[#4ADE80] hover:bg-[#ECFDF5] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/30 transition-colors whitespace-nowrap cursor-pointer shrink-0"
         >
           <Code2 className="w-3.5 h-3.5" /> 2. C++ STL & Implementation
         </button>
         {lesson.examQuestions && lesson.examQuestions.length > 0 && (
           <button
             onClick={() => scrollToSection('sec-exam-archive')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#B45309] dark:text-[#FBBF24] hover:bg-[#FFFBEB] dark:hover:bg-[#78350F]/30 transition-colors whitespace-nowrap cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#B45309] dark:text-[#FBBF24] hover:bg-[#FFFBEB] dark:bg-[#78350F]/40 dark:hover:bg-[#78350F]/30 transition-colors whitespace-nowrap cursor-pointer shrink-0"
           >
             <FileQuestion className="w-3.5 h-3.5" /> 3. Solved Exam Questions ({lesson.examQuestions.length})
           </button>
@@ -269,7 +269,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, onSelectTopic })
         {lesson.practiceProblems && lesson.practiceProblems.length > 0 && (
           <button
             onClick={() => scrollToSection('sec-practice-problems')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#D97706] dark:text-[#FBBF24] hover:bg-[#FFFBEB] dark:hover:bg-[#78350F]/30 transition-colors whitespace-nowrap cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-serif font-semibold text-[#D97706] dark:text-[#FBBF24] hover:bg-[#FFFBEB] dark:bg-[#78350F]/40 dark:hover:bg-[#78350F]/30 transition-colors whitespace-nowrap cursor-pointer shrink-0"
           >
             <Trophy className="w-3.5 h-3.5 text-[#D97706] dark:text-[#FBBF24]" /> 5. LeetCode & Codeforces ({lesson.practiceProblems.length})
           </button>
@@ -387,9 +387,9 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, onSelectTopic })
                   <th className="p-3 font-serif font-bold whitespace-nowrap">Time Complexity</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5E2D9] dark:divide-[#38332B] bg-white dark:bg-[#201D1A]">
+              <tbody className="divide-y divide-[#E5E2D9] dark:divide-[#38332B] dark:divide-[#38332B] bg-white dark:bg-[#201D1A]">
                 {lesson.cstlReference.commonMethods.map((m, idx) => (
-                  <tr key={idx} className="hover:bg-[#FAF8F5] dark:hover:bg-[#2A2622]/50 transition-colors">
+                  <tr key={idx} className="hover:bg-[#FAF8F5] dark:bg-[#181614] dark:hover:bg-[#2A2622]/50 transition-colors">
                     <td className="p-3 font-bold text-[#991B1B] dark:text-[#EF4444] whitespace-nowrap">{m.method}</td>
                     <td className="p-3 text-[#2C2B29] dark:text-[#D6D0C5] font-sans min-w-[200px]">
                       <MathText text={m.description} />
@@ -449,7 +449,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, onSelectTopic })
                   {/* Question header */}
                   <div
                     onClick={() => toggleQuestion(q.id)}
-                    className="p-4 sm:p-5 flex items-start justify-between gap-3 cursor-pointer hover:bg-[#FAF8F5] dark:hover:bg-[#2A2622]/50 transition-colors"
+                    className="p-4 sm:p-5 flex items-start justify-between gap-3 cursor-pointer hover:bg-[#FAF8F5] dark:bg-[#181614] dark:hover:bg-[#2A2622]/50 transition-colors"
                   >
                     <div className="space-y-2 flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -468,7 +468,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lesson, onSelectTopic })
                       </h4>
                     </div>
 
-                    <button className="text-[#88847C] dark:text-[#9E988F] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF] mt-1 p-1 cursor-pointer shrink-0">
+                    <button className="text-[#88847C] dark:text-[#9E988F] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] mt-1 p-1 cursor-pointer shrink-0">
                       {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </button>
                   </div>

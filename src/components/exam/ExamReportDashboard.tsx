@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { EXAM_METADATA, WEIGHTAGE_MATRIX, INITIAL_HIGH_YIELD_CHECKLIST } from '../../data/curriculumData';
 import { HighYieldChecklistItem, TopicId } from '../../types';
 import { Award, BookOpen, Flame, TrendingUp, Calendar } from 'lucide-react';
@@ -148,7 +148,7 @@ export const ExamReportDashboard: React.FC<ExamReportDashboardProps> = ({ onSele
                 type="checkbox"
                 checked={item.completed}
                 onChange={() => {}}
-                className="mt-0.5 rounded border-[#D8D4C8] dark:border-[#423D36] text-[#15803D] focus:ring-[#15803D] cursor-pointer"
+                className="mt-0.5 rounded border-[#D8D4C8] dark:border-[#423D36] text-[#15803D] dark:text-[#4ADE80] focus:ring-[#15803D] cursor-pointer"
               />
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between">
@@ -182,9 +182,9 @@ export const ExamReportDashboard: React.FC<ExamReportDashboardProps> = ({ onSele
                 <th className="p-3 font-serif font-bold">Key Exam Topics</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E5E2D9] dark:divide-[#38332B] bg-white dark:bg-[#201D1A]">
+            <tbody className="divide-y divide-[#E5E2D9] dark:divide-[#38332B] dark:divide-[#38332B] bg-white dark:bg-[#201D1A]">
               {WEIGHTAGE_MATRIX.map((topic) => (
-                <tr key={topic.moduleNumber} className="hover:bg-[#FAF8F5] dark:hover:bg-[#2A2622]/50 transition-colors">
+                <tr key={topic.moduleNumber} className="hover:bg-[#FAF8F5] dark:bg-[#181614] dark:hover:bg-[#2A2622]/50 transition-colors">
                   <td className="p-3 font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                     <span className="text-[#88847C] dark:text-[#78716C] mr-2">M{topic.moduleNumber}.</span>
                     {topic.name}

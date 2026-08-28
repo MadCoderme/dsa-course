@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { QuizQuestion } from '../../types';
 import { CheckCircle2, XCircle, HelpCircle, RefreshCw, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -68,7 +68,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ quizzes, topicTitl
             </div>
             <button
               onClick={handleReset}
-              className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#2A2622] hover:bg-[#FAF8F5] dark:hover:bg-[#332E29] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#2A2622] hover:bg-[#FAF8F5] dark:bg-[#181614] dark:hover:bg-[#332E29] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Retake
             </button>
@@ -157,7 +157,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ quizzes, topicTitl
           <button
             onClick={handleSubmit}
             disabled={!allAnswered}
-            className="px-6 py-2.5 rounded-lg bg-[#1A1A1A] dark:bg-[#EDE8DF] hover:bg-[#333] dark:hover:bg-white disabled:opacity-40 text-white dark:text-[#1A1A1A] text-xs font-serif font-bold flex items-center gap-2 transition-colors cursor-pointer shadow-xs"
+            className="px-6 py-2.5 rounded-lg bg-[#1A1A1A] dark:bg-[#EDE8DF] hover:bg-[#333] dark:hover:bg-white dark:bg-[#201D1A] disabled:opacity-40 text-white dark:text-[#1A1A1A] text-xs font-serif font-bold flex items-center gap-2 transition-colors cursor-pointer shadow-xs"
           >
             <Award className="w-4 h-4 text-amber-300 dark:text-amber-600" /> Submit Answers
           </button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Latex, MathText } from '../common/Latex';
 import {
   Play,
@@ -190,24 +190,24 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
   };
 
   return (
-    <div className="p-4 sm:p-6 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
+    <div className="p-4 sm:p-6 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9]">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
         <div>
-          <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-            <Minimize2 className="w-5 h-5 text-[#991B1B]" /> Minimum Cost Spanning Tree (MST) Simulator
+          <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+            <Minimize2 className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Minimum Cost Spanning Tree (MST) Simulator
           </h3>
-          <div className="text-xs text-[#66625B] mt-0.5 font-sans">
+          <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
             Interactive step-by-step execution of Kruskal's Edge-Greedy DSU and Prim's Vertex-Growing algorithms.
           </div>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex items-center gap-1 bg-[#F4F2EB] p-1 rounded-lg border border-[#E5E2D9]">
+        <div className="flex items-center gap-1 bg-[#F4F2EB] dark:bg-[#2A2622] p-1 rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
           <button
             onClick={() => { setActiveTab('kruskal'); resetKruskal(); }}
             className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'kruskal' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'kruskal' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Kruskal's Algorithm (DSU)
@@ -215,7 +215,7 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
           <button
             onClick={() => { setActiveTab('prim'); resetPrim(); }}
             className={`px-3 py-1 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
-              activeTab === 'prim' ? 'bg-white text-[#991B1B] shadow-2xs font-bold' : 'text-[#66625B] hover:text-[#1A1A1A]'
+              activeTab === 'prim' ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] shadow-2xs font-bold' : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
             }`}
           >
             Prim's Algorithm (Priority Queue)
@@ -227,8 +227,8 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
       {activeTab === 'kruskal' && (
         <div className="space-y-5">
           {/* Controls */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               Kruskal's Edge Sorting & Disjoint Set Union (DSU):
             </div>
             <div className="flex items-center gap-2">
@@ -245,15 +245,15 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
                 onClick={() => setIsKruskalPlaying(!isKruskalPlaying)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                   isKruskalPlaying
-                    ? 'bg-[#FEF2F2] text-[#991B1B] border-[#FECACA]'
-                    : 'bg-white text-[#15803D] border-[#DCFCE7] hover:bg-[#F0FDF4]'
+                    ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border-[#FECACA] dark:border-[#7F1D1D]'
+                    : 'bg-white dark:bg-[#064E3B]/30 text-[#15803D] dark:text-[#4ADE80] border-[#DCFCE7] dark:border-[#059669]/40 hover:bg-[#F0FDF4] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/50'
                 }`}
               >
                 <Play className="w-3.5 h-3.5" /> {isKruskalPlaying ? 'Pause' : 'Auto Play'}
               </button>
               <button
                 onClick={resetKruskal}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -262,7 +262,7 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
           </div>
 
           {/* Canvas */}
-          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex justify-center">
             <svg width="420" height="210">
               {allEdges.map((e) => {
                 const u = vertices.find((v) => v.id === e.u)!;
@@ -335,16 +335,16 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
 
           {/* DSU Sets & Cumulative MST Cost */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Disjoint Set Union (DSU) Partitions:</span>
-              <div className="p-2 rounded bg-[#FAF8F5] border border-[#E5E2D9] font-mono text-xs text-[#1A1A1A] font-bold">
+            <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Disjoint Set Union (DSU) Partitions:</span>
+              <div className="p-2 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] font-mono text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-bold">
                 {kruskalStep >= 0 ? kruskalSteps[kruskalStep].dsuSets : '{A}, {B}, {C}, {D}, {E}'}
               </div>
             </div>
 
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Cumulative MST Cost:</span>
-              <div className="p-2 rounded bg-[#F0FDF4] border border-[#DCFCE7] font-mono text-xs text-[#15803D] font-bold flex items-center justify-between">
+            <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Cumulative MST Cost:</span>
+              <div className="p-2 rounded bg-[#F0FDF4] dark:bg-[#064E3B]/40 border border-[#DCFCE7] dark:border-[#059669]/50 font-mono text-xs text-[#15803D] dark:text-[#4ADE80] font-bold flex items-center justify-between">
                 <span>Total Weight: {kruskalStep >= 0 ? kruskalSteps[kruskalStep].costSoFar : 0}</span>
                 <span className="text-[11px] text-[#166534]">
                   Edges Picked: {kruskalStep >= 0 ? kruskalSteps[kruskalStep].acceptedEdges.length : 0} / 4
@@ -354,8 +354,8 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
           </div>
 
           {kruskalStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {kruskalStep + 1}:</strong> {kruskalSteps[kruskalStep].note}
               </span>
@@ -368,8 +368,8 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
       {activeTab === 'prim' && (
         <div className="space-y-5">
           {/* Controls */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#1A1A1A]">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
               Prim's Growing Vertex Cut & Priority Queue:
             </div>
             <div className="flex items-center gap-2">
@@ -386,15 +386,15 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
                 onClick={() => setIsPrimPlaying(!isPrimPlaying)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
                   isPrimPlaying
-                    ? 'bg-[#FEF2F2] text-[#991B1B] border-[#FECACA]'
-                    : 'bg-white text-[#15803D] border-[#DCFCE7] hover:bg-[#F0FDF4]'
+                    ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 text-[#991B1B] dark:text-[#EF4444] border-[#FECACA] dark:border-[#7F1D1D]'
+                    : 'bg-white dark:bg-[#064E3B]/30 text-[#15803D] dark:text-[#4ADE80] border-[#DCFCE7] dark:border-[#059669]/40 hover:bg-[#F0FDF4] dark:bg-[#064E3B]/40 dark:hover:bg-[#064E3B]/50'
                 }`}
               >
                 <Play className="w-3.5 h-3.5" /> {isPrimPlaying ? 'Pause' : 'Auto Play'}
               </button>
               <button
                 onClick={resetPrim}
-                className="p-1.5 rounded-lg bg-white border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] hover:bg-[#F4F2EB] cursor-pointer"
+                className="p-1.5 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] cursor-pointer"
                 title="Reset"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -403,7 +403,7 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
           </div>
 
           {/* Prim SVG */}
-          <div className="relative p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2D9] overflow-x-auto flex justify-center">
+          <div className="relative p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] overflow-x-auto flex justify-center">
             <svg width="420" height="210">
               {allEdges.map((e) => {
                 const u = vertices.find((v) => v.id === e.u)!;
@@ -478,17 +478,17 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
 
           {/* Prim State */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Tree Set S & Frontier Cuts:</span>
-              <div className="p-2 rounded bg-[#FAF8F5] border border-[#E5E2D9] font-mono text-xs text-[#1A1A1A]">
+            <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Tree Set S & Frontier Cuts:</span>
+              <div className="p-2 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] font-mono text-xs text-[#1A1A1A] dark:text-[#EDE8DF]">
                 <strong>Tree Vertices:</strong> {primStep >= 0 ? `{ ${primSteps[primStep].treeVertices.join(', ')} }` : '{ A }'}<br />
                 <strong>Priority Queue Cuts:</strong> {primStep >= 0 ? primSteps[primStep].candidateEdges.join(', ') || 'None' : '(A,B: 3), (A,D: 5)'}
               </div>
             </div>
 
-            <div className="p-4 rounded-lg bg-white border border-[#E5E2D9] space-y-2">
-              <span className="text-xs font-serif font-bold text-[#1A1A1A]">Cumulative MST Cost:</span>
-              <div className="p-2 rounded bg-[#F0FDF4] border border-[#DCFCE7] font-mono text-xs text-[#15803D] font-bold flex items-center justify-between">
+            <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
+              <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Cumulative MST Cost:</span>
+              <div className="p-2 rounded bg-[#F0FDF4] dark:bg-[#064E3B]/40 border border-[#DCFCE7] dark:border-[#059669]/50 font-mono text-xs text-[#15803D] dark:text-[#4ADE80] font-bold flex items-center justify-between">
                 <span>Total Weight: {primStep >= 0 ? primSteps[primStep].costSoFar : 0}</span>
                 <span className="text-[11px] text-[#166534]">
                   Vertices In Tree: {primStep >= 0 ? primSteps[primStep].treeVertices.length : 1} / 5
@@ -498,8 +498,8 @@ export const MstVisualizer: React.FC<MstVisualizerProps> = ({ focusedMode = 'kru
           </div>
 
           {primStep >= 0 && (
-            <div className="text-xs font-sans text-[#44403C] bg-[#F0FDF4] p-3 rounded-lg border border-[#DCFCE7] flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#15803D] shrink-0" />
+            <div className="text-xs font-sans text-[#44403C] dark:text-[#D6D0C5] bg-[#F0FDF4] dark:bg-[#064E3B]/40 p-3 rounded-lg border border-[#DCFCE7] dark:border-[#059669]/50 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-[#15803D] dark:text-[#4ADE80] shrink-0" />
               <span>
                 <strong>Step {primStep + 1}:</strong> {primSteps[primStep].note}
               </span>

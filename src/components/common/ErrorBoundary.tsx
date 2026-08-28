@@ -63,7 +63,7 @@ export class ErrorBoundary extends Component<Props, State> {
               <button
                 type="button"
                 onClick={this.handleReset}
-                className="px-4 py-2 rounded-lg bg-white dark:bg-[#2A2622] hover:bg-[#FAF8F5] dark:hover:bg-[#332E29] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-white dark:bg-[#2A2622] hover:bg-[#FAF8F5] dark:bg-[#181614] dark:hover:bg-[#332E29] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 Try Again
               </button>

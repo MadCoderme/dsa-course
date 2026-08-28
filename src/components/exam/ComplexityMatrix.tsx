@@ -1,6 +1,6 @@
-import React from 'react';
-import { Clock, CheckCircle2, Cpu } from 'lucide-react';
-import { Latex, MathText } from '../common/Latex';
+﻿import React from 'react';
+import { Clock } from 'lucide-react';
+import { MathText } from '../common/Latex';
 
 export const ComplexityMatrix: React.FC = () => {
   const data = [
@@ -60,63 +60,63 @@ export const ComplexityMatrix: React.FC = () => {
       cache: 'Moderate'
     },
     {
+      container: 'std::list',
+      header: '<list>',
+      internal: 'Doubly Linked List (Nodes in Heap)',
+      access: '$\\mathcal{O}(N)$ traversal',
+      search: '$\\mathcal{O}(N)$',
+      insert: '$\\mathcal{O}(1)$ given iterator',
+      delete: '$\\mathcal{O}(1)$ given iterator',
+      space: '$\\mathcal{O}(N)$ (2 pointers / node)',
+      cache: 'Poor (Cache misses per hop)'
+    },
+    {
+      container: 'std::forward_list',
+      header: '<forward_list>',
+      internal: 'Singly Linked List',
+      access: '$\\mathcal{O}(N)$',
+      search: '$\\mathcal{O}(N)$',
+      insert: '$\\mathcal{O}(1)$ insert_after',
+      delete: '$\\mathcal{O}(1)$ erase_after',
+      space: '$\\mathcal{O}(N)$ (1 pointer / node)',
+      cache: 'Poor'
+    },
+    {
       container: 'std::stack',
       header: '<stack>',
-      internal: 'LIFO Container Adapter (default std::deque)',
-      access: '$\\mathcal{O}(1)$ at TOP only',
-      search: '$\\mathcal{O}(N)$',
-      insert: '$\\mathcal{O}(1)$ PUSH at TOP',
-      delete: '$\\mathcal{O}(1)$ POP at TOP',
+      internal: 'Container Adaptor (std::deque base)',
+      access: '$\\mathcal{O}(1)$ top() only',
+      search: 'N/A',
+      insert: '$\\mathcal{O}(1)$ push()',
+      delete: '$\\mathcal{O}(1)$ pop()',
       space: '$\\mathcal{O}(N)$',
       cache: 'Good'
     },
     {
       container: 'std::queue',
       header: '<queue>',
-      internal: 'FIFO Container Adapter (default std::deque)',
-      access: '$\\mathcal{O}(1)$ at FRONT / REAR',
-      search: '$\\mathcal{O}(N)$',
-      insert: '$\\mathcal{O}(1)$ ENQUEUE at REAR',
-      delete: '$\\mathcal{O}(1)$ DEQUEUE at FRONT',
+      internal: 'Container Adaptor (std::deque base)',
+      access: '$\\mathcal{O}(1)$ front() / back()',
+      search: 'N/A',
+      insert: '$\\mathcal{O}(1)$ push()',
+      delete: '$\\mathcal{O}(1)$ pop()',
       space: '$\\mathcal{O}(N)$',
       cache: 'Good'
     },
     {
       container: 'std::priority_queue',
-      header: '<queue>',
-      internal: 'Binary Max-Heap in Array Buffer',
-      access: '$\\mathcal{O}(1)$ root (top/max)',
-      search: '$\\mathcal{O}(N)$',
-      insert: '$\\mathcal{O}(\\log N)$ sift-up',
-      delete: '$\\mathcal{O}(\\log N)$ sift-down',
-      space: '$\\mathcal{O}(N)$',
-      cache: 'Excellent (Flat array cache hits)'
+      header: '<priority_queue>',
+      internal: 'Binary Max-Heap in std::vector',
+      access: '$\\mathcal{O}(1)$ top() (max item)',
+      search: '$\\mathcal{O}(N)$ linear scan',
+      insert: '$\\mathcal{O}(\\log N)$ push (sift-up)',
+      delete: '$\\mathcal{O}(\\log N)$ pop (sift-down)',
+      space: '$\\mathcal{O}(N)$ contiguous array',
+      cache: 'Very Good (Vector memory backing)'
     },
     {
-      container: 'Binary Tree',
-      header: '<custom/pointer>',
-      internal: 'Hierarchical Node Pointers (left, data, right)',
-      access: '$\\mathcal{O}(N)$ (or $\\mathcal{O}(1)$ root)',
-      search: '$\\mathcal{O}(N)$ arbitrary / $\\mathcal{O}(h)$',
-      insert: '$\\mathcal{O}(1)$ given parent position',
-      delete: '$\\mathcal{O}(1)$ given parent position',
-      space: '$\\mathcal{O}(N)$',
-      cache: 'Moderate-Poor'
-    },
-    {
-      container: 'AVL Tree',
-      header: '<custom/set>',
-      internal: 'Strictly Balanced BST (|BF| <= 1)',
-      access: '$\\mathcal{O}(\\log N)$ guaranteed',
-      search: '$\\mathcal{O}(\\log N)$ guaranteed',
-      insert: '$\\mathcal{O}(\\log N)$ with rotations',
-      delete: '$\\mathcal{O}(\\log N)$ with rotations',
-      space: '$\\mathcal{O}(N)$',
-      cache: 'Moderate'
-    },
-    {
-      container: 'B-Tree / B+ Tree',
-      header: '<disk/index>',
+      container: 'B-Tree (Order M)',
+      header: 'Custom / DB Engine',
       internal: 'Multi-Way Balanced Search Tree (Order M)',
       access: '$\\mathcal{O}(\\log_M N)$ disk page reads',
       search: '$\\mathcal{O}(\\log_M N)$',
@@ -140,19 +140,19 @@ export const ComplexityMatrix: React.FC = () => {
 
   return (
     <div className="space-y-6" id="complexity-matrix-container">
-      <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs">
-        <div className="border-b border-[#E5E2D9] pb-4">
-          <h2 className="text-lg font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-            <Clock className="w-5 h-5 text-[#15803D]" /> C++ STL Data Structure Complexity & Architecture Matrix
+      <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs">
+        <div className="border-b border-[#E5E2D9] dark:border-[#38332B] pb-4">
+          <h2 className="text-lg font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+            <Clock className="w-5 h-5 text-[#15803D] dark:text-[#4ADE80]" /> C++ STL Data Structure Complexity & Architecture Matrix
           </h2>
-          <p className="text-xs text-[#66625B] mt-0.5 font-sans">
+          <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
             Reference guide with formal LaTeX asymptotic bounds and memory locality ratings.
           </p>
         </div>
 
-        <div className="overflow-x-auto rounded-lg border border-[#E5E2D9]">
+        <div className="overflow-x-auto rounded-lg border border-[#E5E2D9] dark:border-[#38332B]">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#F4F2EB] text-[#2C2B29] border-b border-[#E5E2D9]">
+            <thead className="bg-[#F4F2EB] dark:bg-[#2A2622] text-[#2C2B29] dark:text-[#EDE8DF] border-b border-[#E5E2D9] dark:border-[#38332B]">
               <tr>
                 <th className="p-3 font-serif font-bold">Container</th>
                 <th className="p-3 font-serif font-bold">Header</th>
@@ -165,28 +165,28 @@ export const ComplexityMatrix: React.FC = () => {
                 <th className="p-3 font-serif font-bold">Cache Locality</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E5E2D9] bg-white font-mono">
+            <tbody className="divide-y divide-[#E5E2D9] dark:divide-[#38332B] bg-white dark:bg-[#201D1A] font-mono">
               {data.map((row, idx) => (
-                <tr key={idx} className="hover:bg-[#FAF8F5] transition-colors">
-                  <td className="p-3 font-bold text-[#991B1B] font-mono">{row.container}</td>
-                  <td className="p-3 text-[#66625B]">{row.header}</td>
-                  <td className="p-3 text-[#2C2B29] font-sans text-[11px]">{row.internal}</td>
-                  <td className="p-3 text-[#15803D]">
+                <tr key={idx} className="hover:bg-[#FAF8F5] dark:bg-[#181614] dark:hover:bg-[#181614] transition-colors">
+                  <td className="p-3 font-bold text-[#991B1B] dark:text-[#EF4444] font-mono">{row.container}</td>
+                  <td className="p-3 text-[#66625B] dark:text-[#A8A29E]">{row.header}</td>
+                  <td className="p-3 text-[#2C2B29] dark:text-[#D6D0C5] font-sans text-[11px]">{row.internal}</td>
+                  <td className="p-3 text-[#15803D] dark:text-[#4ADE80]">
                     <MathText text={row.access} />
                   </td>
-                  <td className="p-3 text-[#B45309]">
+                  <td className="p-3 text-[#B45309] dark:text-[#FBBF24]">
                     <MathText text={row.search} />
                   </td>
-                  <td className="p-3 text-[#15803D]">
+                  <td className="p-3 text-[#15803D] dark:text-[#4ADE80]">
                     <MathText text={row.insert} />
                   </td>
-                  <td className="p-3 text-[#15803D]">
+                  <td className="p-3 text-[#15803D] dark:text-[#4ADE80]">
                     <MathText text={row.delete} />
                   </td>
-                  <td className="p-3 text-[#66625B]">
+                  <td className="p-3 text-[#66625B] dark:text-[#A8A29E]">
                     <MathText text={row.space} />
                   </td>
-                  <td className="p-3 font-sans text-[11px] text-[#44403C]">{row.cache}</td>
+                  <td className="p-3 font-sans text-[11px] text-[#44403C] dark:text-[#D6D0C5]">{row.cache}</td>
                 </tr>
               ))}
             </tbody>

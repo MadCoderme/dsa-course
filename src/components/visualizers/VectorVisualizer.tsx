@@ -237,18 +237,18 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
     <div className="space-y-4" id="vector-visualizer-container">
       {/* Sub-view switcher */}
       {!focusedMode && (
-        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white border border-[#E5E2D9] gap-2 shadow-xs">
-          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB]">
+        <div className="flex flex-wrap items-center justify-between p-2 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] gap-2 shadow-xs">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-[#F4F2EB] dark:bg-[#2A2622]">
             <button
               id="vec-sub-std"
               onClick={() => setActiveSubTab('standard')}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 activeSubTab === 'standard'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-[#991B1B]" /> Vector Interactive Dashboard
+              <Layers className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Vector Interactive Dashboard
             </button>
             <button
               id="vec-sub-realloc"
@@ -258,11 +258,11 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               }}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 activeSubTab === 'reallocLab'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Cpu className="w-3.5 h-3.5 text-[#B45309]" /> 2x Memory Expansion Simulator (Step Animation)
+              <Cpu className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" /> 2x Memory Expansion Simulator (Step Animation)
             </button>
             <button
               id="vec-sub-shift"
@@ -272,18 +272,18 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               }}
               className={`px-3 py-1.5 rounded text-xs font-serif font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 activeSubTab === 'shiftLab'
-                  ? 'bg-white text-[#1A1A1A] shadow-2xs border border-[#D8D4C8]'
-                  : 'text-[#66625B] hover:text-[#1A1A1A]'
+                  ? 'bg-white dark:bg-[#2A2622] text-[#1A1A1A] dark:text-[#EDE8DF] shadow-2xs border border-[#D8D4C8] dark:border-[#423D36]'
+                  : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF]'
               }`}
             >
-              <Zap className="w-3.5 h-3.5 text-[#15803D]" /> Element Shifting Walkthrough (Insert / Erase)
+              <Zap className="w-3.5 h-3.5 text-[#15803D] dark:text-[#4ADE80]" /> Element Shifting Walkthrough (Insert / Erase)
             </button>
           </div>
 
           <button
             id="vector-reset-btn"
             onClick={handleReset}
-            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#66625B] hover:text-[#1A1A1A] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Reset
           </button>
@@ -294,16 +294,16 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
       {activeSubTab === 'standard' && (
         <>
           {/* Top Controls Bar */}
-          <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] flex flex-wrap items-center justify-between gap-4 shadow-xs">
+          <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] flex flex-wrap items-center justify-between gap-4 shadow-xs">
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-2">
-                <label className="text-xs font-serif font-bold text-[#44403C]">Value:</label>
+                <label className="text-xs font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">Value:</label>
                 <input
                   id="vector-value-input"
                   type="number"
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
-                  className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono focus:outline-none focus:border-[#991B1B]"
+                  className="w-20 px-2.5 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono focus:outline-none focus:border-[#991B1B]"
                 />
               </div>
 
@@ -319,7 +319,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                 id="vector-pop-btn"
                 onClick={handlePopBack}
                 disabled={elements.length === 0}
-                className="px-3.5 py-1.5 rounded-md bg-white hover:bg-[#FEF2F2] border border-[#FECACA] text-[#991B1B] disabled:opacity-40 text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-3.5 py-1.5 rounded-md bg-white dark:bg-[#201D1A] hover:bg-[#FEF2F2] dark:bg-[#450A0A]/40 border border-[#FECACA] dark:border-[#7F1D1D] text-[#991B1B] dark:text-[#EF4444] disabled:opacity-40 text-xs font-serif font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Minus className="w-3.5 h-3.5" /> pop_back()
               </button>
@@ -327,7 +327,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               <div className="h-5 w-px bg-[#E5E2D9] hidden sm:block" />
 
               <div className="flex items-center gap-2">
-                <label className="text-xs font-serif font-bold text-[#44403C]">At Index:</label>
+                <label className="text-xs font-serif font-bold text-[#44403C] dark:text-[#D6D0C5]">At Index:</label>
                 <input
                   id="vector-insert-idx"
                   type="number"
@@ -335,12 +335,12 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                   max={elements.length}
                   value={insertIdx}
                   onChange={(e) => setInsertIdx(parseInt(e.target.value) || 0)}
-                  className="w-16 px-2 py-1.5 rounded-md bg-[#FAF8F5] border border-[#D8D4C8] text-xs text-[#1A1A1A] font-mono"
+                  className="w-16 px-2 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-xs text-[#1A1A1A] dark:text-[#EDE8DF] font-mono"
                 />
                 <button
                   id="vector-insert-btn"
                   onClick={handleInsertAt}
-                  className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#1A1A1A] text-xs font-serif font-semibold transition-colors cursor-pointer"
+                  className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF] text-xs font-serif font-semibold transition-colors cursor-pointer"
                 >
                   insert()
                 </button>
@@ -350,44 +350,44 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
 
           {/* Metrics & Gauges */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-xs font-serif font-bold text-[#66625B]">Active Size ($N$)</div>
-              <div className="text-2xl font-bold text-[#1A1A1A] mt-1 font-mono">{elements.length}</div>
-              <div className="text-[11px] text-[#88847C] mt-0.5 font-mono">vec.size()</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Active Size ($N$)</div>
+              <div className="text-2xl font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-1 font-mono">{elements.length}</div>
+              <div className="text-[11px] text-[#88847C] dark:text-[#78716C] mt-0.5 font-mono">vec.size()</div>
             </div>
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-xs font-serif font-bold text-[#66625B]">Allocated Capacity</div>
-              <div className="text-2xl font-bold text-[#15803D] mt-1 font-mono">{capacity}</div>
-              <div className="text-[11px] text-[#88847C] mt-0.5 font-mono">vec.capacity()</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Allocated Capacity</div>
+              <div className="text-2xl font-bold text-[#15803D] dark:text-[#4ADE80] mt-1 font-mono">{capacity}</div>
+              <div className="text-[11px] text-[#88847C] dark:text-[#78716C] mt-0.5 font-mono">vec.capacity()</div>
             </div>
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-xs font-serif font-bold text-[#66625B]">Load Factor ($\alpha$)</div>
-              <div className="text-2xl font-bold text-[#B45309] mt-1 font-mono">
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Load Factor ($\alpha$)</div>
+              <div className="text-2xl font-bold text-[#B45309] dark:text-[#FBBF24] mt-1 font-mono">
                 {capacity > 0 ? ((elements.length / capacity) * 100).toFixed(0) : 0}%
               </div>
-              <div className="text-[11px] text-[#88847C] mt-0.5 font-mono">Size / Capacity</div>
+              <div className="text-[11px] text-[#88847C] dark:text-[#78716C] mt-0.5 font-mono">Size / Capacity</div>
             </div>
-            <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-              <div className="text-xs font-serif font-bold text-[#66625B]">Amortized Complexity</div>
-              <div className="text-2xl font-bold text-[#991B1B] mt-1">
+            <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+              <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">Amortized Complexity</div>
+              <div className="text-2xl font-bold text-[#991B1B] dark:text-[#EF4444] mt-1">
                 <Latex math="\mathcal{O}(1)" />
               </div>
-              <div className="text-[11px] text-[#88847C] mt-0.5 font-sans">Geometric $2\times$ Growth</div>
+              <div className="text-[11px] text-[#88847C] dark:text-[#78716C] mt-0.5 font-sans">Geometric $2\times$ Growth</div>
             </div>
           </div>
 
           {/* Visual Memory Buffer */}
-          <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#E5E2D9]">
+          <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#E5E2D9] dark:border-[#38332B]">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-serif font-bold text-[#1A1A1A]">Physical Contiguous RAM Buffer</span>
+                <span className="text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">Physical Contiguous RAM Buffer</span>
                 {isReallocatingNow && (
-                  <span className="px-2.5 py-0.5 text-xs font-mono bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] rounded-full animate-pulse flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 text-[#B45309]" /> Reallocating 2x Heap Buffer...
+                  <span className="px-2.5 py-0.5 text-xs font-mono bg-[#FEF3C7] dark:bg-[#78350F]/40 text-[#92400E] dark:text-[#FDE68A] border border-[#FDE68A] dark:border-[#B45309]/50 rounded-full animate-pulse flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3 text-[#B45309] dark:text-[#FBBF24]" /> Reallocating 2x Heap Buffer...
                   </span>
                 )}
               </div>
-              <span className="text-xs text-[#66625B] font-mono">
+              <span className="text-xs text-[#66625B] dark:text-[#A8A29E] font-mono">
                 Base Address: 0x{baseAddress.toString(16).toUpperCase()} | Word Size: {wordSize} Bytes
               </span>
             </div>
@@ -411,16 +411,16 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                       onClick={() => isFilled && setSelectedIdx(isSelected ? null : idx)}
                       className={`group relative flex flex-col items-center justify-between w-20 h-28 rounded-lg border p-2 cursor-pointer transition-all duration-200 ${
                         isSelected
-                          ? 'bg-[#FEF2F2] border-[#991B1B] ring-2 ring-[#FECACA] shadow-sm'
+                          ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] ring-2 ring-[#FECACA] shadow-sm'
                           : isShifting
-                          ? 'bg-[#FEF3C7] border-[#F59E0B] ring-1 ring-[#FDE68A] animate-bounce'
+                          ? 'bg-[#FEF3C7] dark:bg-[#78350F]/40 border-[#F59E0B] ring-1 ring-[#FDE68A] animate-bounce'
                           : isFilled
-                          ? 'bg-[#FAF8F5] border-[#D8D4C8] hover:border-[#991B1B]'
-                          : 'bg-[#F4F2EB]/50 border-dashed border-[#D8D4C8] opacity-60'
+                          ? 'bg-[#FAF8F5] dark:bg-[#181614] border-[#D8D4C8] dark:border-[#423D36] hover:border-[#991B1B]'
+                          : 'bg-[#F4F2EB] dark:bg-[#2A2622]/50 border-dashed border-[#D8D4C8] dark:border-[#423D36] opacity-60'
                       }`}
                     >
                       {/* Index badge */}
-                      <span className="text-[11px] font-mono font-bold text-[#66625B]">
+                      <span className="text-[11px] font-mono font-bold text-[#66625B] dark:text-[#A8A29E]">
                         [{idx}]
                       </span>
 
@@ -431,7 +431,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                             key={`val-${val}`}
                             initial={{ scale: 1.2, color: '#991B1B' }}
                             animate={{ scale: 1, color: '#1A1A1A' }}
-                            className="text-lg font-bold font-mono text-[#1A1A1A]"
+                            className="text-lg font-bold font-mono text-[#1A1A1A] dark:text-[#EDE8DF]"
                           >
                             {val}
                           </motion.span>
@@ -441,7 +441,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                       </div>
 
                       {/* Address */}
-                      <div className="text-[10px] font-mono text-[#88847C] border-t border-[#E5E2D9] w-full text-center pt-1">
+                      <div className="text-[10px] font-mono text-[#88847C] dark:text-[#78716C] border-t border-[#E5E2D9] dark:border-[#38332B] w-full text-center pt-1">
                         0x{cellAddress.toString(16).toUpperCase()}
                       </div>
 
@@ -469,9 +469,9 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]"
+                className="mt-4 p-4 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]"
               >
-                <div className="flex items-center gap-2 text-[#991B1B] text-xs font-serif font-bold uppercase tracking-wider">
+                <div className="flex items-center gap-2 text-[#991B1B] dark:text-[#EF4444] text-xs font-serif font-bold uppercase tracking-wider">
                   <Cpu className="w-4 h-4" /> 1D Array Physical Memory Address Derivation
                 </div>
                 <div className="mt-2 text-xs">
@@ -490,14 +490,14 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
 
       {/* VIEW 2: Interactive 2x Dynamic Memory Expansion Simulator */}
       {activeSubTab === 'reallocLab' && (
-        <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs" id="realloc-simulator">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E5E2D9]">
+        <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs" id="realloc-simulator">
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E5E2D9] dark:border-[#38332B]">
             <div>
-              <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <Cpu className="w-5 h-5 text-[#991B1B]" /> Vector Dynamic Memory Reallocation Laboratory
+              <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-[#991B1B] dark:text-[#EF4444]" /> Vector Dynamic Memory Reallocation Laboratory
               </h3>
-              <p className="text-xs text-[#66625B] mt-0.5 font-sans">
-                Watch how <code className="text-[#991B1B] font-mono font-bold">std::vector</code> handles capacity overflow by doubling its buffer, copying elements, and freeing obsolete RAM.
+              <p className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
+                Watch how <code className="text-[#991B1B] dark:text-[#EF4444] font-mono font-bold">std::vector</code> handles capacity overflow by doubling its buffer, copying elements, and freeing obsolete RAM.
               </p>
             </div>
 
@@ -505,7 +505,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
             <div className="flex items-center gap-2">
               <button
                 onClick={resetReallocLab}
-                className="px-3 py-1.5 rounded-md bg-[#FAF8F5] hover:bg-[#F4F2EB] border border-[#D8D4C8] text-[#66625B] text-xs font-serif font-semibold flex items-center gap-1 cursor-pointer"
+                className="px-3 py-1.5 rounded-md bg-[#FAF8F5] dark:bg-[#181614] hover:bg-[#F4F2EB] dark:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#423D36] text-[#66625B] dark:text-[#A8A29E] text-xs font-serif font-semibold flex items-center gap-1 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" /> Restart
               </button>
@@ -527,34 +527,34 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
           </div>
 
           {/* Current Step Description Card */}
-          <div className="p-4 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9]">
-            <div className="text-xs font-serif font-bold text-[#991B1B] uppercase tracking-wider mb-1">
+          <div className="p-4 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B]">
+            <div className="text-xs font-serif font-bold text-[#991B1B] dark:text-[#EF4444] uppercase tracking-wider mb-1">
               Step {reallocStep} of 8:
             </div>
-            <div className="text-sm font-serif text-[#1A1A1A] leading-relaxed">
+            <div className="text-sm font-serif text-[#1A1A1A] dark:text-[#EDE8DF] leading-relaxed">
               {reallocStep === 0 && (
                 <span>
-                  <strong>Initial State:</strong> Vector is full (<Latex math="\text{size} = 4, \text{capacity} = 4" />) located at contiguous address <code className="font-mono text-[#991B1B]">0x1000</code>. User triggers <code className="font-mono text-[#15803D]">push_back({incomingVal})</code>.
+                  <strong>Initial State:</strong> Vector is full (<Latex math="\text{size} = 4, \text{capacity} = 4" />) located at contiguous address <code className="font-mono text-[#991B1B] dark:text-[#EF4444]">0x1000</code>. User triggers <code className="font-mono text-[#15803D] dark:text-[#4ADE80]">push_back({incomingVal})</code>.
                 </span>
               )}
               {reallocStep === 1 && (
                 <span>
-                  <strong>Heap Allocation Request:</strong> Capacity doubling strategy (<Latex math="C_{\text{new}} = 2 \times 4 = 8" />) asks OS for a fresh contiguous memory block of <Latex math="8 \\times 4\\text{B} = 32\\text{ Bytes}" /> at address <code className="font-mono text-[#15803D]">0x2A40</code>.
+                  <strong>Heap Allocation Request:</strong> Capacity doubling strategy (<Latex math="C_{\text{new}} = 2 \times 4 = 8" />) asks OS for a fresh contiguous memory block of <Latex math="8 \\times 4\\text{B} = 32\\text{ Bytes}" /> at address <code className="font-mono text-[#15803D] dark:text-[#4ADE80]">0x2A40</code>.
                 </span>
               )}
               {reallocStep >= 2 && reallocStep <= 5 && (
                 <span>
-                  <strong>Element Migration ({reallocStep - 1}/4):</strong> Copying element <code className="font-mono text-[#991B1B] font-bold">{oldBuffer[reallocStep - 2]}</code> from Old Slot <code className="font-mono">[{reallocStep - 2}]</code> to New Slot <code className="font-mono">[{reallocStep - 2}]</code> in the new heap block.
+                  <strong>Element Migration ({reallocStep - 1}/4):</strong> Copying element <code className="font-mono text-[#991B1B] dark:text-[#EF4444] font-bold">{oldBuffer[reallocStep - 2]}</code> from Old Slot <code className="font-mono">[{reallocStep - 2}]</code> to New Slot <code className="font-mono">[{reallocStep - 2}]</code> in the new heap block.
                 </span>
               )}
               {reallocStep === 6 && (
                 <span>
-                  <strong>Append Incoming Element:</strong> Placing new value <code className="font-mono text-[#15803D] font-bold">{incomingVal}</code> into New Slot <code className="font-mono">[4]</code>.
+                  <strong>Append Incoming Element:</strong> Placing new value <code className="font-mono text-[#15803D] dark:text-[#4ADE80] font-bold">{incomingVal}</code> into New Slot <code className="font-mono">[4]</code>.
                 </span>
               )}
               {reallocStep === 7 && (
                 <span>
-                  <strong>Deallocate Old Buffer:</strong> Calling <code className="font-mono text-[#991B1B]">free(0x1000) / delete[]</code> to return the old 4-element block back to the OS, preventing memory leaks!
+                  <strong>Deallocate Old Buffer:</strong> Calling <code className="font-mono text-[#991B1B] dark:text-[#EF4444]">free(0x1000) / delete[]</code> to return the old 4-element block back to the OS, preventing memory leaks!
                 </span>
               )}
               {reallocStep === 8 && (
@@ -571,20 +571,20 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
             <div
               className={`p-5 rounded-xl border transition-all duration-300 ${
                 reallocStep >= 7
-                  ? 'bg-[#F4F2EB]/50 border-dashed border-[#D8D4C8] opacity-40'
-                  : 'bg-white border-[#E5E2D9] shadow-xs'
+                  ? 'bg-[#F4F2EB] dark:bg-[#2A2622]/50 border-dashed border-[#D8D4C8] dark:border-[#423D36] opacity-40'
+                  : 'bg-white dark:bg-[#201D1A] border-[#E5E2D9] dark:border-[#38332B] shadow-xs'
               }`}
             >
-              <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9] mb-3">
-                <span className="text-xs font-serif font-bold text-[#66625B]">
-                  Old Heap Buffer (<code className="font-mono text-[#991B1B]">0x{oldBase.toString(16).toUpperCase()}</code>)
+              <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9] dark:border-[#38332B] mb-3">
+                <span className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E]">
+                  Old Heap Buffer (<code className="font-mono text-[#991B1B] dark:text-[#EF4444]">0x{oldBase.toString(16).toUpperCase()}</code>)
                 </span>
                 {reallocStep >= 7 ? (
-                  <span className="text-[10px] font-mono text-[#991B1B] bg-[#FEF2F2] px-2 py-0.5 rounded border border-[#FECACA] font-bold">
+                  <span className="text-[10px] font-mono text-[#991B1B] dark:text-[#EF4444] bg-[#FEF2F2] dark:bg-[#450A0A]/40 px-2 py-0.5 rounded border border-[#FECACA] dark:border-[#7F1D1D] font-bold">
                     FREED (DEALLOCATED)
                   </span>
                 ) : (
-                  <span className="text-[10px] font-mono text-[#66625B]">Capacity: {oldCap}</span>
+                  <span className="text-[10px] font-mono text-[#66625B] dark:text-[#A8A29E]">Capacity: {oldCap}</span>
                 )}
               </div>
 
@@ -602,17 +602,17 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                       }}
                       className={`relative flex flex-col items-center justify-between w-16 h-24 rounded-lg border p-1.5 font-mono ${
                         isBeingCopied
-                          ? 'bg-[#FEF2F2] border-[#991B1B] ring-2 ring-[#FECACA]'
+                          ? 'bg-[#FEF2F2] dark:bg-[#450A0A]/40 border-[#991B1B] ring-2 ring-[#FECACA]'
                           : isAlreadyCopied
-                          ? 'bg-[#FAF8F5] border-[#D8D4C8] text-[#88847C]'
-                          : 'bg-white border-[#D8D4C8]'
+                          ? 'bg-[#FAF8F5] dark:bg-[#181614] border-[#D8D4C8] dark:border-[#423D36] text-[#88847C] dark:text-[#78716C]'
+                          : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36]'
                       }`}
                     >
-                      <span className="text-[10px] text-[#66625B]">[{idx}]</span>
-                      <span className="text-base font-bold text-[#1A1A1A]">{val}</span>
-                      <span className="text-[9px] text-[#88847C]">0x{(oldBase + idx * 4).toString(16).toUpperCase()}</span>
+                      <span className="text-[10px] text-[#66625B] dark:text-[#A8A29E]">[{idx}]</span>
+                      <span className="text-base font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">{val}</span>
+                      <span className="text-[9px] text-[#88847C] dark:text-[#78716C]">0x{(oldBase + idx * 4).toString(16).toUpperCase()}</span>
                       {isBeingCopied && (
-                        <span className="absolute -bottom-5 text-[9px] font-serif font-bold text-[#991B1B]">
+                        <span className="absolute -bottom-5 text-[9px] font-serif font-bold text-[#991B1B] dark:text-[#EF4444]">
                           Copying...
                         </span>
                       )}
@@ -626,15 +626,15 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
             <div
               className={`p-5 rounded-xl border transition-all duration-300 ${
                 reallocStep >= 1
-                  ? 'bg-white border-[#15803D] ring-1 ring-[#A7F3D0] shadow-xs'
-                  : 'bg-[#F4F2EB]/30 border-dashed border-[#D8D4C8] opacity-30'
+                  ? 'bg-white dark:bg-[#201D1A] border-[#15803D] ring-1 ring-[#A7F3D0] shadow-xs'
+                  : 'bg-[#F4F2EB] dark:bg-[#2A2622]/30 border-dashed border-[#D8D4C8] dark:border-[#423D36] opacity-30'
               }`}
             >
-              <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9] mb-3">
-                <span className="text-xs font-serif font-bold text-[#15803D]">
+              <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9] dark:border-[#38332B] mb-3">
+                <span className="text-xs font-serif font-bold text-[#15803D] dark:text-[#4ADE80]">
                   New 2x Heap Buffer (<code className="font-mono">0x{newBase.toString(16).toUpperCase()}</code>)
                 </span>
-                <span className="text-[10px] font-mono text-[#15803D] bg-[#ECFDF5] px-2 py-0.5 rounded border border-[#A7F3D0] font-bold">
+                <span className="text-[10px] font-mono text-[#15803D] dark:text-[#4ADE80] bg-[#ECFDF5] dark:bg-[#064E3B]/40 px-2 py-0.5 rounded border border-[#A7F3D0] dark:border-[#059669] font-bold">
                   Capacity: {newCap}
                 </span>
               </div>
@@ -654,17 +654,17 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                       transition={{ duration: 0.3 }}
                       className={`relative flex flex-col items-center justify-between h-24 rounded-lg border p-1 font-mono ${
                         isJustInserted
-                          ? 'bg-[#ECFDF5] border-[#10B981] ring-2 ring-[#A7F3D0]'
+                          ? 'bg-[#ECFDF5] dark:bg-[#064E3B]/40 border-[#10B981] ring-2 ring-[#A7F3D0]'
                           : hasElement
-                          ? 'bg-[#FAF8F5] border-[#D8D4C8]'
-                          : 'bg-[#FAF8F5]/40 border-dashed border-[#D8D4C8]'
+                          ? 'bg-[#FAF8F5] dark:bg-[#181614] border-[#D8D4C8] dark:border-[#423D36]'
+                          : 'bg-[#FAF8F5] dark:bg-[#181614]/40 border-dashed border-[#D8D4C8] dark:border-[#423D36]'
                       }`}
                     >
-                      <span className="text-[9px] text-[#66625B]">[{idx}]</span>
-                      <span className="text-sm font-bold text-[#1A1A1A]">
+                      <span className="text-[9px] text-[#66625B] dark:text-[#A8A29E]">[{idx}]</span>
+                      <span className="text-sm font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                         {displayVal !== null ? displayVal : <span className="text-[9px] text-[#A8A29E] italic">free</span>}
                       </span>
-                      <span className="text-[8px] text-[#88847C]">0x{(newBase + idx * 4).toString(16).toUpperCase()}</span>
+                      <span className="text-[8px] text-[#88847C] dark:text-[#78716C]">0x{(newBase + idx * 4).toString(16).toUpperCase()}</span>
                     </motion.div>
                   );
                 })}
@@ -673,11 +673,11 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
           </div>
 
           {/* Mathematical Amortized Analysis Breakdown with LaTeX */}
-          <div className="p-5 rounded-lg bg-[#FAF8F5] border border-[#E5E2D9] space-y-3">
-            <div className="flex items-center gap-2 text-xs font-serif font-bold text-[#1A1A1A] uppercase tracking-wider">
-              <Sparkles className="w-4 h-4 text-[#991B1B]" /> Mathematical Proof of Amortized O(1) Vector Insertion
+          <div className="p-5 rounded-lg bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
+            <div className="flex items-center gap-2 text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] uppercase tracking-wider">
+              <Sparkles className="w-4 h-4 text-[#991B1B] dark:text-[#EF4444]" /> Mathematical Proof of Amortized O(1) Vector Insertion
             </div>
-            <p className="text-xs text-[#44403C] font-sans leading-relaxed">
+            <p className="text-xs text-[#44403C] dark:text-[#D6D0C5] font-sans leading-relaxed">
               When inserting $N$ items into an initially empty vector with geometric doubling factor ($2\times$):
             </p>
             <Latex
@@ -688,7 +688,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               math="\text{Amortized Cost per Insertion} = \frac{\text{Total Cost}}{N} = \frac{3N - 1}{N} < 3 = \mathcal{O}(1) \text{ amortized}"
               block
             />
-            <p className="text-xs text-[#66625B] font-sans">
+            <p className="text-xs text-[#66625B] dark:text-[#A8A29E] font-sans">
               <strong>CUET Exam Takeaway:</strong> Although occasional reallocations take <MathText text="$\\mathcal{O}(N)$" /> copying time, they occur so infrequently that the average cost per operation remains strictly <MathText text="$\\mathcal{O}(1)$" />.
             </p>
           </div>
@@ -697,13 +697,13 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
 
       {/* VIEW 3: Element Shifting Walkthrough (Insert / Erase) */}
       {activeSubTab === 'shiftLab' && (
-        <div className="p-6 md:p-8 rounded-xl bg-white border border-[#E5E2D9] space-y-6 shadow-xs" id="shifting-simulator">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E5E2D9]">
+        <div className="p-6 md:p-8 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-6 shadow-xs" id="shifting-simulator">
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#E5E2D9] dark:border-[#38332B]">
             <div>
-              <h3 className="text-base font-serif font-bold text-[#1A1A1A] flex items-center gap-2">
-                <Zap className="w-5 h-5 text-[#15803D]" /> Element Shifting Mechanics in Linear Arrays
+              <h3 className="text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] flex items-center gap-2">
+                <Zap className="w-5 h-5 text-[#15803D] dark:text-[#4ADE80]" /> Element Shifting Mechanics in Linear Arrays
               </h3>
-              <div className="text-xs text-[#66625B] mt-0.5 font-sans">
+              <div className="text-xs text-[#66625B] dark:text-[#A8A29E] mt-0.5 font-sans">
                 <MathText text="Inserting or deleting an element at index $i$ requires shifting $N - i$ subsequent elements, taking $\mathcal{O}(N)$ worst-case time." />
               </div>
             </div>
@@ -712,7 +712,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               <button
                 onClick={() => runShiftSimulation('insert', 1, 99)}
                 className={`px-3 py-1.5 rounded-md text-xs font-serif font-semibold cursor-pointer ${
-                  shiftAction === 'insert' ? 'bg-[#1A1A1A] text-white' : 'bg-[#FAF8F5] border border-[#D8D4C8] text-[#1A1A1A]'
+                  shiftAction === 'insert' ? 'bg-[#1A1A1A] text-white' : 'bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-[#1A1A1A] dark:text-[#EDE8DF]'
                 }`}
               >
                 Insert at Index 1
@@ -720,7 +720,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
               <button
                 onClick={() => runShiftSimulation('erase', 1)}
                 className={`px-3 py-1.5 rounded-md text-xs font-serif font-semibold cursor-pointer ${
-                  shiftAction === 'erase' ? 'bg-[#991B1B] text-white' : 'bg-[#FAF8F5] border border-[#D8D4C8] text-[#991B1B]'
+                  shiftAction === 'erase' ? 'bg-[#991B1B] text-white' : 'bg-[#FAF8F5] dark:bg-[#181614] border border-[#D8D4C8] dark:border-[#423D36] text-[#991B1B] dark:text-[#EF4444]'
                 }`}
               >
                 Erase at Index 1
@@ -735,10 +735,10 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
           </div>
 
           {/* Shifting Visual Canvas */}
-          <div className="p-6 bg-[#FAF8F5] rounded-xl border border-[#E5E2D9] space-y-4">
-            <div className="text-xs font-serif font-bold text-[#66625B] flex items-center justify-between">
+          <div className="p-6 bg-[#FAF8F5] dark:bg-[#181614] rounded-xl border border-[#E5E2D9] dark:border-[#38332B] space-y-4">
+            <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] flex items-center justify-between">
               <span>Array State at Step {shiftStep}:</span>
-              <span className="font-mono text-[#991B1B]">
+              <span className="font-mono text-[#991B1B] dark:text-[#EF4444]">
                 {shiftAction === 'insert' ? 'Right Shift: A[j+1] = A[j]' : 'Left Shift: A[j] = A[j+1]'}
               </span>
             </div>
@@ -757,15 +757,15 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
                     }}
                     className={`relative flex flex-col items-center justify-between w-18 h-26 rounded-lg border p-2 font-mono ${
                       isActive
-                        ? 'bg-[#FEF3C7] border-[#F59E0B] ring-2 ring-[#FDE68A] shadow-md'
-                        : 'bg-white border-[#D8D4C8] shadow-xs'
+                        ? 'bg-[#FEF3C7] dark:bg-[#78350F]/40 border-[#F59E0B] ring-2 ring-[#FDE68A] shadow-md'
+                        : 'bg-white dark:bg-[#201D1A] border-[#D8D4C8] dark:border-[#423D36] shadow-xs'
                     }`}
                   >
-                    <span className="text-[10px] text-[#66625B]">[{idx}]</span>
-                    <span className="text-lg font-bold text-[#1A1A1A]">{val}</span>
-                    <span className="text-[9px] text-[#88847C]">0x{(1000 + idx * 4).toString(16).toUpperCase()}</span>
+                    <span className="text-[10px] text-[#66625B] dark:text-[#A8A29E]">[{idx}]</span>
+                    <span className="text-lg font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">{val}</span>
+                    <span className="text-[9px] text-[#88847C] dark:text-[#78716C]">0x{(1000 + idx * 4).toString(16).toUpperCase()}</span>
                     {isActive && (
-                      <span className="absolute -top-4 text-[9px] font-bold text-[#B45309] font-sans">
+                      <span className="absolute -top-4 text-[9px] font-bold text-[#B45309] dark:text-[#FBBF24] font-sans">
                         Moving
                       </span>
                     )}
@@ -776,7 +776,7 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
           </div>
 
           {/* Time Complexity Formula Banner */}
-          <div className="p-4 rounded-lg bg-white border border-[#E5E2D9]">
+          <div className="p-4 rounded-lg bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B]">
             <Latex
               math={`\\text{Time Complexity to ${shiftAction === 'insert' ? 'Insert' : 'Erase'} at index } i = \\mathcal{O}(N - i) = \\begin{cases} \\mathcal{O}(1) & \\text{if } i = N \\text{ (push/pop back)} \\\\ \\mathcal{O}(N) & \\text{if } i = 0 \\text{ (head insertion/deletion)} \\end{cases}`}
               block
@@ -786,13 +786,13 @@ export const VectorVisualizer: React.FC<VectorVisualizerProps> = ({ focusedMode,
       )}
 
       {/* Operation Activity Log */}
-      <div className="p-4 rounded-xl bg-white border border-[#E5E2D9] shadow-xs">
-        <div className="text-xs font-serif font-bold text-[#66625B] mb-2 flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-[#991B1B]" /> Vector Activity Log
+      <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] shadow-xs">
+        <div className="text-xs font-serif font-bold text-[#66625B] dark:text-[#A8A29E] mb-2 flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-[#991B1B] dark:text-[#EF4444]" /> Vector Activity Log
         </div>
         <div className="space-y-1 font-mono text-xs max-h-32 overflow-y-auto pr-2">
           {logs.map((log, i) => (
-            <div key={i} className="text-[#44403C] py-0.5 border-b border-[#F4F2EB]">
+            <div key={i} className="text-[#44403C] dark:text-[#D6D0C5] py-0.5 border-b border-[#F4F2EB]">
               {log}
             </div>
           ))}
