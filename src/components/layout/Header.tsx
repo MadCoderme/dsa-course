@@ -7,7 +7,8 @@ interface HeaderProps {
   onSearchChange: (q: string) => void;
   onOpenReport: () => void;
   onOpenCalculator: () => void;
-  onOpenMatrix: () => void;`n  onOpenFlashcards?: () => void;
+  onOpenMatrix: () => void;
+  onOpenFlashcards?: () => void;
   onOpenGuide?: () => void;
   onToggleMobileMenu: () => void;
 }
@@ -17,7 +18,8 @@ export const Header: React.FC<HeaderProps> = ({
   onSearchChange,
   onOpenReport,
   onOpenCalculator,
-  onOpenMatrix,`n  onOpenFlashcards,
+  onOpenMatrix,
+  onOpenFlashcards,
   onOpenGuide,
   onToggleMobileMenu
 }) => {
@@ -28,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={onToggleMobileMenu}
-            className="p-2 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#38332B] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:text-[#EDE8DF] dark:hover:text-[#EDE8DF] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] lg:hidden cursor-pointer shadow-2xs"
+            className="p-2 rounded-lg bg-white dark:bg-[#201D1A] border border-[#D8D4C8] dark:border-[#38332B] text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] lg:hidden cursor-pointer shadow-2xs"
             aria-label="Toggle Navigation Menu"
           >
             <Menu className="w-5 h-5" />
@@ -39,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-3 cursor-pointer group"
           >
             <div className="w-9 h-9 rounded-lg bg-[#1A1A1A] dark:bg-[#EDE8DF] text-[#F9F8F6] dark:text-[#181614] flex flex-col items-center justify-center font-serif font-bold text-base shadow-sm border border-[#2D2C2A] dark:border-[#E5E2D9] group-hover:bg-[#991B1B] dark:group-hover:bg-[#EF4444] dark:group-hover:text-white transition-colors">
-              <span>§</span>
+              <span>🗂️</span>
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -97,6 +99,17 @@ export const Header: React.FC<HeaderProps> = ({
             <Calculator className="w-3.5 h-3.5 text-[#B45309] dark:text-[#FBBF24]" />
             <span className="hidden sm:inline">Address Solver</span>
           </button>
+
+          {onOpenFlashcards && (
+            <button
+              id="nav-flashcards-btn"
+              onClick={onOpenFlashcards}
+              className="px-3 py-1.5 rounded-lg bg-white dark:bg-[#201D1A] hover:bg-[#F4F2EB] dark:bg-[#2A2622] dark:hover:bg-[#2A2622] border border-[#D8D4C8] dark:border-[#38332B] text-[#2C2B29] dark:text-[#EDE8DF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#7E22CE] dark:text-[#C084FC]" />
+              <span className="hidden sm:inline">Flashcards</span>
+            </button>
+          )}
 
           <button
             id="nav-complexity-matrix-btn"

@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       case 'Network':
         return <Network className="w-4 h-4" />;
       default:
-        return <FolderTree, Sparkles className="w-4 h-4" />;
+        return <FolderTree className="w-4 h-4" />;
     }
   };
 
