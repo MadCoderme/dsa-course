@@ -175,21 +175,33 @@ int main() {
       question: 'Write a procedural algorithm for REPLACE(TEXT, PAT, REP), which replaces every occurrence of pattern PAT in string TEXT with string REP. What precautions must be taken when the length of REP is greater than PAT?',
       solution: `Model University Answer:
 
-Algorithm REPLACE(TEXT, PAT, REP):
-1. Determine lengths: N = LENGTH(TEXT), M = LENGTH(PAT), L = LENGTH(REP).
-2. Set index i = 0.
-3. While i <= LENGTH(TEXT) - M:
-   a. Check if substring of TEXT starting at index i of length M equals PAT (using INDEX or substring match).
-   b. If MATCH:
-      - If L > M (Replacement is longer):
-        Shift all characters of TEXT from index (i + M) to the end of the string RIGHT by (L - M) positions.
-      - If L < M (Replacement is shorter):
-        Shift all characters from index (i + M) to the end of the string LEFT by (M - L) positions.
-      - Copy the L characters of REP into TEXT starting at index i.
-      - Advance search pointer: i = i + L (Crucial: skip past the replacement to avoid infinite loops!).
-   c. If NO MATCH:
-      - Advance search pointer by 1: i = i + 1.
-4. Return modified TEXT.
+\`\`\`pseudocode
+Algorithm REPLACE(TEXT, PAT, REP)
+1. [Initialize lengths]
+   N ← LENGTH(TEXT)
+   M ← LENGTH(PAT)
+   L ← LENGTH(REP)
+   i ← 0
+
+2. [Scan text]
+   WHILE i ≤ N - M DO:
+     IF SUBSTRING(TEXT, i, M) = PAT THEN:
+       IF L > M THEN:
+         [Shift trailing characters right by (L - M)]
+         Shift TEXT from (i + M) to end RIGHT by (L - M)
+       ELSE IF L < M THEN:
+         [Shift trailing characters left by (M - L)]
+         Shift TEXT from (i + M) to end LEFT by (M - L)
+       [Copy replacement string]
+       TEXT[i ... i + L - 1] ← REP
+       [Advance search pointer past replacement]
+       i ← i + L
+     ELSE:
+       i ← i + 1
+   [End of WHILE loop]
+
+3. RETURN TEXT
+\`\`\`
 
 Precautions when LENGTH(REP) > LENGTH(PAT):
 1. Buffer Overflow: If the text buffer was allocated with fixed memory, inserting a longer replacement can exceed buffer boundaries and corrupt memory. The destination buffer must have sufficient extra capacity allocated.

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MathText, Latex } from './Latex';
+import { CodeSpecBlock } from './RichLessonContent';
 
 interface MarkdownContentProps {
   content: string;
@@ -92,37 +93,53 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, class
               );
             }
 
+            const lang = match ? match[1] : 'pseudocode';
             return (
-              <div className="my-4 rounded-xl overflow-hidden border border-[#333333] shadow-sm">
-                {match && (
-                  <div className="bg-[#2D2D2D] px-3.5 py-1.5 text-[11px] font-mono font-bold text-[#A3A3A3] uppercase tracking-wider border-b border-[#3D3D3D]">
-                    {match[1]}
-                  </div>
-                )}
-                <pre className="p-3.5 bg-[#1E1E1E] text-[#D4D4D4] font-mono text-xs sm:text-sm overflow-x-auto leading-relaxed m-0">
-                  <code>{codeString}</code>
-                </pre>
-              </div>
+              <CodeSpecBlock
+                code={codeString}
+                language={lang}
+              />
             );
           },
+          strong: ({ children }) => (
+            <strong className="font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
+              {React.Children.map(children, (child) => {
+                if (typeof child === 'string') {
+                  return <MathText text={child} />;
+                }
+                return child;
+              })}
+            </strong>
+          ),
+          em: ({ children }) => (
+            <em className="italic">
+              {React.Children.map(children, (child) => {
+                if (typeof child === 'string') {
+                  return <MathText text={child} />;
+                }
+                return child;
+              })}
+            </em>
+          ),
           h1: ({ children }) => (
-            <h1 className="text-lg sm:text-xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-5 mb-2.5">
-              {children}
+            <h1 className="text-xl sm:text-2xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-6 mb-2.5 pb-2 border-b border-[#E5E2D9] dark:border-[#38332B]">
+              {React.Children.map(children, (child) => (typeof child === 'string' ? <MathText text={child} /> : child))}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-base sm:text-lg font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-4 mb-2">
-              {children}
+            <h2 className="text-lg sm:text-xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-5 mb-2">
+              {React.Children.map(children, (child) => (typeof child === 'string' ? <MathText text={child} /> : child))}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-sm sm:text-base font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-3 mb-1.5">
-              {children}
+            <h3 className="text-[16px] sm:text-[17px] font-serif font-bold text-[#991B1B] dark:text-[#EF4444] mt-4 mb-2 flex items-center gap-2">
+              <span className="w-1.5 h-4 rounded-full bg-[#991B1B] dark:bg-[#EF4444] inline-block shrink-0" />
+              <span>{React.Children.map(children, (child) => (typeof child === 'string' ? <MathText text={child} /> : child))}</span>
             </h3>
           ),
           h4: ({ children }) => (
-            <h4 className="text-xs sm:text-sm font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-2.5 mb-1">
-              {children}
+            <h4 className="text-[15px] sm:text-[15.5px] font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-3 mb-1.5">
+              {React.Children.map(children, (child) => (typeof child === 'string' ? <MathText text={child} /> : child))}
             </h4>
           ),
           blockquote: ({ children }) => (

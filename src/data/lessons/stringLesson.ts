@@ -4,173 +4,387 @@ export const STRING_LESSON: Lesson = {
   id: 'string',
   categoryId: 'linear',
   subCategoryId: 'sequential-contiguous',
-  title: 'String Processing: Basics, Memory Models, Pseudocode Operations & Algorithms',
-  subtitle: 'Complete guide to character data, storage structures, primitive operations, and step-by-step algorithms (Schaum\'s Outline Chapter 3)',
+  title: 'String Processing: Memory Models, Operations & Algorithms',
+  subtitle: 'Character representation, memory structures, primitive string operations, and step-by-step algorithms',
   icon: 'Layers',
   importance: '⚡ HIGH',
-  cuetExamRelevance: 'A core foundation of Data Structures semester examinations (Chapter 3). You will regularly be tested on: (1) Basic terminology: alphabet, string length, empty string (Λ), concatenation, and substrings; (2) The 3 classic memory storage structures (Fixed-Length, Variable-Length with Sentinel/Length, and Linked Storage); (3) Formulating primitive operations (LENGTH, SUBSTRING, INDEX, CONCAT) and high-level procedures (INSERT, DELETE, REPLACE); and (4) Writing and tracing sample algorithms step-by-step (Algorithm 3.1 Deletion, Algorithm 3.2 Replacement with loop trap analysis, and Algorithm 3.3 Pattern Matching).',
-  overview: 'Historically, computers were first created to process numerical calculations. Today, however, computers are frequently used for processing nonnumerical data, called character data. From text editing and word processors to web browsers, search engines, and DNA sequence analyzers, manipulating character strings is at the heart of computer science. In this lesson, based on Chapter Three (String Processing) of Seymour Lipschutz\'s classic Data Structures, we will start from absolute basics—character sets, empty strings, and how text is stored in RAM—then break down the fundamental primitive operations simply, and finally teach you how to write, trace, and analyze high-level pseudocode algorithms step by step.',
+  cuetExamRelevance: 'A core foundation of Data Structures semester examinations. You will regularly be tested on: (1) Basic terminology: character sets, string length, empty string (Λ), concatenation, and substring bounds; (2) The 3 classic memory storage structures (Fixed-Length, Variable-Length with Sentinel/Length, and Linked Storage); (3) Formulating primitive operations (LENGTH, SUBSTRING, INDEX, CONCAT) and high-level procedures (INSERT, DELETE, REPLACE); and (4) Writing and tracing sample algorithms step-by-step (Multi-deletion, Multi-replacement with loop trap analysis, and Pattern Matching).',
+  overview: 'Historically, computers were first created to process numerical calculations. Today, computers process massive amounts of nonnumerical data—character data. From text editing and word processors to compilers, web search engines, and genomic sequence analyzers, manipulating character strings is at the heart of computing. In this lesson, we build from the ground up: understanding character sets and memory layouts in RAM, grasping the 4 atomic primitive operations, and mastering high-level string algorithms with clean pseudocode and step-by-step execution traces.',
   timeComplexity: {
-    access: '$\\mathcal{O}(1)$ Instant character access in array/fixed storage, $\\mathcal{O}(K)$ in linked storage',
-    search: '$\\mathcal{O}(R \\times S)$ Naive pattern matching, $\\mathcal{O}(S)$ Linear table-driven automaton',
+    access: '$\\mathcal{O}(1)$ Direct index access in array/fixed storage, $\\mathcal{O}(K)$ sequential traversal in linked storage',
+    search: '$\\mathcal{O}(R \\times S)$ Naive sliding-window search, $\\mathcal{O}(S)$ Linear finite-automaton search',
     insertion: '$\\mathcal{O}(N)$ Slicing and shifting text in contiguous memory; $\\mathcal{O}(1)$ node splice in linked storage',
     deletion: '$\\mathcal{O}(N)$ Compacting remaining text in contiguous memory; $\\mathcal{O}(1)$ node unlink in linked storage',
     space: '$\\mathcal{O}(N)$ Contiguous byte storage; $\\mathcal{O}(N + \\text{pointers})$ in linked list storage'
   },
   keyConcepts: [
     {
-      title: 'Step 1: Basics of Strings — Terminology, Character Sets & Substrings',
-      description: 'Before writing algorithms, let us establish the fundamental definitions used throughout computer science and university exams (Lipschutz Section 3.1 & 3.2):',
+      title: 'Step 1: Character Sets, Length & Substrings',
+      description: `Before designing algorithms, let us build a clear mental model of how text is represented and measured.
+
+A computer communicates through a defined **Character Set**, composed of:
+1. **Alphabetical letters** (A–Z, a–z)
+2. **Numeric digits** (0–9)
+3. **Special symbols** (+, -, *, /, (, ), commas, periods, currency symbols, and the blank space)
+
+**The Blank Space Character (□):**
+In string processing, a blank space is just as much a valid character as the letter 'A'. It occupies 1 byte of storage (ASCII 32) and contributes directly to string length. When ambiguity must be avoided in handwritten proofs, a blank space is written using the open-box symbol □.
+
+**Definitions & Structural Rules:**
+- **String:** A finite sequence $S$ of zero or more characters. The number of characters in $S$ is its length: $\\text{LENGTH}(S)$. Specific strings are enclosed in quotes: \`'THE END'\` has length 7, and \`'TO BE OR NOT TO BE'\` has length 18 (14 letters + 4 spaces).
+- **Empty (Null) String ($\\Lambda$):** A string containing zero characters, denoted by the Greek letter Lambda ($\\Lambda$) or empty quotes \`''\`. Its length is strictly 0: $\\text{LENGTH}(\\Lambda) = 0$.
+- **Concatenation ($//$ or $+$):** Joining two strings $S_1$ and $S_2$ end-to-end. For example, \`'THE' // 'END' = 'THEEND'\`, whereas \`'THE' // '□' // 'END' = 'THE END'\`. The length of the joined string satisfies:
+$$\\text{LENGTH}(S_1 // S_2) = \\text{LENGTH}(S_1) + \\text{LENGTH}(S_2)$$
+- **Substring:** A string $Y$ is a substring of $S$ if there exist prefix $X$ and suffix $Z$ such that $S = X // Y // Z$. If $X = \\Lambda$, $Y$ is an **initial substring (prefix)**. If $Z = \\Lambda$, $Y$ is a **terminal substring (suffix)**. The length of any substring cannot exceed the parent string.`,
       bulletPoints: [
-        'Character Set: Every computer language communicates using a set of characters. This set typically consists of: (1) The Alphabet (A–Z, a–z), (2) Digits (0–9), and (3) Special Characters (+, -, *, /, (, ), ,, ., $, =, and the blank space).',
-        'The Blank Space Character (□): In string processing, a blank space is a valid character just like the letter \'A\'! To avoid ambiguity in handwritten exam questions and textbooks, a blank space is frequently denoted by the open box symbol □ (ASCII value 32). A space always counts toward string length.',
-        'Definition of a String: A finite sequence S of zero or more characters is called a string. The number of characters in a string is called its length. Specific strings are enclosed in quotation marks (delimiters): \'THE END\' has length 7, and \'TO BE OR NOT TO BE\' has length 18 (14 letters + 4 blank spaces).',
-        'The Empty String (Null String Λ): A string containing zero characters is called the empty string or null string, denoted by the Greek letter Lambda (Λ) or empty quotes \'\' (or ""). Its length is strictly 0: `LENGTH(Λ) = 0`.',
-        'Concatenation (// or +): Joining two strings S1 and S2 end-to-end is called concatenation, denoted in mathematical pseudocode by S1 // S2. For example, \'THE\' // \'END\' = \'THEEND\', whereas \'THE\' // \'□\' // \'END\' = \'THE END\'. The length of S1 // S2 is equal to the sum of lengths: `LENGTH(S1 // S2) = LENGTH(S1) + LENGTH(S2)`.',
-        'Substring: A string Y is called a substring of S if there exist strings X and Z such that S = X // Y // Z. If X is the empty string (Λ), Y is called an initial substring (prefix). If Z is the empty string (Λ), Y is called a terminal substring (suffix). The length of any substring Y cannot exceed the length of S (`LENGTH(Y) <= LENGTH(S)`).'
+        'Alphabet & Delimiters: Characters belong to a defined finite set; blank spaces are full valid characters that count toward length.',
+        'Prefix & Suffix Bounds: For any string S of length n, there are exactly n + 1 initial substrings (prefixes) and n + 1 terminal substrings (suffixes), including Λ.',
+        'Empty String Identity: Concatenating the empty string Λ to any string S leaves S unchanged: S // Λ = Λ // S = S.'
       ],
-      mathFormula: `Worked Substring Examples from the Textbook:
-String S = 'TO BE OR NOT TO BE'
-- 'TO' is an initial substring (prefix) of S (X = Λ)
-- 'BE OR NOT' is an interior substring of S (X = 'TO ', Z = ' TO BE')
-- 'TO BE' is both an initial substring AND a terminal substring (suffix)
-- For any string S of length n, the number of initial substrings is n + 1 (including Λ)`
+      mathFormula: `Substring Classification for S = 'TO BE OR NOT TO BE':
+- Initial Substring (Prefix): 'TO' (where X = Λ)
+- Interior Substring: 'BE OR NOT' (where X = 'TO ', Z = ' TO BE')
+- Prefix and Suffix: 'TO BE' appears as both an initial and a terminal substring
+- Total Length: LENGTH('TO BE OR NOT TO BE') = 18`
     },
     {
-      title: 'Step 2: How Computers Store Strings — The 3 Classic Storage Structures',
-      description: 'How does computer memory physically organize sequences of characters? Lipschutz (Section 3.3 & 3.4) classifies string storage into three core structures, each with distinct trade-offs:',
+      title: 'Step 2: Memory Models — Fixed, Variable & Linked',
+      description: `How does physical computer memory organize sequences of characters? There are three classic storage architectures, each representing a distinct engineering trade-off between random-access speed, memory efficiency, and insertion flexibility:
+
+### 1. Fixed-Length Record Storage
+Every line or record in memory is allocated the exact same fixed number of character slots (traditionally 80 characters, matching historical terminal display widths).
+- **Direct Address Calculation:** Because every record has identical size $W$, the memory location of record $K$ is computed instantly in $\\mathcal{O}(1)$ time:
+$$\\text{Address}(K) = \\text{Base} + (K - 1) \\times W$$
+- **The Trade-Off:** While reading and in-place overwriting are instantaneous, short lines waste significant memory on trailing blank padding (internal fragmentation). Furthermore, inserting a new line between existing records requires shifting every succeeding line down in RAM!
+
+**The Pointer Array Solution:**
+Instead of storing records in strict consecutive physical memory, records can reside anywhere. We maintain an auxiliary array \`POINT\`, where \`POINT[K]\` stores the starting memory address of record $K$. Inserting or rearranging lines now only requires updating addresses in the pointer array—no large blocks of text are ever copied!
+
+### 2. Variable-Length Storage with Maximum Bounds
+Memory cells have an upper size bound, but the system actively tracks the exact live character count. Two techniques are used:
+- **Sentinel Marker:** A special trailing symbol (such as \`$$\` or C's null-terminator \`'\\0'\`) marks where valid text ends.
+- **Length Header:** An explicit integer prefix stores the exact number of characters currently held in the buffer (used in Pascal strings and modern string headers).
+
+### 3. Linked Storage (Linked Lists for Strings)
+Text is divided across dynamic memory nodes connected by pointer links. Each node holds either a single character or a fixed small group of characters (e.g., 4 characters per node + 1 pointer):
+- **Effortless Splicing:** Inserting, deleting, or reordering text blocks takes $\\mathcal{O}(1)$ time by merely re-pointing links, without shifting surrounding characters.
+- **The Trade-Off:** Pointers consume extra memory (pointer overhead), and direct $\\mathcal{O}(1)$ indexing is lost—accessing character position $K$ requires traversing links sequentially.`,
       bulletPoints: [
-        '1. Record-Oriented, Fixed-Length Storage: Each line of text is viewed as a record where all records have the exact same length (traditionally 80 characters, corresponding to 80-column terminal screens and punched cards). Advantages: (a) Arithmetic address calculation allows instant O(1) random access to any record k (`Base + (k-1)*80`), (b) Easy in-place data updates. Disadvantages: (a) Tremendous memory waste if records contain many inessential trailing blank spaces, (b) Text longer than the fixed size is truncated, (c) Inserting a new record requires shifting every succeeding record down!',
-        'The Pointer Array Remedy (POINT): Instead of keeping records in consecutive memory, we store them anywhere in memory and maintain an auxiliary linear array `POINT`, where `POINT[K]` holds the starting memory address of record K. Inserting a new record only requires updating the pointer array without moving large text blocks!',
-        '2. Variable-Length Storage with Fixed Maximum: Memory cells have a fixed maximum capacity, but the computer tracks the actual length of each string. Two methods are used: (a) Sentinel Marker: A special marker such as two dollar signs ($$) or C\'s null terminator (\'\\0\') marks the end of text; (b) Length Header: An explicit integer storing the character count is stored alongside the pointer (e.g. Pascal strings or in the POINT array).',
-        '3. Linked Storage (Linked Lists for Strings): Characters are stored in memory cells called nodes, connected by `LINK` pointers. Each node can store either: (a) One character per node (1 byte character + 4/8 byte link pointer), or (b) A fixed group of characters per node (e.g., 4 characters per node + 1 pointer, as in Lipschutz Fig. 3.7 & 3.9). Advantages: Deleting, inserting, and rearranging words can be done instantly by adjusting pointer links without moving surrounding text. Disadvantages: Significant memory overhead for pointers; loss of direct O(1) index access (must traverse links sequentially).',
-        'Character Variable Types: (a) Static variables: Length is fixed before execution and cannot change (e.g. FORTRAN CHARACTER*10, Pascal ARRAY[1..20] OF CHAR; right-padded with blanks or truncated); (b) Semistatic variables: Length can vary up to a fixed maximum bound (e.g. BASIC A$, PL/1 CHARACTER(15) VARYING); (c) Dynamic variables: Length changes arbitrarily during program execution, allocating memory on demand (e.g. SNOBOL, Python, C++ std::string).'
+        'Fixed-Length Trade-Off: Instant O(1) arithmetic address calculation vs severe internal fragmentation from blank padding.',
+        'Pointer Array Optimization: Relieves fixed contiguous shifting by decoupling logical record sequence from physical memory layout.',
+        'Variable-Length Efficiency: Uses null sentinels or integer length headers to store only active characters.',
+        'Linked Node Flexibility: Eliminates bulk character shifting during insertions/deletions at the expense of pointer memory overhead and sequential access.'
       ],
-      mathFormula: `Linked Storage Traversal Example (Lipschutz Fig. 3.9):
+      mathFormula: `Linked Storage Node Traversal:
 START = 4
-Node 4:  CHAR: 'A TH'  LINK: 2   -->  Node 2:  CHAR: 'ING '  LINK: 7
-Node 7:  CHAR: 'OF B'  LINK: 11  -->  Node 11: CHAR: 'EAUT'  LINK: 12
-Node 12: CHAR: 'Y IS'  LINK: 8   -->  Node 8:  CHAR: ' A J'  LINK: 1
-Node 1:  CHAR: 'OY F'  LINK: 10  -->  Node 10: CHAR: 'OREV'  LINK: 6
-Node 6:  CHAR: 'ER. '  LINK: 0 (Null)
+Node 4:  CHARS: 'A TH'  LINK: 2   -->  Node 2:  CHARS: 'ING '  LINK: 7
+Node 7:  CHARS: 'OF B'  LINK: 11  -->  Node 11: CHARS: 'EAUT'  LINK: 12
+Node 12: CHARS: 'Y IS'  LINK: 8   -->  Node 8:  CHARS: ' A J'  LINK: 1
+Node 1:  CHARS: 'OY F'  LINK: 10  -->  Node 10: CHARS: 'OREV'  LINK: 6
+Node 6:  CHARS: 'ER. '  LINK: 0 (Null Pointer)
 Decoded Full String: "A THING OF BEAUTY IS A JOY FOREVER."`
     },
     {
-      title: 'Step 3: Explaining String Operations Simply — The 4 Primitive Building Blocks',
-      description: 'Why do strings require specialized operations that are not used with ordinary numeric arrays? In a numeric array, the single element A[i] is the primary unit of access. But in text processing, we almost never care about a solitary letter \'t\' in isolation—we care about meaningful sequences: words, phrases, and sentences (substrings). Lipschutz (Section 3.5) defines 4 primitive string operations:',
-      bulletPoints: [
-        '1. LENGTH(string): Determines the total number of characters in a string. Examples: `LENGTH(\'COMPUTER\') = 8`, `LENGTH(\'□\') = 1`, `LENGTH(\'\') = 0`. Many environments provide a companion function `TRIM(string)` which strips away trailing blank spaces before measuring length (e.g. `TRIM(\'ERIK□□\') = \'ERIK\'`).',
-        '2. SUBSTRING(string, initial, length): Accessing a piece of text requires three pieces of information: (a) The string S, (b) The 1-based starting position K, and (c) The length of the slice L. Written as `SUBSTRING(S, K, L)`. Example: `SUBSTRING(\'TO BE OR NOT TO BE\', 4, 7) = \'BE OR N\'`. Example: `SUBSTRING(\'THE END\', 4, 4) = \'□END\'. In various languages: PL/1 uses `SUBSTR(S, 4, 7)`, FORTRAN uses `S(4:10)`, Pascal uses `COPY(S, 4, 7)`, and BASIC uses `MID$(S, 4, 7)`.',
-        '3. INDEX(text, pattern): Also called pattern matching, this finds the 1-based position where a pattern P first appears inside a text T. Written as `INDEX(T, P)`. If P does not appear in T, INDEX is assigned the value 0 (signaling failure).',
-        '4. CONCATENATION (S1 // S2): Combines two strings by placing the characters of S2 directly after the characters of S1. In mathematical pseudocode, written as S1 // S2. Examples: `\'MARK\' // \'TWAIN\' = \'MARKTWAIN\'`; `\'MARK\' // \'□\' // \'TWAIN\' = \'MARK TWAIN\'`.'
-      ],
-      mathFormula: `Concrete INDEX Examples (Lipschutz Example 3.4):
-Let Text T = 'HIS FATHER IS THE PROFESSOR'
-- INDEX(T, 'THE')    = 7   (Because 'THE' appears inside 'FA-THE-R' at position 7!)
-- INDEX(T, 'THEN')   = 0   (Pattern does not occur anywhere in T)
-- INDEX(T, '□THE□')  = 14  (Matches isolated word ' THE ' starting at position 14)
-- INDEX(T, 'IS')     = 2   (Appears first inside 'H-IS' at position 2, not 'IS' at 12)`
-    },
-    {
-      title: 'Step 4: Teaching High-Level Pseudocode Operations — INSERT, DELETE & REPLACE',
-      description: 'Using the four primitive operations (LENGTH, SUBSTRING, INDEX, CONCAT), computer scientists build higher-level word processing routines (Lipschutz Section 3.6):',
-      bulletPoints: [
-        '1. INSERT(text, position, string): Inserts a string S into text T beginning at position K. Formula using primitives: `INSERT(T, K, S) = SUBSTRING(T, 1, K - 1) // S // SUBSTRING(T, K, LENGTH(T) - K + 1)`. In words: slice everything before position K, append the new string S, then append the remainder of T starting from K.',
-        'INSERT Examples: `INSERT(\'ABCDEFG\', 3, \'XYZ\') = \'ABXYZCDEFG\'`; `INSERT(\'ABCDEFG\', 6, \'XYZ\') = \'ABCDEXYZFG\'`. Inserting in front: `INSERT(\'AAAAA\', 1, \'BBB\') = \'BBBAAAAA\'`.',
-        '2. DELETE(text, position, length): Deletes a substring from text T beginning at position K with length L. Formula using primitives: `DELETE(T, K, L) = SUBSTRING(T, 1, K - 1) // SUBSTRING(T, K + L, LENGTH(T) - K - L + 1)`. In words: slice text up to position K-1, then skip L characters and concatenate the remaining tail.',
-        'The Zero Case in DELETE: If K = 0 (position is 0), nothing is deleted: `DELETE(T, 0, L) = T`. Examples: `DELETE(\'ABCDEFG\', 4, 2) = \'ABCFG\'`; `DELETE(\'ABCDEFG\', 2, 4) = \'AFG\'`; `DELETE(\'JOHN PAUL JONES\', 6, 5) = \'JOHN JONES\'`.',
-        'Deleting the First Occurrence of a Pattern: To delete the first appearance of a pattern P from text T: `DELETE(T, INDEX(T, P), LENGTH(P))`. If P does not appear in T, `INDEX(T, P) = 0`, so the zero case takes effect and T remains unchanged!',
-        '3. REPLACE(text, pattern1, pattern2): Replaces the first occurrence of pattern1 by pattern2. Built via INDEX, DELETE, and INSERT: (1) Find position `K := INDEX(T, P1)`; (2) Remove old pattern `T := DELETE(T, K, LENGTH(P1))`; (3) Insert new pattern `INSERT(T, K, P2)`. Examples: `REPLACE(\'XABYABZ\', \'AB\', \'C\') = \'XCYABZ\'`; `REPLACE(\'JOHN PAUL JONES\', \'PAUL\', \'DAVID\') = \'JOHN DAVID JONES\'`.'
-      ],
-      mathFormula: `Mathematical Derivations of High-Level Operations:
-INSERT(T, K, S)  = SUBSTRING(T, 1, K - 1) // S // SUBSTRING(T, K, LENGTH(T) - K + 1)
-DELETE(T, K, L)  = SUBSTRING(T, 1, K - 1) // SUBSTRING(T, K + L, LENGTH(T) - K - L + 1)
-REPLACE(T, P, Q) = INSERT(DELETE(T, INDEX(T, P), LENGTH(P)), INDEX(T, P), Q)`
-    },
-    {
-      title: 'Step 5: Writing Sample Algorithms Step by Step — Algorithm 3.1 & 3.2',
-      description: 'Now we step into procedural algorithm design. How do we write clean, rigorous pseudocode algorithms to perform repeated text transformations? (Lipschutz Algorithms 3.1 & 3.2):',
-      bulletPoints: [
-        'How to Formulate Algorithms Step-by-Step: Every algorithm must have: (1) A clear header naming inputs and outputs, (2) Initialization of search indexes or loop counters, (3) A well-defined loop condition that is guaranteed to terminate, and (4) Clear state updates per iteration.',
-        'Algorithm 3.1 (Delete Every Occurrence of P in T): Given text T and pattern P in memory, this algorithm removes every single occurrence of P from T.',
-        'CRITICAL EXAM PRINCIPLE (The "Phantom Pattern" Discovery): Each deletion decreases the length of T. However, when letters are deleted, previously separated characters slide together and may form BRAND NEW occurrences of P that were not present in the original text! Hence, the loop can execute more times than the initial number of P occurrences.',
-        'Tracing Phantom Patterns (Example 3.7b): Let T = \'XAAABBB\' and P = \'AB\'. Initially, \'AB\' appears only once at position 4. Iteration 1: deletes \'AB\' -> T becomes \'XAABBY\'. Notice \'AB\' appears AGAIN at position 3! Iteration 2: deletes \'AB\' -> T becomes \'XABY\'. \'AB\' appears a THIRD time! Iteration 3: deletes \'AB\' -> T becomes \'XY\'. Next INDEX(T, P) = 0, loop terminates. Output is \'XY\'.',
-        'Algorithm 3.2 (Replace Every Occurrence of P by Q): Given text T, pattern P, and replacement Q in memory, replaces every occurrence of P with Q.',
-        'WARNING: THE INFINITE LOOP TRAP (Example 3.8b): If P is a substring of Q (e.g. T = \'XAY\', P = \'A\', Q = \'AB\'), the algorithm will NEVER terminate! Iteration 1: \'XABY\'; Iteration 2: \'XABBY\'; Iteration 3: \'XABBBY\'... T grows infinitely! A replacement algorithm is only guaranteed to terminate if LENGTH(Q) < LENGTH(P) or if the search index advances past the newly inserted text.'
-      ],
-      mathFormula: `Algorithm 3.1: Delete Every Occurrence of P in T
-1. [Find index of P.] Set K := INDEX(T, P).
-2. Repeat while K ≠ 0:
-   (a) [Delete P from T.] Set T := DELETE(T, K, LENGTH(P)).
-   (b) [Update index.] Set K := INDEX(T, P).
-   [End of loop.]
-3. Write: T.
-4. Exit.
+      title: 'Step 3: Primitive Operations — Length, Substring, Index & Concat',
+      description: `In numeric arrays, the single element $A[i]$ is the primary unit of computation. In text processing, however, individual characters in isolation rarely carry complete meaning—computations focus on words, tokens, and phrases (substrings).
 
-Algorithm 3.2: Replace Every Occurrence of P by Q
-1. [Find index of P.] Set K := INDEX(T, P).
-2. Repeat while K ≠ 0:
-   (a) [Replace P by Q.] Set T := REPLACE(T, P, Q).
-   (b) [Update index.] Set K := INDEX(T, P).
-   [End of loop.]
-3. Write: T.
-4. Exit.`
-    },
-    {
-      title: 'Step 6: Word Processing Systems — Document Arrays, Paragraphs & Isolated Word Boundaries (Lipschutz 3.6 & P3.14–3.17)',
-      description: 'In Seymour Lipschutz\'s classic formulation, word processing refers to computerized management of continuous written documents (short stories, letters, articles, and reports) stored in memory as an array of fixed lines LINE[1..N]. Word processors rely heavily on string operations to automate editorial tasks:',
-      bulletPoints: [
-        'Document Line Array Representation (LINE[1..N]): A document is viewed as an array of N lines, where each line LINE[K] accommodates up to 80 characters (the standard card/screen record size). By textbook convention: LINE[1] stores the Title, LINE[N] stores the Author or end mark, and intermediate lines LINE[2..N-1] store the body text.',
-        'Paragraph Detection (Procedure P3.14): In standard typesetting, each new paragraph begins with a 5-character indentation (blank spaces in columns 1 through 5). To count total paragraphs in a story: iterate K := 2 to N - 1. If `SUBSTRING(LINE[K], 1, 5) = \'     \'`, increment `NUM := NUM + 1`. Lines with non-blank characters in column 1 are continuation lines of the active paragraph.',
-        'The Word Boundary Problem (Procedure P3.15): Suppose an editor wants to count occurrences of the isolated word "THE" (or any word W). Invoking `INDEX(LINE[K], \'THE\')` naively causes critical errors: it incorrectly matches "THE" inside words like "FATHER", "MOTHER", "THEORY", "OTHER", "HYPOTHESIS"!',
-        'The 3 Word Boundary Invariants: For word W to exist as an isolated word rather than an embedded syllable, it must be bounded by delimiters (blank spaces or line limits). On any line, the algorithm checks 3 mutually exclusive structural positions: (1) Beginning of line: `BEG := W // \' \'`; (2) End of line: `END := \' \' // W`; (3) Middle of line: `MID := \' \' // W // \' \'`.',
-        'Punctuation Handling (Procedure P3.16): In real prose, words frequently terminate with punctuation marks without intermediate spaces (e.g. "THE,", "THE.", "THE;", "THE?", "THE!"). Procedure P3.16 generalizes the boundary check by treating punctuation marks as valid terminal delimiters.',
-        'Paragraph Block Interchanger (Procedure P3.17): To swap two paragraphs K and L: (1) Scan LINE[1..N] to determine the starting and ending line indices [BEG_K, END_K] and [BEG_L, END_L]; (2) Copy the smaller paragraph into an auxiliary array TEMP; (3) Shift intervening lines up or down; and (4) Copy TEMP into the destination location.',
-        'Word Wrapping & Justification (Programming Problem 3.9): When formatting continuous text into lines of at most W characters, words must never be split in half across line breaks! The algorithm scans `SUBSTRING(TEXT, 1, W + 1)`. If column W + 1 is not a space, it backtracks to find the last space index J, outputs `SUBSTRING(TEXT, 1, J - 1)` as the current line, strips leading spaces from the remaining text, and repeats.'
-      ],
-      mathFormula: `Procedure P3.14 (Counting Paragraphs):
-PAR(LINE, N, NUM):
-1. Set NUM := 0.
-2. Repeat for K := 2 to N - 1:
-     If SUBSTRING(LINE[K], 1, 5) = '     ' then:
-       Set NUM := NUM + 1.
-   [End of loop.]
-3. Return.
+All string manipulation is built on four atomic primitive operations:
 
-Procedure P3.15 (Counting Isolated Word "THE"):
-COUNT(LINE, N, NUM):
-1. Set NUM := 0, BEG := 'THE ', END := ' THE', MID := ' THE '.
-2. Repeat for K := 2 to N - 1:
-   (a) If SUBSTRING(LINE[K], 1, 4) = BEG, then: Set NUM := NUM + 1.
-   (b) If SUBSTRING(LINE[K], 76, 5) = END, then: Set NUM := NUM + 1.
-   (c) Set STR := LINE[K].
-       Repeat while INDEX(STR, MID) ≠ 0:
-         Set NUM := NUM + 1.
-         Set J := INDEX(STR, MID).
-         Set STR := DELETE(STR, J + 1, 3). [Remove 'THE' to find next]
-3. Return.`
+1. **$\\text{LENGTH}(S)$:** Returns the total count of characters in string $S$.
+   - $\\text{LENGTH}(\\text{'COMPUTER'}) = 8$
+   - $\\text{LENGTH}(\\text{' '}) = 1$
+   - $\\text{LENGTH}(\\Lambda) = 0$
+
+2. **$\\text{SUBSTRING}(S, K, L)$:** Extracts a slice of text from string $S$, starting at 1-based index $K$ with length $L$.
+   - $\\text{SUBSTRING}(\\text{'TO BE OR NOT TO BE'}, 4, 7) = \\text{'BE OR N'}$
+   - $\\text{SUBSTRING}(\\text{'THE END'}, 4, 4) = \\text{' END'}$
+
+3. **$\\text{INDEX}(T, P)$:** Searches for the first occurrence of pattern $P$ in text $T$.
+   - Returns the 1-based index where $P$ begins inside $T$.
+   - If $P$ does not occur in $T$, it returns $0$ (signaling failure).
+
+4. **$\\text{CONCATENATION}(S_1 // S_2)$:** Joins string $S_2$ directly after the last character of string $S_1$.
+   - $\\text{'MARK'} // \\text{'TWAIN'} = \\text{'MARKTWAIN'}$
+   - $\\text{'MARK'} // \\text{' '} // \\text{'TWAIN'} = \\text{'MARK TWAIN'}$
+
+### Building Intuition for Pattern Finding (INDEX)
+Notice that $\\text{INDEX}(T, P)$ looks for the exact sequence of characters, regardless of whether it forms an entire word or an interior syllable. Understanding this distinction is essential for word processing:`,
+      bulletPoints: [
+        'Atomic Primitives: LENGTH, SUBSTRING, INDEX, and CONCAT form the complete foundation from which all advanced editors and parsers are constructed.',
+        '1-Based Convention: In standard algorithmic pseudocode, string positions start at 1; an INDEX result of 0 denotes that the pattern is absent.',
+        'Sub-Word Matches: INDEX matches substrings wherever the character sequence appears (e.g. searching for "THE" inside "FATHER" returns index 7).'
+      ],
+      mathFormula: `INDEX Search Tracing on Text T = 'HIS FATHER IS THE PROFESSOR':
+- INDEX(T, 'THE')   = 7   (Matches 'THE' inside 'FA-THE-R' at position 7)
+- INDEX(T, 'THEN')  = 0   (Pattern does not occur anywhere in T)
+- INDEX(T, ' THE ') = 14  (Matches the isolated word ' THE ' bounded by spaces)
+- INDEX(T, 'IS')    = 2   (Matches 'IS' inside 'H-IS' at position 2, not position 12)`
     },
     {
-      title: 'Step 7: Pattern Matching Algorithms — Brute-Force (Algorithm 3.3) & Automaton (3.4)',
-      description: 'Pattern matching is the problem of deciding whether a pattern P appears in text T, and finding its starting index. Lipschutz Section 3.7 presents two distinct algorithms:',
+      title: 'Step 4: High-Level Operations — Insert, Delete & Replace',
+      description: `By combining the 4 atomic primitives, we construct high-level text editing routines:
+
+### 1. INSERT(T, K, S)
+Inserts string $S$ into text $T$ beginning at position $K$.
+- **Intuition:** Think of splitting text $T$ like cutting a piece of ribbon at position $K$. You get a left slice (characters 1 to $K-1$) and a right slice (characters from $K$ to the end). You then glue string $S$ in the middle:
+\`\`\`text
+Algorithm INSERT(T, K, S)
+  Input: Text string T, 1-based insertion position K, string to insert S
+  Output: New string with S spliced into T at position K
+  
+  LeftSlice ← SUBSTRING(T, 1, K - 1)
+  RightSlice ← SUBSTRING(T, K, LENGTH(T) - K + 1)
+  return LeftSlice // S // RightSlice
+\`\`\`
+
+### 2. DELETE(T, K, L)
+Deletes $L$ characters from text $T$ starting at position $K$.
+- **Intuition:** Cut out the unwanted middle piece and join the left piece and right piece together:
+\`\`\`text
+Algorithm DELETE(T, K, L)
+  Input: Text string T, starting position K, number of characters to delete L
+  Output: New string with L characters removed starting at K
+  
+  if K ≤ 0 then
+    return T
+  end if
+  LeftSlice ← SUBSTRING(T, 1, K - 1)
+  RightSlice ← SUBSTRING(T, K + L, LENGTH(T) - K - L + 1)
+  return LeftSlice // RightSlice
+\`\`\`
+- **Deleting by Pattern:** To delete the first occurrence of a pattern $P$ from $T$:
+$$\\text{DELETE}(T, \\text{INDEX}(T, P), \\text{LENGTH}(P))$$
+If $P$ is absent, $\\text{INDEX}(T, P) = 0$, the $K \\le 0$ condition triggers, and $T$ remains unchanged.
+
+### 3. REPLACE(T, P, Q)
+Replaces the first occurrence of pattern $P$ in text $T$ with pattern $Q$:
+\`\`\`text
+Algorithm REPLACE(T, P, Q)
+  Input: Text T, target pattern P, replacement pattern Q
+  Output: Text with first occurrence of P replaced by Q
+  
+  K ← INDEX(T, P)
+  if K ≠ 0 then
+    T ← DELETE(T, K, LENGTH(P))
+    T ← INSERT(T, K, Q)
+  end if
+  return T
+\`\`\``,
       bulletPoints: [
-        'First Pattern Matching Algorithm (Algorithm 3.3 - Brute Force / Naive Search): Let P have length R and T have length S. There are MAX = S - R + 1 possible substrings W_K of length R in T. We compare P character-by-character against each substring W_K from left to right.',
-        'Complexity Analysis of Algorithm 3.3: Let C be the total number of character comparisons. Best Case: C = S - R + 1 = O(S) when the first character of P mismatches immediately on every window. Worst Case: C = R * (S - R + 1) = O(R * S) or O(n^2) when all characters match except the last (e.g. P = \'aaab\', T = \'aaaaaaaaaa\').',
-        'Second Pattern Matching Algorithm (Algorithm 3.4 - Table-Driven Finite Automaton): Uses a precomputed transition table F(Q_i, T_k) derived exclusively from pattern P. The states Q_0, Q_1, ..., Q_m represent initial substrings of P (prefixes), with Q_0 = Λ (empty string) and Q_m = P.',
-        'Why the Automaton is Faster: The algorithm reads text T strictly character-by-character from left to right (reading T_1, T_2, ..., T_N) WITHOUT EVER BACKTRACKING! Its running time is strictly linear: O(N) where N = LENGTH(T).'
+        'Splicing Invariant: INSERT splits text at position K, sandwiches S in the middle, and glues the pieces back together.',
+        'Gap-Closing Invariant: DELETE skips L characters from index K and concatenates the remaining left and right segments.',
+        'Zero-Position Safety: When position K = 0 (e.g., when a pattern is not found), DELETE safely returns the original text without modification.',
+        'Composed Replacement: REPLACE is cleanly expressed as finding the index, deleting the old pattern, and inserting the new string at that exact position.'
       ],
-      mathFormula: `Algorithm 3.3 (First Pattern Matching / Naive Search):
-P (length R) and T (length S) stored as character arrays.
-1. [Initialize.] Set K := 1 and MAX := S - R + 1.
-2. Repeat Steps 3 to 5 while K ≤ MAX:
-3.   Repeat for L := 1 to R: [Test each character of P]
-       If P[L] ≠ T[K + L - 1], then: Go to Step 5.
-     [End of inner loop.]
-4.   [Success.] Set INDEX := K, and Exit.
-5.   Set K := K + 1.
-   [End of Step 2 outer loop.]
-6. [Failure.] Set INDEX := 0.
-7. Exit.`
+      mathFormula: `Mathematical Formulations:
+- INSERT(T, K, S)  = SUBSTRING(T, 1, K - 1) // S // SUBSTRING(T, K, LENGTH(T) - K + 1)
+- DELETE(T, K, L)  = SUBSTRING(T, 1, K - 1) // SUBSTRING(T, K + L, LENGTH(T) - K - L + 1)
+- REPLACE(T, P, Q) = INSERT(DELETE(T, INDEX(T, P), LENGTH(P)), INDEX(T, P), Q)`
+    },
+    {
+      title: 'Step 5: Algorithms — Multi-Deletion & Replacement',
+      description: `Now we explore iterative algorithm design: how to process repeated text transformations and handle critical structural edge cases.
+
+### Task A: Delete Every Occurrence of Pattern P
+Problem: Given text $T$ and pattern $P$, remove every single appearance of $P$ from $T$.
+
+\`\`\`text
+Algorithm DeleteAllOccurrences(T, P)
+  Input: Text string T, target pattern P
+  Output: Text T with all occurrences of P removed
+  
+  K ← INDEX(T, P)
+  while K ≠ 0 do
+    T ← DELETE(T, K, LENGTH(P))
+    K ← INDEX(T, P)
+  end while
+  return T
+\`\`\`
+
+**Core Intuition: The "Phantom Pattern" Phenomenon**
+When a substring is removed, the characters on the left and right collapse together. This collapse can create *brand new* occurrences of pattern $P$ that did not exist in the initial text!
+- Let $T = \\text{'XAAABBB'}$ and $P = \\text{'AB'}$.
+- **Iteration 1:** Deleting the central \`'AB'\` at pos 4 turns $T$ into \`'XAABBY'\` (pos 3 and 4 are now \`'AB'\`!).
+- **Iteration 2:** Deleting the newly formed \`'AB'\` at pos 3 turns $T$ into \`'XABY'\` (pos 2 and 3 are now \`'AB'\`!).
+- **Iteration 3:** Deleting \`'AB'\` at pos 2 turns $T$ into \`'XY'\`. Next $\\text{INDEX}(T, P) = 0$, loop ends.
+- The loop ran 3 times, even though \`'AB'\` appeared only once at the beginning!
+
+---
+
+### Task B: Replace Every Occurrence of Pattern P with Q
+Problem: Given text $T$, target pattern $P$, and replacement $Q$, replace all occurrences of $P$ with $Q$.
+
+\`\`\`text
+Algorithm ReplaceAllOccurrences(T, P, Q)
+  Input: Text T, target pattern P, replacement string Q
+  Output: Text T with occurrences of P replaced by Q
+  
+  K ← INDEX(T, P)
+  while K ≠ 0 do
+    T ← REPLACE(T, P, Q)
+    K ← INDEX(T, P)
+  end while
+  return T
+\`\`\`
+
+**CRITICAL EXAM PRINCIPLE: The Infinite Loop Trap**
+If pattern $P$ is a substring of replacement $Q$ (e.g., $T = \\text{'XAY'}$, $P = \\text{'A'}$, $Q = \\text{'AB'}$), searching from the beginning of $T$ on each iteration causes an infinite loop!
+- **Iteration 1:** \`'XAY'\` becomes \`'XABY'\`.
+- **Iteration 2:** Finding \`'A'\` at pos 2 yields \`'XABBY'\`.
+- **Iteration 3:** Finding \`'A'\` at pos 2 yields \`'XABBBY'\`... $T$ grows without bound!
+
+**How to Guarantee Termination:**
+1. If $\\text{LENGTH}(Q) < \\text{LENGTH}(P)$, $T$ strictly shrinks on every step, guaranteeing termination.
+2. In general implementations, the search index must advance *past* the newly inserted replacement string $Q$ (e.g. next search starts at $K + \\text{LENGTH}(Q)$).`,
+      bulletPoints: [
+        'Cascading Collapse: Deletions can join previously separated characters, generating new target patterns dynamically.',
+        'Loop Termination Risk: Naive find-and-replace loops infinitely when pattern P is a substring of replacement Q.',
+        'Pointer Advancement: Production replacement engines advance the search pointer past newly inserted text to prevent re-matching.'
+      ],
+      mathFormula: `Trace of DeleteAllOccurrences for T = 'XAAABBB' and P = 'AB':
+- Initial State:  T = 'XAAABBB', INDEX(T, 'AB') = 4
+- Pass 1: DELETE(T, 4, 2) --> T = 'XAABBY', INDEX(T, 'AB') = 3
+- Pass 2: DELETE(T, 3, 2) --> T = 'XABY',   INDEX(T, 'AB') = 2
+- Pass 3: DELETE(T, 2, 2) --> T = 'XY',     INDEX(T, 'AB') = 0 (Terminates)
+Final Output: 'XY'`
+    },
+    {
+      title: 'Step 6: Document Processing: Paragraphs, Boundaries & Wrapping',
+      description: `In text processing systems, a document is represented as an array of line records \`LINE[1..N]\`, where each line accommodates up to 80 characters. Let us look at three classic document algorithms:
+
+### 1. Counting Paragraphs
+Problem: In standard manuscript format, each paragraph begins with a 5-space indentation. Line 1 holds the title and Line $N$ holds the author/end marker. Count the number of paragraphs in the body text.
+
+\`\`\`text
+Algorithm CountParagraphs(LINE, N)
+  Input: Document array LINE[1..N] of line records
+  Output: Total paragraph count NUM
+  
+  NUM ← 0
+  for K ← 2 to N - 1 do
+    if SUBSTRING(LINE[K], 1, 5) = "     " then
+      NUM ← NUM + 1
+    end if
+  end for
+  return NUM
+\`\`\`
+
+---
+
+### 2. Counting Isolated Word Occurrences (Word Boundaries)
+Problem: Count how many times the standalone word \`"THE"\` occurs in the document.
+
+**Why Naive INDEX Fails:**
+Searching naively for \`"THE"\` matches \`"THE"\` inside \`"FATHER"\` (\`"FA-THE-R"\`), \`"MOTHER"\`, \`"THEORY"\`, and \`"OTHER"\`. None of these are the isolated word \`"THE"\`!
+
+**The 3 Structural Boundary Rules:**
+For a word $W$ to be an isolated word, it must be bounded by whitespace or line margins:
+1. **Beginning of Line (BEG):** Columns 1 to 4 are \`"THE "\` (word followed by space).
+2. **End of Line (END):** The final columns are \`" THE"\` (space followed by word).
+3. **Middle of Line (MID):** Surrounded by spaces on both sides: \`" THE "\`.
+
+\`\`\`text
+Algorithm CountIsolatedWord(LINE, N)
+  Input: Document array LINE[1..N]
+  Output: Total isolated count NUM of word "THE"
+  
+  NUM ← 0
+  BEG ← "THE "
+  END ← " THE"
+  MID ← " THE "
+  
+  for K ← 2 to N - 1 do
+    if SUBSTRING(LINE[K], 1, 4) = BEG then
+      NUM ← NUM + 1
+    end if
+    if SUBSTRING(LINE[K], 76, 5) = END then
+      NUM ← NUM + 1
+    end if
+    STR ← LINE[K]
+    while INDEX(STR, MID) ≠ 0 do
+      NUM ← NUM + 1
+      J ← INDEX(STR, MID)
+      STR ← DELETE(STR, J + 1, 3) // Remove 'THE', keep boundary spaces
+    end while
+  end for
+  return NUM
+\`\`\`
+
+---
+
+### 3. Word Wrapping Algorithm
+Problem: Format continuous text into lines of at most $W$ characters without breaking any word across lines.
+
+**Intuition:**
+If we slice rigidly every $W$ characters, words crossing the margin will be severed in half. Instead:
+1. Inspect the slice up to column $W + 1$.
+2. If column $W + 1$ is a blank space, cut cleanly at column $W$.
+3. If column $W + 1$ is a letter (part of a word), search *backward* from column $W$ to find the last space index $J$, and cut the line at $J - 1$.
+4. Start the next line with the remaining text and repeat!`,
+      bulletPoints: [
+        'Document Array Model: Lines 2 to N-1 contain body text, bounded by title and author metadata lines.',
+        'Delimited Boundary Invariants: Isolated words must be tested against 3 mutually exclusive positions: line start (BEG), line end (END), and whitespace-enclosed interior (MID).',
+        'Word-Wrap Backtracking: Prevents broken words by searching backwards from column W + 1 for the preceding space delimiter.'
+      ],
+      mathFormula: `Word Boundary Patterns for Word W = "THE":
+- BEG := W // ' '     = "THE "   (Checked at column 1)
+- END := ' ' // W     = " THE"   (Checked at line end)
+- MID := ' ' // W // ' ' = " THE " (Checked across line interior)`
+    },
+    {
+      title: 'Step 7: Pattern Matching: Naive Search & Finite Automata',
+      description: `Pattern matching is the fundamental task of locating a target pattern $P$ (length $R$) within a larger text $T$ (length $S$).
+
+### 1. Naive Sliding-Window Search
+Problem: Find the 1-based index where pattern $P$ first occurs in text $T$.
+
+**Intuition:**
+There are $\\text{MAX} = S - R + 1$ possible starting positions in text $T$. We slide pattern $P$ along each position $K$, comparing character-by-character:
+
+\`\`\`text
+Algorithm NaivePatternSearch(T, P)
+  Input: Text T (length S), Pattern P (length R)
+  Output: 1-based index of first match, or 0 if not found
+  
+  S ← LENGTH(T)
+  R ← LENGTH(P)
+  MAX ← S - R + 1
+  
+  for K ← 1 to MAX do
+    MatchFound ← true
+    for L ← 1 to R do
+      if P[L] ≠ T[K + L - 1] then
+        MatchFound ← false
+        Exit inner loop
+      end if
+    end for
+    if MatchFound = true then
+      return K
+    end if
+  end for
+  return 0
+\`\`\`
+
+**Complexity Analysis:**
+- **Best Case:** $\\mathcal{O}(S)$ comparisons when the very first character of $P$ mismatches immediately on every window.
+- **Worst Case:** $\\mathcal{O}(R \\times S)$ comparisons when the first $R - 1$ characters match before failing on the last character (e.g., searching $P = \\text{'AAAB'}$ in $T = \\text{'AAAAAAAAAA'}$).
+
+---
+
+### 2. Table-Driven Finite Automaton Search
+To eliminate redundant backtracking in naive search, a deterministic finite state machine is precomputed from pattern $P$.
+- The machine processes text $T$ strictly character-by-character from left to right.
+- Its reading pointer *never moves backward*.
+- It achieves strictly linear $\\mathcal{O}(S)$ execution time.`,
+      bulletPoints: [
+        'Sliding Windows: Exactly S - R + 1 possible starting alignments exist for a pattern of length R in a text of length S.',
+        'Worst-Case Bound: Naive search degrades to O(R × S) when repetitive prefixes force repeated rewinding of the search pointer.',
+        'Linear Automaton: Precomputing state transitions allows the search to scan text in a single forward pass in O(S) time.'
+      ],
+      mathFormula: `Comparison Bounds for Naive Search:
+- Best Case Comparisons:  C_best  = S - R + 1 = O(S)
+- Worst Case Comparisons: C_worst = R * (S - R + 1) = O(R * S)
+- For fixed total size n = R + S, maximum comparisons occur when R = (n + 1) / 4`
     }
   ],
   cstlReference: {
@@ -186,81 +400,75 @@ P (length R) and T (length S) stored as character arrays.
       { method: 's.replace(pos, len, rep)', description: 'Replaces len characters at pos with rep (equivalent to REPLACE)', complexity: 'O(N)' }
     ],
     notes: [
-      'Note on 1-based vs 0-based indexing: In textbook pseudocode (Lipschutz Chapter 3), strings are 1-based: the first character is at position 1, and INDEX returns 0 on failure. In C/C++, strings are 0-based: the first character is at index 0, and `s.find()` returns `std::string::npos` on failure.',
-      'C-strings (`char str[]`) require an invisible \'\\0\' sentinel null-terminator byte at the end. Without it, functions like `strlen()` will read out of bounds until hitting memory garbage.'
+      'Note on Indexing: In algorithmic pseudocode, strings are 1-based (first character at position 1; INDEX returns 0 on failure). In C/C++, strings are 0-based (first character at index 0; find returns std::string::npos on failure).',
+      'C-strings (char str[]) require a null-terminator byte (\'\\0\') at the end. Without it, functions like strlen() will read past buffer boundaries.'
     ]
   },
   codeSnippets: [
     {
       language: 'cpp',
-      title: 'Implementation of Algorithm 3.1 (Delete Every Occurrence of P in T)',
-      explanation: 'Demonstrates the textbook\'s exact procedural deletion logic in C++, including detection of phantom patterns that appear after prior deletions.',
+      title: 'Multi-Occurrence Deletion Algorithm',
+      explanation: 'Demonstrates procedural deletion in C++, showing how previously separated characters collapse into new target occurrences.',
       code: `#include <iostream>
 #include <string>
 
-// Algorithm 3.1: Delete every occurrence of pattern P in text T
+// Delete every occurrence of pattern P in text T
 void deleteAllOccurrences(std::string &T, const std::string &P) {
     if (P.empty() || T.empty()) return;
 
     size_t K;
     int pass = 1;
-    // Repeat while K ≠ 0 (in C++, find() != npos)
+    // Repeat while pattern is found in T
     while ((K = T.find(P)) != std::string::npos) {
         std::cout << "Pass " << pass++ << ": Found '" << P << "' at index " << K << ". Text before: " << T << std::endl;
-        // DELETE(T, K, LENGTH(P)): erase characters
+        // Erase LENGTH(P) characters starting at index K
         T.erase(K, P.length());
         std::cout << "Text after deletion: " << T << std::endl;
     }
 }
 
 int main() {
-    // Tracing Example 3.7(b) from Lipschutz:
-    // T = "XAAABBB", P = "AB"
+    // Tracing text with collapsing phantom patterns: T = "XAAABBB", P = "AB"
     std::string text = "XAAABBB";
     std::string pattern = "AB";
 
     std::cout << "Initial Text: " << text << ", Pattern: " << pattern << std::endl;
     deleteAllOccurrences(text, pattern);
-    std::cout << "Final Result: " << text << std::endl; // Prints "XY" (or "X" if no trailing Y)
+    std::cout << "Final Result: " << text << std::endl; // Outputs "XY"
 
     return 0;
 }`
     },
     {
       language: 'cpp',
-      title: 'Implementation of Algorithm 3.3 (First Pattern Matching / Brute Force)',
-      explanation: 'Follows Algorithm 3.3 step-by-step with character comparison counting to demonstrate best-case vs worst-case complexity.',
+      title: 'Naive Pattern Matching Algorithm',
+      explanation: 'Step-by-step sliding window pattern matching with character comparison tracking to illustrate best vs worst case complexity.',
       code: `#include <iostream>
 #include <string>
 
-// Algorithm 3.3: First Pattern Matching Algorithm
-// Returns 1-based index if found, 0 if failure (Lipschutz convention)
+// Naive pattern search returning 1-based index (0 if not found)
 int naivePatternMatch(const std::string &T, const std::string &P, int &comparisonCount) {
     int S = T.length();
     int R = P.length();
     int MAX = S - R + 1;
     comparisonCount = 0;
 
-    // Step 2: Repeat while K <= MAX
     for (int K = 1; K <= MAX; ++K) {
         bool match = true;
-        // Step 3: Repeat for L := 1 to R
         for (int L = 1; L <= R; ++L) {
             comparisonCount++;
-            // Compare P[L] with T[K + L - 1] (converting to 0-based indexing)
+            // Compare P[L] with T[K + L - 1] (using 0-based array index)
             if (P[L - 1] != T[(K + L - 1) - 1]) {
                 match = false;
-                break; // Mismatch: go to Step 5 (advance K)
+                break; // Mismatch: advance to next starting window
             }
         }
-        // Step 4: [Success.]
         if (match) {
-            return K; // 1-based index
+            return K; // Found at 1-based position K
         }
     }
 
-    // Step 6: [Failure.]
-    return 0;
+    return 0; // Not found
 }
 
 int main() {
@@ -280,13 +488,14 @@ int main() {
     {
       language: 'cpp',
       title: 'Linked String Storage Simulation (4 Characters per Node)',
-      explanation: 'Simulates the linked list string storage structure depicted in Lipschutz Section 3.3 (Fig 3.7b & Fig 3.9) with 4 characters per node.',
+      explanation: 'Simulates a linked list string structure where each node stores 4 characters and a pointer to the next node.',
       code: `#include <iostream>
 #include <string>
+#include <algorithm>
 
 struct StringNode {
     char chunk[4]; // 4 characters per node
-    int numChars;  // valid characters in this node (1 to 4)
+    int numChars;  // valid character count in this node (1 to 4)
     StringNode* next;
 
     StringNode(const std::string &str) : next(nullptr) {
@@ -307,7 +516,7 @@ void printLinkedString(StringNode* head) {
 }
 
 int main() {
-    // Reconstructing Fig 3.9: "A TH" -> "ING " -> "OF B" -> "EAUT" -> "Y IS" ...
+    // Chain: "A TH" -> "ING " -> "OF B" -> "EAUT" -> "Y IS"
     StringNode* n1 = new StringNode("A TH");
     StringNode* n2 = new StringNode("ING ");
     StringNode* n3 = new StringNode("OF B");
@@ -326,365 +535,495 @@ int main() {
   examQuestions: [
     {
       id: 'str-exam-1',
-      year: 'University Exam Classic (Lipschutz Solved Problem 3.3 & 3.5)',
+      year: 'University Semester Exam',
       marks: 10,
       difficulty: 'Exam Classic',
-      question: 'Compare in detail the three classic structures used for storing strings in computer memory: (a) Fixed-Length Record Storage, (b) Variable-Length Storage with Fixed Maximum, and (c) Linked Storage. Give the advantages and disadvantages of each, and explain how a pointer array POINT addresses the insertion problem in fixed-length records.',
-      solution: `Model University Answer:
+      question: 'Compare in detail the three classic structures used for storing strings in computer memory: (a) Fixed-Length Record Storage, (b) Variable-Length Storage with Fixed Maximum, and (c) Linked Storage. State the advantages and disadvantages of each, and explain how an auxiliary pointer array solves the record insertion problem.',
+      solution: `### 1. Conceptual Intuition & Architecture Comparison
 
-1. Record-Oriented, Fixed-Length Storage:
-- Concept: Every line or record accommodates a predetermined fixed number of characters (traditionally 80 characters, corresponding to 80-column punched cards or terminals).
-- Advantages:
-  (a) Ease of access: Record K begins at address Base + (K - 1) * 80, allowing O(1) arithmetic address calculation.
-  (b) Ease of updating in-place, provided the new content does not exceed 80 characters.
-- Disadvantages:
-  (a) Excessive space waste if records contain many inessential blank spaces.
-  (b) Inflexible: Cannot store records exceeding 80 characters.
-  (c) Rigid insertion: Inserting a new record between lines requires physically shifting all subsequent records in memory!
-- Remedy (The POINT Array): A linear array POINT gives the memory address of each successive record. Records no longer need to be stored in contiguous physical order; inserting a new record requires only updating pointers in the POINT array rather than shifting memory blocks.
+When designing memory layouts for strings, computer systems balance three competing goals:
+1. **Random Access Speed:** Can we calculate the memory address of line $K$ in $\\mathcal{O}(1)$ arithmetic time?
+2. **Space Efficiency:** How much memory is wasted on blank padding or pointer overhead?
+3. **Modification Flexibility:** Can we insert or delete lines without shifting megabytes of surrounding text?
 
-2. Variable-Length Storage with Fixed Maximum:
-- Concept: Strings have varying lengths up to a fixed maximum capacity.
-- Length Identification Methods:
-  (a) End-of-string sentinel: A special marker such as $$ or '\\0' signals the end of the text.
-  (b) Explicit length listing: An additional integer field (length header) stores the character count.
-- Advantages: Eliminates trailing blank padding, saving memory.
-- Disadvantages: Frequent resizing can cause fragmentation if memory is stored sequentially.
+---
 
-3. Linked Storage (Linked Lists):
-- Concept: Memory cells (nodes) store one character or a fixed small group of characters (e.g. 4 chars per node) accompanied by a LINK pointer pointing to the next node.
-- Advantages:
-  (a) Effortless insertion, deletion, and rearrangement of substrings in O(1) time without shifting surrounding characters.
-  (b) Dynamic growth without fixed upper limits.
-- Disadvantages:
-  (a) High memory overhead: On a 64-bit architecture, a pointer takes 8 bytes. Storing 1 char (1 byte) per node wastes 88.9% of memory on pointers alone! Grouping 4 characters per node reduces overhead.
-  (b) Sequential access only: The K-th character cannot be accessed in O(1); one must traverse K link steps.`,
-      keyTakeaway: 'Fixed-length gives O(1) address calculation but wastes space on blanks; variable-length uses sentinels or length headers; linked storage allows effortless string splicing at the cost of pointer overhead.'
+### 2. Comprehensive Structure Breakdown
+
+#### (a) Record-Oriented, Fixed-Length Storage
+- **Concept:** Every line in memory is allocated a predetermined fixed capacity (e.g., exactly 80 characters per record).
+- **Advantages:**
+  - **Instant $\\mathcal{O}(1)$ Address Calculation:** Record $K$ begins at $\\text{Base} + (K - 1) \\times 80$. No lookup tables or pointers needed.
+  - **Simple In-Place Updates:** Modifying a record within its 80-character limit requires no memory reallocation.
+- **Disadvantages:**
+  - **Memory Waste (Internal Fragmentation):** Short lines (e.g. 10-character lines) waste 70 blank spaces in RAM.
+  - **Inflexible Size Limit:** Lines exceeding 80 characters are truncated.
+  - **Expensive Insertions:** Inserting a new line between existing records requires shifting all subsequent records down in physical memory.
+
+**The Pointer Array Solution:**
+Instead of storing records consecutively in physical RAM, records can reside anywhere. An auxiliary linear array \`POINT\` stores the memory address of each logical record. To insert a new line, we simply insert its address into the \`POINT\` array—leaving the large text records untouched!
+
+---
+
+#### (b) Variable-Length Storage with Fixed Maximum
+- **Concept:** Buffers have a maximum size bound, but the system tracks the actual length of each string.
+- **Length Tracking Techniques:**
+  - **Sentinel Byte:** A special marker (e.g., \`'\\0'\` in C or \`$$\`) indicates the end of valid text.
+  - **Length Header:** An explicit integer field stores the character count alongside the buffer pointer (e.g., Pascal strings).
+- **Advantages:** Eliminates trailing space padding, saving memory.
+- **Disadvantages:** Sequential memory allocation can cause fragmentation when strings frequently resize.
+
+---
+
+#### (c) Linked Storage (Linked Lists for Strings)
+- **Concept:** Text is divided into nodes connected by pointer links. Each node holds either one character or a small group of characters (e.g., 4 characters per node).
+- **Advantages:**
+  - **Instant $\\mathcal{O}(1)$ Splicing:** Inserting, deleting, or reordering text blocks is done by adjusting pointer links without moving surrounding characters.
+  - **Dynamic Growth:** No arbitrary upper limit on string length.
+- **Disadvantages:**
+  - **High Pointer Overhead:** Storing 1 character (1 byte) with an 8-byte pointer wastes ~89% of memory on pointers alone. Storing 4 characters per node significantly reduces this overhead.
+  - **Sequential Access Only:** Direct index access in $\\mathcal{O}(1)$ is lost; accessing character $K$ requires traversing $K$ link hops.`,
+      keyTakeaway: 'Fixed-length storage enables O(1) arithmetic addressing but suffers from blank space waste; pointer arrays eliminate physical record shifting; linked lists enable instant splicing at the cost of pointer overhead.'
     },
     {
       id: 'str-exam-2',
-      year: 'University Exam Classic (Lipschutz Example 3.7 & Algorithm 3.1)',
+      year: 'University Semester Exam',
       marks: 8,
       difficulty: 'Medium',
-      question: 'Write the pseudocode for Algorithm 3.1 (Delete every occurrence of pattern P from text T). Trace the execution of this algorithm step-by-step for the input T = \'XAAABBB\' and P = \'AB\'. Explain why the loop executes 3 times even though \'AB\' appeared only once initially.',
-      solution: `Model University Answer:
+      question: 'Write the pseudocode for an algorithm that deletes every occurrence of a pattern P from a text T. Trace the execution step-by-step for T = \'XAAABBB\' and P = \'AB\'. Explain why the loop executes 3 times even though \'AB\' appeared only once initially.',
+      solution: `### 1. Intuition & Invariants
 
-Algorithm 3.1: Delete Every Occurrence of P in T
-1. [Find index of P.] Set K := INDEX(T, P).
-2. Repeat while K ≠ 0:
-   (a) [Delete P from T.] Set T := DELETE(T, K, LENGTH(P)).
-   (b) [Update index.] Set K := INDEX(T, P).
-   [End of loop.]
-3. Write: T.
-4. Exit.
+When a substring is removed from a text string, the characters before the deletion point and the characters after the deletion point collapse together. This collapse can bring previously separated characters into direct adjacency, forming **brand new occurrences of pattern P** that did not exist initially.
 
-Step-by-Step Trace for T = 'XAAABBB' and P = 'AB':
-- Initialization:
-  - T = 'XAAABBB', LENGTH(P) = 2.
-  - Compute K := INDEX(T, 'AB'). The substring 'AB' appears at position 4 ('XAA-AB-BB').
-  - Since K = 4 ≠ 0, enter the loop.
+---
 
-- Loop Iteration 1:
-  - (a) Set T := DELETE(T, 4, 2).
-        SUBSTRING(T, 1, 3) = 'XAA', SUBSTRING(T, 6, 2) = 'BB'.
-        T becomes 'XAA' // 'BB' = 'XAABBY'.
-  - (b) Set K := INDEX(T, 'AB').
-        Looking at 'XAABBY', characters at positions 3 and 4 form 'AB'! K = 3.
+### 2. Formal Pseudocode
 
-- Loop Iteration 2:
-  - (a) Set T := DELETE(T, 3, 2).
-        SUBSTRING(T, 1, 2) = 'XA', SUBSTRING(T, 5, 2) = 'BY'.
-        T becomes 'XA' // 'BY' = 'XABY'.
-  - (b) Set K := INDEX(T, 'AB').
-        Looking at 'XABY', characters at positions 2 and 3 form 'AB'! K = 2.
+\`\`\`text
+Algorithm DeleteAllOccurrences(T, P)
+  Input: Text string T, pattern P to remove
+  Output: Modified string T with all occurrences of P deleted
+  
+  K ← INDEX(T, P)
+  while K ≠ 0 do
+    T ← DELETE(T, K, LENGTH(P))
+    K ← INDEX(T, P)
+  end while
+  return T
+\`\`\`
 
-- Loop Iteration 3:
-  - (a) Set T := DELETE(T, 2, 2).
-        SUBSTRING(T, 1, 1) = 'X', SUBSTRING(T, 4, 1) = 'Y'.
-        T becomes 'X' // 'Y' = 'XY'.
-  - (b) Set K := INDEX(T, 'AB').
-        In 'XY', 'AB' does not occur. K = 0.
+---
 
-- Termination:
-  - Loop condition K ≠ 0 is now FALSE (K = 0). Loop ends.
-  - Step 3: Write 'XY'.
+### 3. Step-by-Step Execution Trace
 
-Why the Loop Executed 3 Times:
-When a substring is deleted, the characters before and after the deleted portion collapse together. In 'XAAABBB', deleting the central 'AB' brings the preceding 'A' and succeeding 'B' into direct contact, creating a brand new 'AB' that did not exist as an adjacent unit originally. This cascading effect repeated until no more 'A's and 'B's were adjacent.`,
-      keyTakeaway: 'Deleting characters from a string can cause formerly separated characters to join together, giving birth to newly formed target patterns.'
+**Input:** $T = \\text{'XAAABBB'}$, $P = \\text{'AB'}$ (length = 2).
+
+- **Initialization:**
+  - Compute $K \\leftarrow \\text{INDEX}(T, \\text{'AB'})$.
+  - Inside \`'XAA-AB-BB'\`, pattern \`'AB'\` first appears at position 4 ($K = 4$).
+  - Since $K = 4 \\ne 0$, enter the loop.
+
+- **Iteration 1:**
+  - Execute $T \\leftarrow \\text{DELETE}(T, 4, 2)$.
+  - Left slice: \`'XAA'\`, Right slice: \`'BB'\`.
+  - Resulting text: $T = \\text{'XAABBY'}$.
+  - Compute $K \\leftarrow \\text{INDEX}(T, \\text{'AB'})$.
+  - Looking at \`'XA-AB-BY'\`, characters at positions 3 and 4 form \`'AB'\`! $K = 3$.
+
+- **Iteration 2:**
+  - Execute $T \\leftarrow \\text{DELETE}(T, 3, 2)$.
+  - Left slice: \`'XA'\`, Right slice: \`'BY'\`.
+  - Resulting text: $T = \\text{'XABY'}$.
+  - Compute $K \\leftarrow \\text{INDEX}(T, \\text{'AB'})$.
+  - Looking at \`'X-AB-Y'\`, characters at positions 2 and 3 form \`'AB'\`! $K = 2$.
+
+- **Iteration 3:**
+  - Execute $T \\leftarrow \\text{DELETE}(T, 2, 2)$.
+  - Left slice: \`'X'\`, Right slice: \`'Y'\`.
+  - Resulting text: $T = \\text{'XY'}$.
+  - Compute $K \\leftarrow \\text{INDEX}(T, \\text{'AB'})$.
+  - In \`'XY'\`, \`'AB'\` does not occur. $K = 0$.
+
+- **Loop Termination:**
+  - Condition $K \\ne 0$ is FALSE ($K = 0$). Loop terminates.
+  - Final Output: \`'XY'\`.
+
+---
+
+### 4. Why the Loop Executed 3 Times
+Deleting the inner \`'AB'\` caused the preceding \`'A'\` and following \`'B'\` to slide together into adjacency, creating a second \`'AB'\`. Deleting that second \`'AB'\` caused the next \`'A'\` and \`'B'\` to slide together, creating a third \`'AB'\`. This cascading collapse repeats until no more adjacent \`'A'\` and \`'B'\` pairs remain.`,
+      keyTakeaway: 'Deleting characters from a string causes adjacent boundaries to collapse, which can dynamically generate newly formed target patterns.'
     },
     {
       id: 'str-exam-3',
-      year: 'University Exam Classic (Lipschutz Section 3.6 & Example 3.8)',
+      year: 'University Semester Exam',
       marks: 6,
       difficulty: 'Medium',
-      question: 'Consider Algorithm 3.2 for replacing every occurrence of pattern P with pattern Q in text T. Explain with an example why the algorithm may enter an infinite loop. Under what conditions is the algorithm guaranteed to terminate?',
-      solution: `Model University Answer:
+      question: 'Explain why a naive algorithm that repeatedly replaces pattern P with pattern Q in text T can enter an infinite loop. Provide a concrete example and state the conditions required to guarantee termination.',
+      solution: `### 1. The Infinite Loop Mechanism
 
-The Algorithm:
-Algorithm 3.2 repeatedly finds K := INDEX(T, P) and replaces it via T := REPLACE(T, P, Q) until INDEX(T, P) = 0.
+Consider an algorithm that repeatedly calls:
+\`\`\`text
+K ← INDEX(T, P)
+while K ≠ 0 do
+  T ← REPLACE(T, P, Q)
+  K ← INDEX(T, P)
+end while
+\`\`\`
 
-The Infinite Loop Trap:
-If the pattern P is a substring of the replacement string Q, the algorithm will NEVER terminate!
+If target pattern $P$ is a substring of replacement pattern $Q$, the replacement operation $T \\leftarrow \\text{REPLACE}(T, P, Q)$ inserts a string containing $P$ right back into $T$. When $\\text{INDEX}(T, P)$ searches again from the start of the string, it finds the newly inserted $P$ at the same position, resulting in an **unbounded infinite loop**.
 
-Concrete Example (Lipschutz Example 3.8b):
-Let Text T = 'XAY', Pattern P = 'A', Replacement Q = 'AB'.
-- Iteration 1:
-  - INDEX(T, 'A') = 2.
-  - REPLACE('XAY', 'A', 'AB') yields T = 'XABY'.
-- Iteration 2:
-  - INDEX(T, 'A') = 2 (the 'A' inside the newly inserted 'AB'!).
-  - REPLACE('XABY', 'A', 'AB') yields T = 'XABBY'.
-- Iteration 3:
-  - INDEX(T, 'A') = 2 again!
-  - REPLACE yields T = 'XABBBY'.
-- In general, after n iterations, T = 'X' // 'A' // (B^n) // 'Y'. The string grows infinitely and INDEX(T, P) is never 0!
+---
 
-Termination Guarantees:
-1. Special Condition: If LENGTH(Q) < LENGTH(P), the total length of T decreases after each replacement, guaranteeing termination.
-2. Algorithmic Fix: Rather than searching T from the beginning (index 1) on every iteration, the search pointer K must advance PAST the replacement string Q (i.e. next search begins at K + LENGTH(Q)).`,
-      keyTakeaway: 'When replacing P with Q, if P is a substring of Q, searching from index 1 causes an infinite loop. The search pointer must jump past the replacement.'
+### 2. Concrete Trace Example
+
+Let Text $T = \\text{'XAY'}$, Target $P = \\text{'A'}$, Replacement $Q = \\text{'AB'}$.
+
+- **Iteration 1:**
+  - $\\text{INDEX}(T, \\text{'A'}) = 2$.
+  - $\\text{REPLACE}(\\text{'XAY'}, \\text{'A'}, \\text{'AB'})$ yields $T = \\text{'XABY'}$.
+- **Iteration 2:**
+  - $\\text{INDEX}(T, \\text{'A'}) = 2$ (matches the \`'A'\` inside the newly inserted \`'AB'\`!).
+  - $\\text{REPLACE}(\\text{'XABY'}, \\text{'A'}, \\text{'AB'})$ yields $T = \\text{'XABBY'}$.
+- **Iteration 3:**
+  - $\\text{INDEX}(T, \\text{'A'}) = 2$ again!
+  - $\\text{REPLACE}(\\text{'XABBY'}, \\text{'A'}, \\text{'AB'})$ yields $T = \\text{'XABBBY'}$.
+- **After $N$ iterations:**
+  - $T = \\text{'X'} // \\text{'A'} // (\\text{B}^N) // \\text{'Y'}$.
+  - The text grows infinitely and $\\text{INDEX}(T, P)$ is never $0$.
+
+---
+
+### 3. Termination Guarantees & Correct Solutions
+
+1. **Size-Decreasing Condition:** If $\\text{LENGTH}(Q) < \\text{LENGTH}(P)$, each replacement strictly decreases the total character count of $T$, guaranteeing termination.
+2. **Pointer Advancement Solution:** In standard text engines, the search index must **advance past the replacement string** (next search begins at $K + \\text{LENGTH}(Q)$) rather than resetting to position 1.`,
+      keyTakeaway: 'When pattern P is a substring of replacement Q, searching from index 1 causes infinite cycling. Robust find-and-replace engines advance the search pointer past newly inserted text.'
     },
     {
       id: 'str-exam-4',
-      year: 'University Exam Classic (Lipschutz Section 3.7 & Problem 3.19)',
+      year: 'University Semester Exam',
       marks: 8,
       difficulty: 'Hard',
-      question: 'Analyze the time complexity of the first pattern matching algorithm (Algorithm 3.3). If P has length R and T has length S, determine the number of comparisons C in: (a) Best Case, (b) Worst Case. Prove that for a fixed data size n = R + S, the maximum number of comparisons occurs when R = (n + 1) / 4.',
-      solution: `Model University Answer:
+      question: 'Analyze the time complexity of the Naive Pattern Matching algorithm. For a pattern P of length R and text T of length S, determine the number of character comparisons C in: (a) Best Case, and (b) Worst Case. Prove that for a fixed total data size n = R + S, the maximum number of comparisons occurs when R = (n + 1) / 4.',
+      solution: `### 1. Algorithmic Setup
 
-Algorithm 3.3 compares pattern P (length R) with substrings W_K of text T (length S).
-The number of possible starting positions is MAX = S - R + 1.
-Let N_K be the number of comparisons made in window K. The total comparisons is C = N_1 + N_2 + ... + N_MAX.
+The naive pattern matching algorithm aligns pattern $P$ (length $R$) with all possible starting positions in text $T$ (length $S$).
+- The total number of starting windows is $\\text{MAX} = S - R + 1$.
+- Let $N_K$ be the number of character comparisons performed in window $K$.
+- Total comparisons: $C = \\sum_{K=1}^{\\text{MAX}} N_K$.
 
-1. Best Case:
-- Occurs when the very first character of P mismatches with the first character of every substring W_K (i.e., N_K = 1 for all K).
+---
+
+### 2. Complexity Cases
+
+#### (a) Best-Case Complexity
+- Occurs when the very first character of $P$ mismatches with the text character at each window ($N_K = 1$ for every $K$).
 - Total comparisons:
-  C_best = 1 * (S - R + 1) = S - R + 1 = O(S).
+$$C_{\\text{best}} = 1 \\times (S - R + 1) = S - R + 1 = \\mathcal{O}(S)$$
 
-2. Worst Case:
-- Occurs when the first R - 1 characters of P match every substring W_K, and only the last character mismatches (or P appears at the very end).
-- In this case, N_K = R for all K.
+#### (b) Worst-Case Complexity
+- Occurs when the first $R - 1$ characters of $P$ match the text, and only the last character mismatches (or $P$ matches at the very last window).
+- Here, $N_K = R$ for all $K$.
 - Total comparisons:
-  C_worst = R * (S - R + 1) = O(R * S).
+$$C_{\\text{worst}} = R \\times (S - R + 1) = \\mathcal{O}(R \\times S)$$
 
-3. Maximizing C(n) for Fixed Data Size n = R + S:
-- We have S = n - R. Substitute into C_worst:
-  C(R) = R * ((n - R) - R + 1) = R * (n - 2R + 1) = nR - 2R^2 + R.
-- To find the value of R that maximizes C(R), take the first derivative with respect to R and set it to 0:
-  dC / dR = n - 4R + 1 = 0
-  4R = n + 1
-  R = (n + 1) / 4.
-- Since the second derivative d^2C / dR^2 = -4 < 0, this critical point is a local maximum.
-- Substituting R = (n + 1) / 4 back into C(n) yields:
-  C_max = ((n + 1) / 4) * (n - (n + 1)/2 + 1) = ((n + 1)^2) / 8 = O(n^2).
-- Thus, the worst-case time complexity is proportional to n^2 (quadratic).`,
-      keyTakeaway: 'The naive pattern matching algorithm takes O(S) in the best case, but O(R * S) in the worst case, reaching its peak comparison count when the pattern length is roughly one-fourth of the total data size.'
+---
+
+### 3. Mathematical Proof for Maximum Comparisons at Fixed n = R + S
+
+Given total size $n = R + S$, substitute $S = n - R$ into $C_{\\text{worst}}$:
+$$C(R) = R \\times ((n - R) - R + 1) = R(n - 2R + 1) = nR - 2R^2 + R$$
+
+To find the value of $R$ that maximizes $C(R)$, compute the first derivative with respect to $R$ and set it to 0:
+$$\\frac{dC}{dR} = n - 4R + 1 = 0$$
+$$4R = n + 1 \\implies R = \\frac{n + 1}{4}$$
+
+**Second Derivative Test:**
+$$\\frac{d^2C}{dR^2} = -4 < 0$$
+Since the second derivative is strictly negative, $R = \\frac{n + 1}{4}$ is a true global maximum.
+
+**Maximum Comparison Value:**
+Substitute $R = \\frac{n + 1}{4}$ back into $C(R)$:
+$$C_{\\text{max}} = \\left(\\frac{n + 1}{4}\\right) \\left(n - 2\\left(\\frac{n + 1}{4}\\right) + 1\\right) = \\left(\\frac{n + 1}{4}\\right) \\left(\\frac{n + 1}{2}\\right) = \\frac{(n + 1)^2}{8} = \\mathcal{O}(n^2)$$
+
+Thus, the worst-case comparison count is quadratic $\\mathcal{O}(n^2)$, reaching its theoretical peak when the pattern length is approximately one-fourth of the total data size.`,
+      keyTakeaway: 'Naive pattern matching requires O(S) comparisons in the best case and O(R × S) in the worst case, peaking at quadratic O(n^2) comparisons when the pattern length is roughly one-fourth of total input size.'
     },
     {
       id: 'str-exam-5',
-      year: 'University Exam Classic (Lipschutz Solved Problem 3.12 & 3.13)',
+      year: 'University Semester Exam',
       marks: 10,
       difficulty: 'Medium',
-      question: 'Demonstrate the use of high-level string operations (INSERT, DELETE, REPLACE) in text editing:\n(a) Let T = \'THE STUDENT IS ILL.\'. Show how to produce: (i) T1 = \'THE STUDENT IS VERY ILL.\', and (ii) T2 = \'THE STUDENT IS VERY ILL TODAY.\'. State the exact position K and string S passed to INSERT.\n(b) Let S = \'JOHN PAUL JONES\'. Use DELETE and REPLACE to obtain \'JOHN JONES\' and \'JOHN DAVID JONES\'.\n(c) For T = \'MARC STUDIES MATHEMATICS\', show single-call string transformations to produce: (i) \'MARC STUDIES ONLY MATHEMATICS\', and (ii) \'MARC STUDIES APPLIED MATHEMATICS\'.',
-      solution: `Model University Answer:
+      question: 'Demonstrate the exact step-by-step application of primitive and high-level string operations in text editing:\n(a) For T = \'THE STUDENT IS ILL.\', show how to produce: (i) T1 = \'THE STUDENT IS VERY ILL.\', and (ii) T2 = \'THE STUDENT IS VERY ILL TODAY.\'. State the exact position K and string S passed to INSERT.\n(b) For S = \'JOHN PAUL JONES\', use DELETE and REPLACE to obtain \'JOHN JONES\' and \'JOHN DAVID JONES\'.\n(c) For T = \'MARC STUDIES MATHEMATICS\', write single-call transformations to produce: (i) \'MARC STUDIES ONLY MATHEMATICS\', and (ii) \'MARC STUDIES APPLIED MATHEMATICS\'.',
+      solution: `### Part (a): Modifying T = 'THE STUDENT IS ILL.' (Length = 19)
 
-Part (a): Modifying T = 'THE STUDENT IS ILL.' (Length = 19)
-- (i) To produce T1 = 'THE STUDENT IS VERY ILL.':
-  - Count 1-based character position before 'ILL.':
-    Position 1 = 'T', 4 = ' ', 5 = 'S', 12 = ' ', 13 = 'I', 14 = 'S', 15 = ' ', 16 = 'I' (start of 'ILL.').
-  - We insert 'VERY ' right before position 16:
-    T1 := INSERT(T, 16, 'VERY ').
-    Formula check: SUBSTRING(T, 1, 15) // 'VERY ' // SUBSTRING(T, 16, 4)
-    = 'THE STUDENT IS ' // 'VERY ' // 'ILL.' = 'THE STUDENT IS VERY ILL.'.
-- (ii) To produce T2 = 'THE STUDENT IS VERY ILL TODAY.':
-  - In T1 = 'THE STUDENT IS VERY ILL.' (Length = 24), the period '.' is at position 24.
-  - We insert ' TODAY' right before the final period at position 24:
-    T2 := INSERT(T1, 24, ' TODAY').
-    Formula check: SUBSTRING(T1, 1, 23) // ' TODAY' // SUBSTRING(T1, 24, 1)
-    = 'THE STUDENT IS VERY ILL' // ' TODAY' // '.' = 'THE STUDENT IS VERY ILL TODAY.'.
+- **(i) Produce T1 = 'THE STUDENT IS VERY ILL.':**
+  - Locate 1-based character position before \`'ILL.'\`:
+    - Pos 1 = 'T', Pos 13 = 'I', Pos 14 = 'S', Pos 15 = ' ' (space), Pos 16 = 'I' (start of 'ILL.').
+  - Insert \`'VERY '\` right before position 16:
+    $$T_1 \\leftarrow \\text{INSERT}(T, 16, \\text{'VERY '})$$
+  - Verification:
+    $$\\text{SUBSTRING}(T, 1, 15) // \\text{'VERY '} // \\text{SUBSTRING}(T, 16, 4)$$
+    $$= \\text{'THE STUDENT IS '} // \\text{'VERY '} // \\text{'ILL.'} = \\text{'THE STUDENT IS VERY ILL.'}$$
 
-Part (b): Modifying S = 'JOHN PAUL JONES' (Length = 15)
-- (i) To obtain 'JOHN JONES':
-  - The substring 'PAUL ' starts at position 6 and has length 5 (P-A-U-L-□).
-  - Call: S1 := DELETE(S, 6, 5).
-  - Formula check: SUBSTRING(S, 1, 5) // SUBSTRING(S, 11, 5)
-    = 'JOHN ' // 'JONES' = 'JOHN JONES'.
-- (ii) To obtain 'JOHN DAVID JONES':
-  - Call: S2 := REPLACE(S, 'PAUL', 'DAVID').
-  - Steps performed internally:
-    1. K := INDEX(S, 'PAUL') = 6.
-    2. S := DELETE(S, 6, 4) = 'JOHN  JONES'.
-    3. S := INSERT(S, 6, 'DAVID') = 'JOHN DAVID JONES'.
+- **(ii) Produce T2 = 'THE STUDENT IS VERY ILL TODAY.':**
+  - In $T_1$ (length = 24), the final period \`'.'\` is at position 24.
+  - Insert \`' TODAY'\` right before the period at position 24:
+    $$T_2 \\leftarrow \\text{INSERT}(T_1, 24, \\text{' TODAY'})$$
+  - Verification:
+    $$\\text{SUBSTRING}(T_1, 1, 23) // \\text{' TODAY'} // \\text{SUBSTRING}(T_1, 24, 1)$$
+    $$= \\text{'THE STUDENT IS VERY ILL'} // \\text{' TODAY'} // \\text{'.'} = \\text{'THE STUDENT IS VERY ILL TODAY.'}$$
 
-Part (c): Modifying T = 'MARC STUDIES MATHEMATICS'
-- (i) To obtain 'MARC STUDIES ONLY MATHEMATICS':
-  - 'MATHEMATICS' begins at position 14 (following the space at 13).
-  - Call: INSERT(T, 14, 'ONLY ').
-- (ii) To obtain 'MARC STUDIES APPLIED MATHEMATICS':
-  - Call: REPLACE(T, 'MATHEMATICS', 'APPLIED MATHEMATICS')
-    Or: INSERT(T, 14, 'APPLIED ').`,
-      keyTakeaway: 'In high-level string operations, position K determines the exact point before which characters are spliced; preserving punctuation and word-spacing requires accounting for blank spaces in the inserted string.'
+---
+
+### Part (b): Modifying S = 'JOHN PAUL JONES' (Length = 15)
+
+- **(i) Obtain 'JOHN JONES':**
+  - Substring \`'PAUL '\` begins at position 6 with length 5 (P-A-U-L-space).
+  - Call: $S_1 \\leftarrow \\text{DELETE}(S, 6, 5)$.
+  - Verification:
+    $$\\text{SUBSTRING}(S, 1, 5) // \\text{SUBSTRING}(S, 11, 5) = \\text{'JOHN '} // \\text{'JONES'} = \\text{'JOHN JONES'}$$
+
+- **(ii) Obtain 'JOHN DAVID JONES':**
+  - Call: $S_2 \\leftarrow \\text{REPLACE}(S, \\text{'PAUL'}, \\text{'DAVID'})$.
+  - Internal execution:
+    1. $K \\leftarrow \\text{INDEX}(S, \\text{'PAUL'}) = 6$.
+    2. $S \\leftarrow \\text{DELETE}(S, 6, 4) = \\text{'JOHN  JONES'}$.
+    3. $S \\leftarrow \\text{INSERT}(S, 6, \\text{'DAVID'}) = \\text{'JOHN DAVID JONES'}$.
+
+---
+
+### Part (c): Modifying T = 'MARC STUDIES MATHEMATICS'
+
+- **(i) Produce 'MARC STUDIES ONLY MATHEMATICS':**
+  - \`'MATHEMATICS'\` starts at position 14 (following the space at 13).
+  - Call: $\\text{INSERT}(T, 14, \\text{'ONLY '})$.
+- **(ii) Produce 'MARC STUDIES APPLIED MATHEMATICS':**
+  - Call: $\\text{REPLACE}(T, \\text{'MATHEMATICS'}, \\text{'APPLIED MATHEMATICS'})$
+    *(or $\\text{INSERT}(T, 14, \\text{'APPLIED '})$)*.`,
+      keyTakeaway: 'High-level operations precisely splice text using 1-based positions; preserving word spacing requires including spaces in the inserted string.'
     },
     {
       id: 'str-exam-6',
-      year: 'University Exam Classic (Lipschutz Solved Problem 3.14 & 3.15)',
+      year: 'University Semester Exam',
       marks: 12,
       difficulty: 'Hard',
-      question: 'A short story is stored in computer memory as an array of records LINE[1..N], where each line has 80 characters. Line 1 contains the title, Line N contains the author, and each paragraph begins with a 5-space indentation.\n(a) Write a complete pseudocode procedure PAR(LINE, N, NUM) that counts the total number of paragraphs in the story.\n(b) Write a procedure COUNT(LINE, N, NUM) that counts the occurrences of the isolated word "THE" in the text. Explain why checking only INDEX(LINE[K], "THE") is fundamentally incorrect and how the 3 boundary cases (BEG, END, MID) resolve this issue.',
-      solution: `Model University Answer:
+      question: 'A document is stored in computer memory as an array of records LINE[1..N], where each line contains up to 80 characters. Line 1 holds the title, Line N holds the author, and each paragraph begins with a 5-space indentation.\n(a) Write a complete pseudocode algorithm CountParagraphs(LINE, N) to count the total number of paragraphs in the document.\n(b) Write a procedure CountIsolatedWord(LINE, N, W) to count the occurrences of the isolated word W in the document. Explain why testing only INDEX(LINE[K], W) is fundamentally flawed and how the 3 boundary cases (BEG, END, MID) resolve this problem.',
+      solution: `### Part (a): Paragraph Counting Algorithm
 
-Part (a): Procedure PAR(LINE, N, NUM)
-Algorithm:
-1. [Initialize paragraph counter.] Set NUM := 0.
-2. [Loop through body lines.] Repeat for K := 2 to N - 1:
-     If SUBSTRING(LINE[K], 1, 5) = '     ' then:
-       Set NUM := NUM + 1.
-   [End of Step 2 loop.]
-3. Return.
+\`\`\`text
+Algorithm CountParagraphs(LINE, N)
+  Input: Document array LINE[1..N], number of lines N
+  Output: Total paragraph count NUM
+  
+  NUM ← 0
+  for K ← 2 to N - 1 do
+    if SUBSTRING(LINE[K], 1, 5) = "     " then
+      NUM ← NUM + 1
+    end if
+  end for
+  return NUM
+\`\`\`
 
-Explanation:
-- LINE[1] is the title and LINE[N] is the author, so the search interval is strictly K = 2 to N - 1.
-- Each new paragraph starts with 5 blanks (columns 1 to 5). Any line beginning with 5 spaces indicates a distinct paragraph head.
+**Explanation:**
+- Lines 1 (title) and $N$ (author) are excluded, restricting the search to $K = 2$ to $N - 1$.
+- Any line starting with 5 consecutive blank spaces marks the start of a distinct paragraph.
 
-Part (b): Procedure COUNT(LINE, N, NUM) and The Word Boundary Invariant
+---
 
-Why Naive INDEX(LINE[K], 'THE') Fails:
-If we search simply for 'THE', the substring will match:
-- 'FATHER' (positions 3-5: 'FA-THE-R')
-- 'MOTHER' ('MO-THE-R')
-- 'THEORY' ('THE-ORY')
-- 'CLOTHES' ('CLO-THE-S')
-- 'OTHER' ('O-THE-R')
-None of these are the isolated word "THE"!
+### Part (b): Isolated Word Counting & Boundary Analysis
 
-The 3 Structural Word Boundary Cases:
-On an 80-character line, the standalone word "THE" must be bounded by spaces or line ends:
-1. Beginning of line (BEG): Columns 1-4 must be 'THE ' (word followed by space).
-2. End of line (END): Columns 76-80 must be ' THE' (space followed by word).
-3. Middle of line (MID): Surrounded by spaces on both sides: ' THE '.
+#### Why Naive INDEX Fails:
+Searching naively with $\\text{INDEX}(\\text{LINE}[K], \\text{'THE'})$ incorrectly matches \`'THE'\` embedded inside:
+- \`'FATHER'\` (positions 3-5: \`'FA-THE-R'\`)
+- \`'MOTHER'\` (\`'MO-THE-R'\`)
+- \`'THEORY'\` (\`'THE-ORY'\`)
+- \`'OTHER'\` (\`'O-THE-R'\`)
+None of these represent the isolated grammatical word \`"THE"\`!
 
-Pseudocode:
-COUNT(LINE, N, NUM):
-1. [Initialize.] Set NUM := 0, BEG := 'THE ', END := ' THE', MID := ' THE '.
-2. [Loop through body lines.] Repeat for K := 2 to N - 1:
-   (a) [Test beginning of line.]
-       If SUBSTRING(LINE[K], 1, 4) = BEG then: Set NUM := NUM + 1.
-   (b) [Test end of line.]
-       If SUBSTRING(LINE[K], 76, 5) = END then: Set NUM := NUM + 1.
-   (c) [Test interior occurrences.]
-       Set STR := LINE[K].
-       Repeat while INDEX(STR, MID) ≠ 0:
-         Set NUM := NUM + 1.
-         Set J := INDEX(STR, MID).
-         // Delete the occurrence of 'THE' (3 characters) while keeping flanking spaces
-         Set STR := DELETE(STR, J + 1, 3).
-       [End of while loop.]
-   [End of Step 2 loop.]
-3. Return.`,
-      keyTakeaway: 'Searching for isolated words in word processing requires testing line boundaries (BEG, END) and interior space delimiters (MID) to prevent false positive matches against embedded syllables.'
+#### The 3 Structural Boundary Invariants:
+On an 80-character line, an isolated word $W$ must be delimited by whitespace or line margins:
+1. **Beginning of Line (BEG):** $W$ followed by space (\`W // ' '\`). Tested at columns 1 to $\\text{LENGTH}(W) + 1$.
+2. **End of Line (END):** Space followed by $W$ (\`' ' // W\`). Tested at the end of the 80-column line.
+3. **Middle of Line (MID):** Space on both sides (\`' ' // W // ' '\`).
+
+\`\`\`text
+Algorithm CountIsolatedWord(LINE, N, W)
+  Input: Document array LINE[1..N], total lines N, target word W
+  Output: Count of isolated occurrences of W
+  
+  NUM ← 0
+  lenW ← LENGTH(W)
+  BEG ← W // " "
+  END ← " " // W
+  MID ← " " // W // " "
+  
+  for K ← 2 to N - 1 do
+    // 1. Check Beginning of Line
+    if SUBSTRING(LINE[K], 1, lenW + 1) = BEG then
+      NUM ← NUM + 1
+    end if
+    
+    // 2. Check End of Line
+    if SUBSTRING(LINE[K], 80 - lenW, lenW + 1) = END then
+      NUM ← NUM + 1
+    end if
+    
+    // 3. Check Middle of Line Occurrences
+    STR ← LINE[K]
+    while INDEX(STR, MID) ≠ 0 do
+      NUM ← NUM + 1
+      J ← INDEX(STR, MID)
+      // Delete the word W while preserving the boundary spaces
+      STR ← DELETE(STR, J + 1, lenW)
+    end while
+  end for
+  
+  return NUM
+\`\`\``,
+      keyTakeaway: 'Searching for isolated words in word processors requires checking line margins (BEG, END) and interior space delimiters (MID) to avoid false positives on embedded syllables.'
     },
     {
       id: 'str-exam-7',
-      year: 'University Exam Classic (Lipschutz Solved Problem 3.17)',
+      year: 'University Semester Exam',
       marks: 10,
       difficulty: 'Hard',
-      question: 'Consider a short story represented in memory as an array LINE[1..N] of 80-character strings. Design an algorithm to interchange Paragraph K and Paragraph L in the story without corrupting other paragraphs.',
-      solution: `Model University Answer:
+      question: 'Consider a text document represented in memory as an array LINE[1..N] of 80-character line strings. Design an algorithm to swap Paragraph K and Paragraph L in the document without corrupting surrounding paragraphs.',
+      solution: `### 1. Intuition & High-Level Plan
 
-Problem Specification:
-Paragraphs are identified by 5 blank spaces at columns 1-5. To interchange Paragraph K and Paragraph L:
-1. Identify the line ranges:
-   - Paragraph K occupies lines [BEG_K, END_K].
-   - Paragraph L occupies lines [BEG_L, END_L].
-2. Assume without loss of generality that K < L (Paragraph K appears earlier in the document).
-3. We use an auxiliary array TEMP of 80-character records to hold the smaller of the two paragraphs.
+Paragraphs in the document are delimited by 5 leading spaces at columns 1-5. Swapping Paragraph $K$ and Paragraph $L$ in contiguous memory requires:
+1. **Locating Line Bounds:** Scan \`LINE[2..N-1]\` to find line intervals $[\\text{BEG}_K, \\text{END}_K]$ and $[\\text{BEG}_L, \\text{END}_L]$.
+2. **Buffer Storage:** Copy Paragraph $K$ into an auxiliary array \`TEMP\`.
+3. **Shifting Intermediate Lines:** Move the lines between the two paragraphs up or down by $\\text{DIFF} = \\text{SIZE}_L - \\text{SIZE}_K$ positions.
+4. **Placement:** Copy Paragraph $L$ into position $K$, and copy \`TEMP\` into the adjusted position of Paragraph $L$.
 
-Step-by-Step Algorithm:
-1. [Find Paragraph Boundaries]
-   Set P_COUNT := 0, BEG_K := 0, END_K := 0, BEG_L := 0, END_L := 0.
-   Repeat for I := 2 to N - 1:
-     If SUBSTRING(LINE[I], 1, 5) = '     ' then:
-       Set P_COUNT := P_COUNT + 1.
-       If P_COUNT = K then: Set BEG_K := I.
-       If P_COUNT = K + 1 then: Set END_K := I - 1.
-       If P_COUNT = L then: Set BEG_L := I.
-       If P_COUNT = L + 1 then: Set END_L := I - 1.
-   [Handle document end for paragraph L]
-   If END_L = 0 then: Set END_L := N - 1.
+---
 
-2. [Measure Paragraph Sizes]
-   Set SIZE_K := END_K - BEG_K + 1.
-   Set SIZE_L := END_L - BEG_L + 1.
+### 2. Formal Pseudocode
 
-3. [Copy Paragraph K to Auxiliary Storage]
-   Repeat for I := 1 to SIZE_K:
-     Set TEMP[I] := LINE[BEG_K + I - 1].
-
-4. [Shift Intervening Lines Up or Down]
-   Let DIFF := SIZE_L - SIZE_K.
-   - If DIFF > 0 (Paragraph L is larger than K):
-     Shift lines from END_K + 1 to BEG_L - 1 down by DIFF positions.
-   - If DIFF < 0:
-     Shift lines from END_K + 1 to BEG_L - 1 up by |DIFF| positions.
-
-5. [Place Paragraph L into Position of K]
-   Copy Paragraph L into lines starting at BEG_K.
-
-6. [Copy TEMP into Position of L]
-   Copy TEMP[1..SIZE_K] into lines starting at the newly adjusted position of Paragraph L.
-
-7. Return.`,
-      keyTakeaway: 'Interchanging paragraphs in a contiguous line array requires first identifying the line intervals [BEG, END], caching one block in auxiliary storage, shifting intermediate lines by the difference in line count, and copying the cached block to its new position.'
+\`\`\`text
+Algorithm SwapParagraphs(LINE, N, K, L)
+  Input: Document LINE[1..N], paragraph indices K and L (where K < L)
+  Output: Document LINE with paragraphs K and L interchanged
+  
+  // Step 1: Find Paragraph Boundaries
+  P_COUNT ← 0
+  BEG_K ← 0, END_K ← 0, BEG_L ← 0, END_L ← 0
+  
+  for I ← 2 to N - 1 do
+    if SUBSTRING(LINE[I], 1, 5) = "     " then
+      P_COUNT ← P_COUNT + 1
+      if P_COUNT = K then BEG_K ← I end if
+      if P_COUNT = K + 1 then END_K ← I - 1 end if
+      if P_COUNT = L then BEG_L ← I end if
+      if P_COUNT = L + 1 then END_L ← I - 1 end if
+    end if
+  end for
+  if END_L = 0 then END_L ← N - 1 end if
+  
+  // Step 2: Measure Sizes
+  SIZE_K ← END_K - BEG_K + 1
+  SIZE_L ← END_L - BEG_L + 1
+  
+  // Step 3: Copy Paragraph K to Auxiliary Buffer
+  for I ← 1 to SIZE_K do
+    TEMP[I] ← LINE[BEG_K + I - 1]
+  end for
+  
+  // Step 4: Shift Intervening Lines
+  DIFF ← SIZE_L - SIZE_K
+  if DIFF > 0 then
+    // Shift intervening lines down
+    for I ← BEG_L - 1 downto END_K + 1 do
+      LINE[I + DIFF] ← LINE[I]
+    end for
+  else if DIFF < 0 then
+    // Shift intervening lines up
+    for I ← END_K + 1 to BEG_L - 1 do
+      LINE[I + DIFF] ← LINE[I]
+    end for
+  end if
+  
+  // Step 5: Place Paragraph L into Position K
+  for I ← 1 to SIZE_L do
+    LINE[BEG_K + I - 1] ← LINE[BEG_L + DIFF + I - 1]
+  end for
+  
+  // Step 6: Place TEMP into Position L
+  for I ← 1 to SIZE_K do
+    LINE[BEG_K + SIZE_L + (BEG_L - END_K - 1) + I - 1] ← TEMP[I]
+  end for
+  
+  return LINE
+\`\`\``,
+      keyTakeaway: 'Swapping paragraphs in contiguous arrays requires identifying line boundaries [BEG, END], buffering one block, shifting intermediate lines by the size delta, and copying blocks into destination positions.'
     },
     {
       id: 'str-exam-8',
-      year: 'University Exam Classic (Lipschutz Programming Problem 3.9)',
+      year: 'University Semester Exam',
       marks: 8,
       difficulty: 'Hard',
-      question: 'Design an algorithm to solve the Word Wrapping problem: given a continuous character string TEXT and an integer line width W (e.g. W = 40), format TEXT into lines of at most W characters such that no word is split across two lines. Punctuation following a word must remain on the same line as the word.',
-      solution: `Model University Answer:
+      question: 'Design an algorithm to solve the Word Wrapping problem: given a continuous character string TEXT and an integer line width W (e.g. W = 40), format TEXT into lines of at most W characters such that no word is split across lines. Punctuation following a word must remain on the same line as the word.',
+      solution: `### 1. Intuition & Layout Logic
 
-Algorithm Concept:
-Word wrapping is the fundamental layout engine of word processors. If we simply sliced every W characters, words like 'STRUCTURES' would be split into 'STRUC-' and 'TURES'.
-To avoid splitting:
-1. Examine the slice of length W + 1: \`SLICE := SUBSTRING(TEXT, 1, W + 1)\`.
-2. If LENGTH(TEXT) <= W, the entire remaining text fits on the current line.
-3. If character W + 1 is a space (' '), we can cleanly cut exactly at column W.
-4. If character W + 1 is a non-space character (part of a word crossing the boundary), we must backtrack to find the LAST blank space in SLICE. Let this index be J.
-5. Emit SUBSTRING(TEXT, 1, J - 1) as the current output line.
-6. Set TEXT := SUBSTRING(TEXT, J + 1, LENGTH(TEXT) - J) (stripping leading spaces) and repeat.
+Word wrapping is the fundamental formatting engine of text processors. Slicing rigidly at column $W$ cuts words in half (e.g., \`'STRUCTURES'\` breaking into \`'STRUC-'\` and \`'TURES'\`).
 
-Pseudocode:
-WORD_WRAP(TEXT, W):
-1. Repeat while LENGTH(TEXT) > W:
-   (a) Set SLICE := SUBSTRING(TEXT, 1, W + 1).
-   (b) If SUBSTRING(SLICE, W + 1, 1) = ' ' then:
-         Write: SUBSTRING(TEXT, 1, W).
-         Set TEXT := SUBSTRING(TEXT, W + 2, LENGTH(TEXT) - W - 1).
-       Else:
-         [Find last space index J in SLICE]
-         Set J := W.
-         Repeat while J > 1 and SUBSTRING(SLICE, J, 1) ≠ ' ':
-           Set J := J - 1.
-         [If no space found in line, word exceeds width W; must force-cut]
-         If J = 1 then: Set J := W + 1.
-         Write: SUBSTRING(TEXT, 1, J - 1).
-         Set TEXT := SUBSTRING(TEXT, J + 1, LENGTH(TEXT) - J).
-   (c) [Strip any leading spaces from remaining TEXT]
-       Repeat while LENGTH(TEXT) > 0 and SUBSTRING(TEXT, 1, 1) = ' ':
-         Set TEXT := SUBSTRING(TEXT, 2, LENGTH(TEXT) - 1).
-   [End of Step 1 loop.]
-2. If LENGTH(TEXT) > 0 then:
-     Write: TEXT.
-3. Exit.`,
-      keyTakeaway: 'Word wrapping prevents broken words by searching backwards from column W + 1 to locate the preceding whitespace delimiter before emitting the formatted line.'
+**The Solution:**
+1. Look at the slice of length $W + 1$: $\\text{SLICE} \\leftarrow \\text{SUBSTRING}(\\text{TEXT}, 1, W + 1)$.
+2. If column $W + 1$ is a blank space \`' '\`, we can cleanly output the first $W$ characters.
+3. If column $W + 1$ is a letter (a word is crossing the line boundary), we scan *backward* from column $W$ to find the last space index $J$.
+4. Output $\\text{SUBSTRING}(\\text{TEXT}, 1, J - 1)$ as the line, discard the space at $J$, and start the next line with the remaining text!
+
+---
+
+### 2. Formal Pseudocode
+
+\`\`\`text
+Algorithm WordWrap(TEXT, W)
+  Input: Continuous text string TEXT, line width W
+  Output: Formatted lines printed without breaking words
+  
+  while LENGTH(TEXT) > W do
+    SLICE ← SUBSTRING(TEXT, 1, W + 1)
+    
+    // Case 1: Clean break on trailing space
+    if SUBSTRING(SLICE, W + 1, 1) = " " then
+      Write: SUBSTRING(TEXT, 1, W)
+      TEXT ← SUBSTRING(TEXT, W + 2, LENGTH(TEXT) - W - 1)
+    else
+      // Case 2: Find last space index J in SLICE
+      J ← W
+      while J > 1 and SUBSTRING(SLICE, J, 1) ≠ " " do
+        J ← J - 1
+      end while
+      
+      // If a single word exceeds line width W, force cut
+      if J = 1 then
+        J ← W + 1
+      end if
+      
+      Write: SUBSTRING(TEXT, 1, J - 1)
+      TEXT ← SUBSTRING(TEXT, J + 1, LENGTH(TEXT) - J)
+    end if
+    
+    // Strip leading spaces from remaining text
+    while LENGTH(TEXT) > 0 and SUBSTRING(TEXT, 1, 1) = " " do
+      TEXT ← SUBSTRING(TEXT, 2, LENGTH(TEXT) - 1)
+    end while
+  end while
+  
+  if LENGTH(TEXT) > 0 then
+    Write: TEXT
+  end if
+\`\`\``,
+      keyTakeaway: 'Word wrapping prevents broken words by inspecting up to column W + 1 and searching backwards for the preceding space delimiter to format whole words.'
     }
   ],
   quizzes: [
     {
       id: 'sq-1',
-      question: 'What is the length of the string \'TO BE OR NOT TO BE\' according to textbook definitions?',
+      question: 'What is the length of the string \'TO BE OR NOT TO BE\' according to standard string definitions?',
       options: [
         '14 (counting only alphabetic letters)',
         '18 (14 letters plus 4 blank space characters)',
@@ -692,7 +1031,7 @@ WORD_WRAP(TEXT, W):
         '19 (including an invisible null terminator)'
       ],
       correctIndex: 1,
-      explanation: 'In string processing, the blank space character (□) is a valid character contributing to length. \'TO BE OR NOT TO BE\' contains 14 letters and 4 spaces, totaling 18 characters.'
+      explanation: 'In string processing, the blank space character is a valid character contributing to length. \'TO BE OR NOT TO BE\' contains 14 letters and 4 spaces, totaling 18 characters.'
     },
     {
       id: 'sq-2',
@@ -708,7 +1047,7 @@ WORD_WRAP(TEXT, W):
     },
     {
       id: 'sq-3',
-      question: 'If Text T = \'HIS FATHER IS THE PROFESSOR\', what is the return value of INDEX(T, \'THE\') in Lipschutz pseudocode?',
+      question: 'If Text T = \'HIS FATHER IS THE PROFESSOR\', what is the return value of INDEX(T, \'THE\') in standard pseudocode?',
       options: [
         '15 (the standalone word \'THE\')',
         '7 (the \'THE\' embedded inside \'FATHER\')',
@@ -720,7 +1059,7 @@ WORD_WRAP(TEXT, W):
     },
     {
       id: 'sq-4',
-      question: 'In fixed-length record storage, how does the auxiliary pointer array POINT solve the insertion problem?',
+      question: 'In fixed-length record storage, how does an auxiliary pointer array POINT solve the line insertion problem?',
       options: [
         'It compresses characters into 6-bit codes',
         'It allows records to be stored anywhere in memory by updating only pointer values instead of shifting physical records',
@@ -728,15 +1067,15 @@ WORD_WRAP(TEXT, W):
         'It automatically removes all blank spaces from records'
       ],
       correctIndex: 1,
-      explanation: 'The POINT array maps logical line numbers to physical memory addresses. Inserting a new line requires only inserting a pointer into the array POINT, leaving the large physical records in place without shifting.'
+      explanation: 'The POINT array maps logical line numbers to physical memory addresses. Inserting a new line requires only updating pointers in the array POINT, leaving the physical text records in place without shifting.'
     },
     {
       id: 'sq-5',
-      question: 'Why does Algorithm 3.2 (replacing every P with Q) enter an infinite loop when T = \'XAY\', P = \'A\', and Q = \'AB\'?',
+      question: 'Why does a find-and-replace algorithm enter an infinite loop when T = \'XAY\', P = \'A\', and Q = \'AB\'?',
       options: [
-        'Because the length of T exceeds 80 characters',
+        'Because the length of T exceeds buffer bounds',
         'Because P is a substring of Q, so the replacement always reintroduces P at the current search position',
-        'Because the empty string Λ is not defined in Algorithm 3.2',
+        'Because the empty string Λ is undefined',
         'Because the DELETE function returns null on single-letter words'
       ],
       correctIndex: 1,
@@ -744,7 +1083,7 @@ WORD_WRAP(TEXT, W):
     },
     {
       id: 'sq-6',
-      question: 'What is the maximum number of character comparisons in Algorithm 3.3 (naive search) for a text of length S and pattern of length R?',
+      question: 'What is the worst-case number of character comparisons in naive pattern matching for a text of length S and pattern of length R?',
       options: [
         'S + R',
         'R * (S - R + 1)',
@@ -756,34 +1095,34 @@ WORD_WRAP(TEXT, W):
     },
     {
       id: 'sq-7',
-      question: 'In word processing procedure COUNT(LINE, N, NUM), why is searching for MID := \' \' // W // \' \' necessary?',
+      question: 'In word processing, why is searching for MID := \' \' // W // \' \' necessary when counting isolated words?',
       options: [
         'To speed up arithmetic multiplication',
         'To ensure words embedded inside larger words (e.g. \'THE\' in \'FATHER\') are not counted as isolated words',
         'To allocate linked list nodes in dynamic storage',
-        'Because strings in FORTRAN require double spaces'
+        'Because strings require double spaces in memory'
       ],
       correctIndex: 1,
       explanation: 'An isolated word inside a sentence must have whitespace before and after it. Flanking W with blank spaces (\' \' // W // \' \') filters out embedded syllables like \'THE\' inside \'FATHER\' or \'MOTHER\'.'
     },
     {
       id: 'sq-8',
-      question: 'According to Lipschutz Procedure P3.14, how is a new paragraph recognized in the short story array LINE[1..N]?',
+      question: 'In document processing, how is a new paragraph recognized in the line array LINE[1..N]?',
       options: [
         'By a dollar sign $$ at the end of the line',
         'By checking if the first 5 characters are blank spaces: SUBSTRING(LINE[K], 1, 5) = \'     \'',
         'By checking if the length of the line is exactly 0',
-        'By checking if POINT[K] equals NULL'
+        'By checking if the pointer equals NULL'
       ],
       correctIndex: 1,
-      explanation: 'In standard manuscript format, paragraphs begin with a 5-space indentation. Procedure P3.14 checks if the first five columns are blank spaces.'
+      explanation: 'In standard manuscript format, paragraphs begin with a 5-space indentation. The algorithm checks if the first five columns are blank spaces.'
     },
     {
       id: 'sq-9',
-      question: 'In word wrapping algorithm (Programming Problem 3.9), if column W + 1 is not a space, what does the algorithm do?',
+      question: 'In the word wrapping algorithm, if column W + 1 is not a space, what does the algorithm do?',
       options: [
         'Truncates the word immediately with a hyphen',
-        'Discards the entire sentence and raises a runtime error',
+        'Discards the entire sentence and raises an error',
         'Backtracks to find the last preceding blank space J and cuts the line at J - 1 to preserve whole words',
         'Doubles the line width W dynamically'
       ],

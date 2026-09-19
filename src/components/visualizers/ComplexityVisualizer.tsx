@@ -8,11 +8,13 @@ import {
   Sliders,
   Sparkles,
   Info,
+  Code2,
 } from 'lucide-react';
 import { MathText } from '../common/Latex';
+import { CodeComplexityAnalyzer } from './CodeComplexityAnalyzer';
 
 interface ComplexityVisualizerProps {
-  focusedMode?: 'growthGraph' | 'growthTable' | 'asymptoticEnvelopes' | 'operationsMatrix';
+  focusedMode?: 'growthGraph' | 'growthTable' | 'asymptoticEnvelopes' | 'operationsMatrix' | 'codeAnalyzer';
   initialNotation?: 'bigO' | 'bigOmega' | 'bigTheta' | 'littleO' | 'littleOmega';
   compact?: boolean;
 }
@@ -22,7 +24,7 @@ export const ComplexityVisualizer: React.FC<ComplexityVisualizerProps> = ({
   initialNotation = 'bigO',
   compact = false,
 }) => {
-  const [activeTab, setActiveTab] = useState<'growthGraph' | 'growthTable' | 'asymptoticEnvelopes' | 'operationsMatrix'>(
+  const [activeTab, setActiveTab] = useState<'growthGraph' | 'growthTable' | 'asymptoticEnvelopes' | 'operationsMatrix' | 'codeAnalyzer'>(
     focusedMode
   );
 
@@ -184,6 +186,18 @@ export const ComplexityVisualizer: React.FC<ComplexityVisualizerProps> = ({
           >
             <Layers className="w-3.5 h-3.5" />
             <span>Operations & Cases Rules</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('codeAnalyzer')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-serif font-semibold transition-all cursor-pointer ${
+              activeTab === 'codeAnalyzer'
+                ? 'bg-white dark:bg-[#2C2824] text-[#991B1B] dark:text-[#EF4444] shadow-2xs border border-[#E5E2D9] dark:border-[#38332B]'
+                : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-white'
+            }`}
+          >
+            <Code2 className="w-3.5 h-3.5" />
+            <span>Code Complexity Analyzer (Easy → Hard)</span>
           </button>
         </div>
 
@@ -805,6 +819,11 @@ export const ComplexityVisualizer: React.FC<ComplexityVisualizerProps> = ({
             </div>
           </div>
         </div>
+      )}
+
+      {/* TAB 5: Code Complexity Analyzer (Easy -> Hard) */}
+      {activeTab === 'codeAnalyzer' && (
+        <CodeComplexityAnalyzer />
       )}
     </div>
   );

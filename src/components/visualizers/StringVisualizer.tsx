@@ -341,7 +341,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
                 : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF]'
             }`}
           >
-            Algorithm 3.1 & 3.2
+            Algorithms
           </button>
           <button
             onClick={() => setActiveTab('matching')}
@@ -351,7 +351,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
                 : 'text-[#66625B] dark:text-[#A8A29E] hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF]'
             }`}
           >
-            Pattern Matching (3.3)
+            Pattern Matching
           </button>
         </div>
       </div>
@@ -772,7 +772,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
                   simAlgo === 'algo31' ? 'bg-[#991B1B] text-white font-bold' : 'bg-white dark:bg-[#201D1A] text-stone-600'
                 }`}
               >
-                Algorithm 3.1: Delete All Occurrences (Phantom Pattern Trace)
+                Multi-Deletion (Phantom Patterns)
               </button>
               <button
                 onClick={() => {
@@ -783,7 +783,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
                   simAlgo === 'algo32' ? 'bg-[#991B1B] text-white font-bold' : 'bg-white dark:bg-[#201D1A] text-stone-600'
                 }`}
               >
-                Algorithm 3.2: Replace All (Infinite Loop Trap)
+                Multi-Replacement (Loop Trap)
               </button>
             </div>
 
@@ -819,7 +819,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
                     }}
                     className="px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-[#1A1A1A] dark:text-[#EDE8DF] hover:bg-stone-200 cursor-pointer"
                   >
-                    Classic Book Example 3.7b ('XAAABBB', 'AB')
+                    Cascade Trace ('XAAABBB', 'AB')
                   </button>
                   <button
                     onClick={() => {
@@ -829,7 +829,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
                     }}
                     className="px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-[#1A1A1A] dark:text-[#EDE8DF] hover:bg-stone-200 cursor-pointer"
                   >
-                    Simple Example 3.7a ('XABYABZ', 'AB')
+                    Simple Trace ('XABYABZ', 'AB')
                   </button>
                 </div>
                 <span className="text-xs font-mono font-bold text-emerald-600">
@@ -947,7 +947,7 @@ export const StringVisualizer: React.FC<StringVisualizerProps> = ({ focusedMode 
             <div className="p-4 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-3">
               <div className="flex items-center justify-between">
                 <div className="text-xs font-mono font-bold text-[#991B1B] dark:text-[#EF4444]">
-                  Algorithm 3.3: Naive Window Search
+                  Naive Sliding Window Search
                 </div>
                 <div className="flex items-center gap-1.5">
                   <button

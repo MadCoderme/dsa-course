@@ -10,15 +10,25 @@ interface RichLessonContentProps {
 }
 
 interface ParsedBlock {
-  type: 'paragraph' | 'bullet-list' | 'callout' | 'numbered-list' | 'code-spec';
+  type:
+    | 'heading-1'
+    | 'heading-2'
+    | 'heading-3'
+    | 'heading-4'
+    | 'paragraph'
+    | 'bullet-list'
+    | 'numbered-list'
+    | 'callout'
+    | 'code-spec'
+    | 'divider';
   calloutType?: 'critical' | 'note' | 'tip';
   language?: string;
   title?: string;
-  items?: { label?: string; content: string }[];
+  items?: { label?: string; content: string; subItems?: string[] }[];
   content?: string;
 }
 
-function renderCodeLine(line: string): React.ReactNode {
+export function renderCodeLine(line: string): React.ReactNode {
   // Check for inline comments starting with //
   const commentIdx = line.indexOf('//');
   if (commentIdx !== -1) {
@@ -27,16 +37,16 @@ function renderCodeLine(line: string): React.ReactNode {
     return (
       <>
         {renderHighlightedTokens(codePart)}
-        <span className="text-[#78716C] italic">{commentPart}</span>
+        <span className="text-[#8E877C] italic">{commentPart}</span>
       </>
     );
   }
   return renderHighlightedTokens(line);
 }
 
-function renderHighlightedTokens(code: string): React.ReactNode {
-  // Match keywords, arrows, strings, and numbers
-  const tokenRegex = /(Algorithm\s+[A-Za-z0-9_]+|Input:|Output:|if|then|else|end if|for|to|do|end for|while|end while|repeat|until|return|mod|←|:=|"[^"]*"|\b\d+\b)/g;
+export function renderHighlightedTokens(code: string): React.ReactNode {
+  // Match keywords, function names, arrows, string literals, and numbers
+  const tokenRegex = /(Algorithm\s+[A-Za-z0-9_]+|Procedure\s+[A-Za-z0-9_]+|Function\s+[A-Za-z0-9_]+|Input:|Output:|INPUT:|OUTPUT:|if\b|IF\b|then\b|THEN\b|else\b|ELSE\b|end if\b|END IF\b|for\b|FOR\b|to\b|TO\b|downto\b|DOWNTO\b|do\b|DO\b|end for\b|END FOR\b|while\b|WHILE\b|end while\b|END WHILE\b|repeat\b|REPEAT\b|until\b|UNTIL\b|return\b|RETURN\b|mod\b|MOD\b|and\b|AND\b|or\b|OR\b|not\b|NOT\b|Set\b|SET\b|Write:\b|WRITE:\b|Read:\b|READ:\b|Print:\b|PRINT:\b|Exit\b|EXIT\b|true\b|false\b|null\b|TRUE\b|FALSE\b|NULL\b|LENGTH\b|SUBSTRING\b|INDEX\b|CONCAT\b|INSERT\b|DELETE\b|REPLACE\b|←|:=|≠|≤|≥|"[^"]*"|'[^']*'|\b\d+\b)/g;
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -46,21 +56,31 @@ function renderHighlightedTokens(code: string): React.ReactNode {
       parts.push(code.substring(lastIndex, match.index));
     }
     const token = match[0];
-    if (token.startsWith('Algorithm')) {
+    const upper = token.toUpperCase();
+
+    if (token.startsWith('Algorithm') || token.startsWith('Procedure') || token.startsWith('Function')) {
       parts.push(
         <span key={match.index} className="font-bold text-[#60A5FA]">
           {token}
         </span>
       );
-    } else if (token === 'Input:' || token === 'Output:') {
+    } else if (upper === 'INPUT:' || upper === 'OUTPUT:' || upper === 'WRITE:' || upper === 'READ:' || upper === 'PRINT:') {
       parts.push(
         <span key={match.index} className="font-semibold text-[#F59E0B]">
           {token}
         </span>
       );
-    } else if (/^(if|then|else|end if|for|to|do|end for|while|end while|repeat|until|return)$/.test(token)) {
+    } else if (
+      /^(IF|THEN|ELSE|END IF|FOR|TO|DOWNTO|DO|END FOR|WHILE|END WHILE|REPEAT|UNTIL|RETURN|EXIT|SET)$/.test(upper)
+    ) {
       parts.push(
         <span key={match.index} className="font-bold text-[#F87171] dark:text-[#EF4444]">
+          {token}
+        </span>
+      );
+    } else if (/^(LENGTH|SUBSTRING|INDEX|CONCAT|INSERT|DELETE|REPLACE)$/.test(upper)) {
+      parts.push(
+        <span key={match.index} className="font-semibold text-[#38BDF8]">
           {token}
         </span>
       );
@@ -70,13 +90,19 @@ function renderHighlightedTokens(code: string): React.ReactNode {
           {token}
         </span>
       );
-    } else if (token === 'mod') {
+    } else if (upper === 'MOD' || upper === 'AND' || upper === 'OR' || upper === 'NOT' || token === '≠' || token === '≤' || token === '≥') {
       parts.push(
         <span key={match.index} className="font-semibold text-[#FB923C]">
           {token}
         </span>
       );
-    } else if (token.startsWith('"') && token.endsWith('"')) {
+    } else if (upper === 'TRUE' || upper === 'FALSE' || upper === 'NULL') {
+      parts.push(
+        <span key={match.index} className="font-semibold text-[#A78BFA]">
+          {token}
+        </span>
+      );
+    } else if ((token.startsWith('"') && token.endsWith('"')) || (token.startsWith("'") && token.endsWith("'"))) {
       parts.push(
         <span key={match.index} className="text-[#4ADE80]">
           {token}
@@ -101,7 +127,7 @@ function renderHighlightedTokens(code: string): React.ReactNode {
   return <>{parts}</>;
 }
 
-const CodeSpecBlock: React.FC<{
+export const CodeSpecBlock: React.FC<{
   code: string;
   language?: string;
   title?: string;
@@ -167,11 +193,31 @@ export const RichLessonContent: React.FC<RichLessonContentProps> = ({
   comfortableFont = false,
   className = '',
 }) => {
-  // Parse description into structured typographic blocks
+  // Parse description into structured typographic blocks strictly in order
   const blocks = React.useMemo(() => {
     if (!description) return [];
 
     const parsed: ParsedBlock[] = [];
+
+    // Helper to extract item label and content
+    const extractLabelAndContent = (text: string) => {
+      // Check for **Label:** rest or **Label** rest or `Label`: rest or Label: rest
+      const colonMatch = text.match(/^(\*\*[^*]+?\*\*|`[^`]+?`|[A-Za-z0-9\s/_\(\)\-←:=`]+?):\s*([\s\S]+)$/);
+      if (colonMatch) {
+        return {
+          label: colonMatch[1].replace(/^\*\*|\*\*$/g, '').trim(),
+          content: colonMatch[2].trim(),
+        };
+      }
+      const boldPrefixMatch = text.match(/^(\*\*[^*]+?\*\*)\s+([\s\S]+)$/);
+      if (boldPrefixMatch) {
+        return {
+          label: boldPrefixMatch[1].replace(/^\*\*|\*\*$/g, '').trim(),
+          content: boldPrefixMatch[2].trim(),
+        };
+      }
+      return { content: text };
+    };
 
     // Split text by fenced code blocks (```lang ... ```)
     const codeBlockSplitRegex = /(```[a-zA-Z0-9_-]*\n[\s\S]*?```)/g;
@@ -193,121 +239,221 @@ export const RichLessonContent: React.FC<RichLessonContentProps> = ({
         continue;
       }
 
-      // Otherwise, parse standard text sections
-      const rawSections = segment.split(/\n\s*\n/);
-      for (const section of rawSections) {
-        const trimmed = section.trim();
-        if (!trimmed) continue;
+      // Process text segment line by line sequentially
+      const lines = segment.split('\n');
+      let i = 0;
 
-        const lines = trimmed.split('\n').map((l) => l.trim()).filter(Boolean);
+      while (i < lines.length) {
+        const rawLine = lines[i];
+        const trimmed = rawLine.trim();
 
-        // Check if this whole section or first line is a CRITICAL EXAM PRINCIPLE or Callout
-        if (
-          trimmed.includes('CRITICAL EXAM PRINCIPLE:') ||
-          trimmed.startsWith('NOTE:') ||
-          trimmed.startsWith('Warning:') ||
-          trimmed.startsWith('Important:')
-        ) {
-          const cleanContent = trimmed
+        if (!trimmed) {
+          i++;
+          continue;
+        }
+
+        // 1. Horizontal divider (---, ___, ***)
+        if (/^(\-{3,}|\_{3,}|\*{3,})$/.test(trimmed)) {
+          parsed.push({ type: 'divider' });
+          i++;
+          continue;
+        }
+
+        // 2. Markdown Headings: #, ##, ###, ####
+        const headerMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
+        if (headerMatch) {
+          const hashCount = headerMatch[1].length;
+          const headerText = headerMatch[2].trim();
+          parsed.push({
+            type:
+              hashCount === 1
+                ? 'heading-1'
+                : hashCount === 2
+                ? 'heading-2'
+                : hashCount === 3
+                ? 'heading-3'
+                : 'heading-4',
+            content: headerText,
+          });
+          i++;
+          continue;
+        }
+
+        // 3. Standalone bold heading on its own line: **Heading Title:** or **Heading Title**
+        const standaloneBoldMatch = trimmed.match(/^(\*\*[^*]+?\*\*[:]?)$/);
+        if (standaloneBoldMatch) {
+          const headerText = standaloneBoldMatch[1].replace(/^\*\*|\*\*$/g, '').trim();
+          parsed.push({
+            type: 'heading-4',
+            content: headerText,
+          });
+          i++;
+          continue;
+        }
+
+        // 4. Callouts: CRITICAL EXAM PRINCIPLE:, NOTE:, Warning:, Important:, **CRITICAL EXAM PRINCIPLE:**
+        const isCallout =
+          /^(CRITICAL EXAM PRINCIPLE|NOTE|Warning|Important):/i.test(trimmed) ||
+          /^(\*\*(CRITICAL EXAM PRINCIPLE|NOTE|Warning|Important)[^*]*\*\*[:]?)/i.test(trimmed);
+
+        if (isCallout) {
+          const isCritical = /CRITICAL EXAM PRINCIPLE/i.test(trimmed);
+          const calloutTitle = isCritical
+            ? 'Critical Exam Principle (CUET Focus)'
+            : 'Important Note';
+
+          const calloutLines = [trimmed];
+          i++;
+          while (
+            i < lines.length &&
+            lines[i].trim() !== '' &&
+            !/^#{1,4}\s+/.test(lines[i].trim()) &&
+            !/^(\-{3,}|\_{3,}|\*{3,})$/.test(lines[i].trim()) &&
+            !/^(\*\*[^*]+?\*\*[:]?)$/.test(lines[i].trim())
+          ) {
+            calloutLines.push(lines[i].trim());
+            i++;
+          }
+
+          const fullCalloutText = calloutLines
+            .join(' ')
             .replace(/^[•\-\*]\s*/, '')
-            .replace(/^(CRITICAL EXAM PRINCIPLE|NOTE|Warning|Important):\s*/i, '');
-          
+            .replace(/^(\*\*)?(CRITICAL EXAM PRINCIPLE|NOTE|Warning|Important)[^*]*(\*\*)?[:]?\s*/i, '');
+
           parsed.push({
             type: 'callout',
-            calloutType: trimmed.includes('CRITICAL EXAM PRINCIPLE') ? 'critical' : 'note',
-            title: trimmed.includes('CRITICAL EXAM PRINCIPLE') ? 'Critical Exam Principle (CUET Focus)' : 'Important Note',
-            content: cleanContent,
+            calloutType: isCritical ? 'critical' : 'note',
+            title: calloutTitle,
+            content: fullCalloutText,
           });
           continue;
         }
 
-        // Check if lines are a bullet list
-        const hasBulletLines = lines.some((l) => /^[•\-\*]\s+/.test(l));
-        if (hasBulletLines) {
-          const bulletItems: { label?: string; content: string }[] = [];
-          let prefixParagraph = '';
+        // 5. Bullet list check (lines starting with - , * , • )
+        const isBulletLine = /^\s*[•\-\*]\s+/.test(rawLine);
+        if (isBulletLine) {
+          const items: { label?: string; content: string; subItems?: string[] }[] = [];
 
-          for (const line of lines) {
-            if (/^[•\-\*]\s+/.test(line)) {
-              const rawItem = line.replace(/^[•\-\*]\s+/, '').trim();
+          while (i < lines.length) {
+            const curLine = lines[i];
+            if (!curLine.trim()) break;
 
-              // Check if individual bullet line is a critical principle
-              if (rawItem.includes('CRITICAL EXAM PRINCIPLE:')) {
-                parsed.push({
-                  type: 'callout',
-                  calloutType: 'critical',
-                  title: 'Critical Exam Principle (CUET Focus)',
-                  content: rawItem.replace(/^.*?CRITICAL EXAM PRINCIPLE:\s*/i, ''),
-                });
-                continue;
-              }
-
-              // Check if bullet has a bold title or label followed by a colon
-              const colonMatch = rawItem.match(/^(\*\*[^*]+?\*\*|`[^`]+?`|[A-Za-z0-9\s/_\(\)\-←:=`]+?):\s*([\s\S]+)$/);
-              if (colonMatch) {
-                const rawLabel = colonMatch[1].replace(/^\*\*|\*\*$/g, '').trim();
-                bulletItems.push({
-                  label: rawLabel,
-                  content: colonMatch[2].trim(),
-                });
-              } else {
-                bulletItems.push({
-                  content: rawItem,
-                });
-              }
-            } else {
-              // Introductory non-bullet line before the bullets
-              if (!prefixParagraph) {
-                prefixParagraph = line;
-              } else {
-                prefixParagraph += ' ' + line;
-              }
+            if (
+              /^#{1,4}\s+/.test(curLine.trim()) ||
+              /^(\-{3,}|\_{3,}|\*{3,})$/.test(curLine.trim()) ||
+              /^\s*\d+\.\s+/.test(curLine) ||
+              /^(\*\*[^*]+?\*\*[:]?)$/.test(curLine.trim())
+            ) {
+              break;
             }
+
+            const isSubBullet = /^\s{2,}[•\-\*]\s+/.test(curLine);
+            const isTopBullet = /^\s*[•\-\*]\s+/.test(curLine) && !isSubBullet;
+
+            if (isTopBullet) {
+              const rawItem = curLine.replace(/^\s*[•\-\*]\s+/, '').trim();
+              const extracted = extractLabelAndContent(rawItem);
+              items.push({
+                ...extracted,
+                subItems: [],
+              });
+            } else if (isSubBullet && items.length > 0) {
+              const rawSub = curLine.replace(/^\s+[•\-\*]\s+/, '').trim();
+              items[items.length - 1].subItems?.push(rawSub);
+            } else if (items.length > 0) {
+              // Continuation line of the last bullet
+              items[items.length - 1].content += ' ' + curLine.trim();
+            } else {
+              break;
+            }
+            i++;
           }
 
-          if (prefixParagraph) {
-            parsed.push({
-              type: 'paragraph',
-              content: prefixParagraph,
-            });
-          }
-
-          if (bulletItems.length > 0) {
+          if (items.length > 0) {
             parsed.push({
               type: 'bullet-list',
-              items: bulletItems,
+              items,
             });
+            continue;
           }
-          continue;
         }
 
-        // Check if lines are numbered steps (e.g. 1. , 2. )
-        const hasNumberedLines = lines.every((l) => /^\d+\.\s+/.test(l));
-        if (hasNumberedLines && lines.length > 1) {
-          const stepItems = lines.map((l) => {
-            const match = l.match(/^\d+\.\s+([\s\S]+)$/);
-            const raw = match ? match[1] : l;
-            const colonMatch = raw.match(/^([A-Za-z0-9\s/_\(\)\-]+?):\s*([\s\S]+)$/);
-            if (colonMatch) {
-              return {
-                label: colonMatch[1].trim(),
-                content: colonMatch[2].trim(),
-              };
+        // 6. Numbered list check (lines starting with 1. , 2. )
+        const isNumberedLine = /^\s*\d+\.\s+/.test(rawLine);
+        if (isNumberedLine) {
+          const items: { label?: string; content: string; subItems?: string[] }[] = [];
+
+          while (i < lines.length) {
+            const curLine = lines[i];
+            if (!curLine.trim()) break;
+
+            if (
+              /^#{1,4}\s+/.test(curLine.trim()) ||
+              /^(\-{3,}|\_{3,}|\*{3,})$/.test(curLine.trim()) ||
+              /^(\*\*[^*]+?\*\*[:]?)$/.test(curLine.trim())
+            ) {
+              break;
             }
-            return { content: raw };
-          });
 
-          parsed.push({
-            type: 'numbered-list',
-            items: stepItems,
-          });
-          continue;
+            const isSubBullet = /^\s{2,}[•\-\*]\s+/.test(curLine);
+            const isTopNumber = /^\s*\d+\.\s+/.test(curLine);
+
+            if (isTopNumber) {
+              const rawItem = curLine.replace(/^\s*\d+\.\s+/, '').trim();
+              const extracted = extractLabelAndContent(rawItem);
+              items.push({
+                ...extracted,
+                subItems: [],
+              });
+            } else if (isSubBullet && items.length > 0) {
+              const rawSub = curLine.replace(/^\s+[•\-\*]\s+/, '').trim();
+              items[items.length - 1].subItems?.push(rawSub);
+            } else if (items.length > 0) {
+              // Continuation line of the last item
+              items[items.length - 1].content += ' ' + curLine.trim();
+            } else {
+              break;
+            }
+            i++;
+          }
+
+          if (items.length > 0) {
+            parsed.push({
+              type: 'numbered-list',
+              items,
+            });
+            continue;
+          }
         }
 
-        // Fallback: regular paragraph
+        // 7. Regular paragraph: gather consecutive lines until empty line or next block structure
+        const pLines = [trimmed];
+        i++;
+        while (i < lines.length) {
+          const nextRaw = lines[i];
+          const nextTrimmed = nextRaw.trim();
+          if (!nextTrimmed) {
+            i++;
+            break;
+          }
+          if (
+            /^#{1,4}\s+/.test(nextTrimmed) ||
+            /^(\-{3,}|\_{3,}|\*{3,})$/.test(nextTrimmed) ||
+            /^(\*\*[^*]+?\*\*[:]?)$/.test(nextTrimmed) ||
+            /^(CRITICAL EXAM PRINCIPLE|NOTE|Warning|Important):/i.test(nextTrimmed) ||
+            /^(\*\*(CRITICAL EXAM PRINCIPLE|NOTE|Warning|Important)[^*]*\*\*[:]?)/i.test(nextTrimmed) ||
+            /^\s*[•\-\*]\s+/.test(nextRaw) ||
+            /^\s*\d+\.\s+/.test(nextRaw)
+          ) {
+            break;
+          }
+          pLines.push(nextTrimmed);
+          i++;
+        }
+
         parsed.push({
           type: 'paragraph',
-          content: trimmed,
+          content: pLines.join(' '),
         });
       }
     }
@@ -322,6 +468,51 @@ export const RichLessonContent: React.FC<RichLessonContentProps> = ({
   return (
     <div className={`space-y-4 max-w-4xl text-[#2C2B29] dark:text-[#E2DDD5] font-sans ${className}`}>
       {blocks.map((block, bIdx) => {
+        if (block.type === 'heading-1') {
+          return (
+            <h2
+              key={bIdx}
+              className="text-xl sm:text-2xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-6 mb-2.5 pb-2 border-b border-[#E5E2D9] dark:border-[#38332B] tracking-tight"
+            >
+              <MathText text={block.content || ''} />
+            </h2>
+          );
+        }
+
+        if (block.type === 'heading-2') {
+          return (
+            <h3
+              key={bIdx}
+              className="text-lg sm:text-xl font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-5 mb-2 tracking-tight"
+            >
+              <MathText text={block.content || ''} />
+            </h3>
+          );
+        }
+
+        if (block.type === 'heading-3') {
+          return (
+            <h4
+              key={bIdx}
+              className="text-[16px] sm:text-[17px] font-serif font-bold text-[#991B1B] dark:text-[#EF4444] mt-5 mb-2 tracking-tight flex items-center gap-2"
+            >
+              <span className="w-1.5 h-4 rounded-full bg-[#991B1B] dark:bg-[#EF4444] inline-block shrink-0" />
+              <span><MathText text={block.content || ''} /></span>
+            </h4>
+          );
+        }
+
+        if (block.type === 'heading-4') {
+          return (
+            <h5
+              key={bIdx}
+              className="text-[15px] sm:text-[15.5px] font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mt-4 mb-1.5"
+            >
+              <MathText text={block.content || ''} />
+            </h5>
+          );
+        }
+
         if (block.type === 'callout') {
           const isCritical = block.calloutType === 'critical';
           return (
@@ -359,16 +550,31 @@ export const RichLessonContent: React.FC<RichLessonContentProps> = ({
               className="my-3 p-3.5 sm:p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#1C1A17] border border-[#E5E2D9] dark:border-[#38332B] space-y-3"
             >
               {block.items.map((item, itemIdx) => (
-                <div key={itemIdx} className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-[#991B1B] dark:bg-[#EF4444] shrink-0 mt-2" />
-                  <div className={`flex-1 ${textSizeClass} text-[#2C2B29] dark:text-[#D6D0C5]`}>
-                    {item.label && (
-                      <span className="font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mr-1.5">
-                        <MathText text={item.label} />:
-                      </span>
-                    )}
-                    <MathText text={item.content} />
+                <div key={itemIdx} className="space-y-1.5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-[#991B1B] dark:bg-[#EF4444] shrink-0 mt-2" />
+                    <div className={`flex-1 ${textSizeClass} text-[#2C2B29] dark:text-[#D6D0C5]`}>
+                      {item.label && (
+                        <span className="font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mr-1.5">
+                          <MathText text={item.label} />:
+                        </span>
+                      )}
+                      <MathText text={item.content} />
+                    </div>
                   </div>
+                  {/* Nested sub-bullets */}
+                  {item.subItems && item.subItems.length > 0 && (
+                    <div className="pl-6 space-y-1.5 pt-1">
+                      {item.subItems.map((sub, sIdx) => (
+                        <div key={sIdx} className="flex items-start gap-2.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#88847C] dark:bg-[#9E988E] shrink-0 mt-2" />
+                          <div className={`flex-1 text-[13.5px] sm:text-[14px] leading-relaxed text-[#55514B] dark:text-[#B5B0A6]`}>
+                            <MathText text={sub} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -382,21 +588,45 @@ export const RichLessonContent: React.FC<RichLessonContentProps> = ({
               className="my-3 p-3.5 sm:p-4 rounded-xl bg-[#FAF8F5] dark:bg-[#1C1A17] border border-[#E5E2D9] dark:border-[#38332B] space-y-3"
             >
               {block.items.map((item, itemIdx) => (
-                <div key={itemIdx} className="flex items-start gap-3">
-                  <span className="w-5 h-5 rounded-full bg-white dark:bg-[#25221E] border border-[#E5E2D9] dark:border-[#38332B] text-[11px] font-mono font-bold text-[#991B1B] dark:text-[#EF4444] flex items-center justify-center shrink-0 mt-0.5">
-                    {itemIdx + 1}
-                  </span>
-                  <div className={`flex-1 ${textSizeClass} text-[#2C2B29] dark:text-[#D6D0C5]`}>
-                    {item.label && (
-                      <span className="font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mr-1.5">
-                        <MathText text={item.label} />:
-                      </span>
-                    )}
-                    <MathText text={item.content} />
+                <div key={itemIdx} className="space-y-1.5">
+                  <div className="flex items-start gap-3">
+                    <span className="w-5 h-5 rounded-full bg-white dark:bg-[#25221E] border border-[#E5E2D9] dark:border-[#38332B] text-[11px] font-mono font-bold text-[#991B1B] dark:text-[#EF4444] flex items-center justify-center shrink-0 mt-0.5">
+                      {itemIdx + 1}
+                    </span>
+                    <div className={`flex-1 ${textSizeClass} text-[#2C2B29] dark:text-[#D6D0C5]`}>
+                      {item.label && (
+                        <span className="font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] mr-1.5">
+                          <MathText text={item.label} />:
+                        </span>
+                      )}
+                      <MathText text={item.content} />
+                    </div>
                   </div>
+                  {/* Nested sub-bullets */}
+                  {item.subItems && item.subItems.length > 0 && (
+                    <div className="pl-8 space-y-1.5 pt-1">
+                      {item.subItems.map((sub, sIdx) => (
+                        <div key={sIdx} className="flex items-start gap-2.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#88847C] dark:bg-[#9E988E] shrink-0 mt-2" />
+                          <div className={`flex-1 text-[13.5px] sm:text-[14px] leading-relaxed text-[#55514B] dark:text-[#B5B0A6]`}>
+                            <MathText text={sub} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
+          );
+        }
+
+        if (block.type === 'divider') {
+          return (
+            <hr
+              key={bIdx}
+              className="my-5 border-t border-[#E5E2D9] dark:border-[#38332B]"
+            />
           );
         }
 

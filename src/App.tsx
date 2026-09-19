@@ -1,20 +1,25 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Sidebar } from './components/layout/Sidebar';
-import { LessonView } from './components/lesson/LessonView';
-import { ExamReportDashboard } from './components/exam/ExamReportDashboard';
-import { AddressCalculator } from './components/exam/AddressCalculator';
-import { ComplexityMatrix } from './components/exam/ComplexityMatrix';
+import { AppRoutes } from './routes/AppRoutes';
 import { LESSONS } from './data/lessonsData';
-import { TopicId } from './types';
+import { ROUTES, resolveRoutePath, getLessonPath } from './routes/routesConfig';
 import { Search, ArrowRight, X } from 'lucide-react';
 
 export function App() {
-  const [currentView, setCurrentView] = useState<'report' | 'calculator' | 'matrix' | TopicId>('course-overview');
+  const navigate = useNavigate();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [focusMode, setFocusMode] = useState<boolean>(false);
+
+  // Scroll to top and close mobile menu on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   // Keyboard shortcut handler for deep study
   useEffect(() => {
@@ -42,8 +47,6 @@ export function App() {
     );
   }, [searchQuery]);
 
-  const activeLesson = LESSONS.find((l) => l.id === currentView);
-
   return (
     <div className="min-h-screen bg-[#F9F8F6] dark:bg-[#141210] text-[#1A1A1A] dark:text-[#EDE8DF] flex flex-col font-sans selection:bg-[#991B1B] selection:text-white transition-colors">
       {/* Top Header */}
@@ -51,19 +54,19 @@ export function App() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onOpenReport={() => {
-          setCurrentView('report');
+          navigate(ROUTES.EXAM_REPORT);
           setSearchQuery('');
         }}
         onOpenCalculator={() => {
-          setCurrentView('calculator');
+          navigate(ROUTES.ADDRESS_CALCULATOR);
           setSearchQuery('');
         }}
         onOpenMatrix={() => {
-          setCurrentView('matrix');
+          navigate(ROUTES.COMPLEXITY_MATRIX);
           setSearchQuery('');
         }}
         onOpenGuide={() => {
-          setCurrentView('course-overview');
+          navigate(getLessonPath('course-overview'));
           setSearchQuery('');
         }}
         onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -97,11 +100,6 @@ export function App() {
       }`}>
         {/* Sidebar */}
         <Sidebar
-          currentView={currentView}
-          onSelectView={(view) => {
-            setCurrentView(view);
-            setSearchQuery('');
-          }}
           mobileOpen={mobileMenuOpen}
           onCloseMobile={() => setMobileMenuOpen(false)}
           isCollapsed={focusMode || isSidebarCollapsed}
@@ -136,7 +134,7 @@ export function App() {
                     <div
                       key={res.id}
                       onClick={() => {
-                        setCurrentView(res.id);
+                        navigate(resolveRoutePath(res.id));
                         setSearchQuery('');
                       }}
                       className="p-5 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B]/60 dark:hover:border-[#EF4444]/60 cursor-pointer transition-all space-y-2 group shadow-sm hover:shadow"
@@ -155,21 +153,11 @@ export function App() {
                 </div>
               )}
             </div>
-          ) : currentView === 'report' ? (
-            <ExamReportDashboard onSelectTopic={(id) => setCurrentView(id)} />
-          ) : currentView === 'calculator' ? (
-            <AddressCalculator />
-          ) : currentView === 'matrix' ? (
-            <ComplexityMatrix />
-          ) : activeLesson ? (
-            <LessonView
-              lesson={activeLesson}
-              onSelectTopic={(id) => setCurrentView(id)}
+          ) : (
+            <AppRoutes
               focusMode={focusMode}
               onToggleFocusMode={() => setFocusMode((prev) => !prev)}
             />
-          ) : (
-            <ExamReportDashboard onSelectTopic={(id) => setCurrentView(id)} />
           )}
         </main>
       </div>

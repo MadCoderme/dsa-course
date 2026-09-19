@@ -129,13 +129,87 @@ export function renderFormattedText(text: string): React.ReactNode[] {
   return parts;
 }
 
+export function renderTokenizedMarkdown(
+  text: string,
+  tokens: { type: 'block-math' | 'inline-math' | 'inline-code' | 'text'; content: string }[]
+): React.ReactNode[] {
+  if (!text) return [];
+
+  // Match bold **...**, italic *...*, italic _..._, and explicit token placeholders
+  const tokenRegex = /(\*\*[\s\S]+?\*\*|\*[^\*\n]+?\*|_[^_\n]+?_|__EXPLICIT_TOKEN_\d+__)/g;
+  const nodes: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = tokenRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.substring(lastIndex, match.index));
+    }
+
+    const token = match[0];
+
+    if (token.startsWith('__EXPLICIT_TOKEN_') && token.endsWith('__')) {
+      const idxMatch = token.match(/__EXPLICIT_TOKEN_(\d+)__/);
+      if (idxMatch) {
+        const tokenIdx = parseInt(idxMatch[1], 10);
+        const tok = tokens[tokenIdx];
+        if (tok) {
+          if (tok.type === 'block-math') {
+            nodes.push(<Latex key={`bm-${match.index}`} math={tok.content} block />);
+          } else if (tok.type === 'inline-math') {
+            nodes.push(<Latex key={`im-${match.index}`} math={tok.content} block={false} />);
+          } else if (tok.type === 'inline-code') {
+            nodes.push(
+              <code
+                key={`c-${match.index}`}
+                className="px-1.5 py-0.5 mx-0.5 rounded bg-[#FAF8F5] dark:bg-[#25221E] text-[#991B1B] dark:text-[#EF4444] font-mono text-[12.5px] sm:text-[13px] border border-[#E5E2D9] dark:border-[#38332B] font-medium inline-block align-baseline"
+              >
+                {tok.content}
+              </code>
+            );
+          }
+        }
+      }
+    } else if (token.startsWith('**') && token.endsWith('**') && token.length >= 4) {
+      const inner = token.slice(2, -2);
+      nodes.push(
+        <strong key={`b-${match.index}`} className="font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
+          {renderTokenizedMarkdown(inner, tokens)}
+        </strong>
+      );
+    } else if (token.startsWith('*') && token.endsWith('*') && token.length >= 2) {
+      const inner = token.slice(1, -1);
+      nodes.push(
+        <em key={`i-${match.index}`} className="italic">
+          {renderTokenizedMarkdown(inner, tokens)}
+        </em>
+      );
+    } else if (token.startsWith('_') && token.endsWith('_') && token.length >= 2) {
+      const inner = token.slice(1, -1);
+      nodes.push(
+        <em key={`i-${match.index}`} className="italic">
+          {renderTokenizedMarkdown(inner, tokens)}
+        </em>
+      );
+    }
+
+    lastIndex = tokenRegex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.substring(lastIndex));
+  }
+
+  return nodes;
+}
+
 /**
  * Intelligent Text Parser that scans text for inline $...$, display $$...$$, asymptotic notations,
- * memory addresses, subscripts, and raw LaTeX commands, rendering them seamlessly with KaTeX.
+ * memory addresses, subscripts, and raw LaTeX commands, rendering them seamlessly with KaTeX and Markdown.
  */
 export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
-  const segments = useMemo(() => {
-    if (!text) return [];
+  const parsedNodes = useMemo(() => {
+    if (!text) return null;
 
     let rawText = text;
 
@@ -241,63 +315,12 @@ export const MathText: React.FC<MathTextProps> = ({ text, className = '' }) => {
       }
     );
 
-    // 5. Split by token placeholders to reconstruct final segments
-    const finalSegments: { type: SegmentType; content: string }[] = [];
-    const splitRegex = /__EXPLICIT_TOKEN_(\d+)__/g;
-    let lastIndex = 0;
-    let splitMatch: RegExpExecArray | null;
-
-    while ((splitMatch = splitRegex.exec(processed)) !== null) {
-      if (splitMatch.index > lastIndex) {
-        finalSegments.push({
-          type: 'text',
-          content: processed.substring(lastIndex, splitMatch.index),
-        });
-      }
-      const tokenIdx = parseInt(splitMatch[1], 10);
-      const token = tokens[tokenIdx];
-      if (token) {
-        finalSegments.push({
-          type: token.type,
-          content: token.content,
-        });
-      }
-      lastIndex = splitRegex.lastIndex;
-    }
-
-    if (lastIndex < processed.length) {
-      finalSegments.push({
-        type: 'text',
-        content: processed.substring(lastIndex),
-      });
-    }
-
-    return finalSegments;
+    return renderTokenizedMarkdown(processed, tokens);
   }, [text]);
 
-  return (
-    <span className={className}>
-      {segments.map((seg, idx) => {
-        if (seg.type === 'block-math') {
-          return <Latex key={idx} math={seg.content} block />;
-        }
-        if (seg.type === 'inline-math') {
-          return <Latex key={idx} math={seg.content} block={false} />;
-        }
-        if (seg.type === 'inline-code') {
-          return (
-            <code
-              key={idx}
-              className="px-1.5 py-0.5 mx-0.5 rounded bg-[#FAF8F5] dark:bg-[#25221E] text-[#991B1B] dark:text-[#EF4444] font-mono text-[12.5px] sm:text-[13px] border border-[#E5E2D9] dark:border-[#38332B] font-medium inline-block align-baseline"
-            >
-              {seg.content}
-            </code>
-          );
-        }
-        return <React.Fragment key={idx}>{renderFormattedText(seg.content)}</React.Fragment>;
-      })}
-    </span>
-  );
+  if (!parsedNodes) return null;
+
+  return <span className={className}>{parsedNodes}</span>;
 };
 
 interface FormulaBlockProps {

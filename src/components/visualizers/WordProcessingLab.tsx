@@ -342,7 +342,7 @@ export const WordProcessingLab: React.FC = () => {
   interface BookProblem {
     id: string;
     title: string;
-    bookRef: string;
+    topic: string;
     difficulty: string;
     question: string;
     solution: string;
@@ -353,8 +353,8 @@ export const WordProcessingLab: React.FC = () => {
   const bookProblems: BookProblem[] = [
     {
       id: 'prob-3.8',
-      title: 'String Primitives Evaluation on Personal Names',
-      bookRef: 'Lipschutz Solved Problem 3.8',
+      title: 'String Primitives Evaluation',
+      topic: 'Basic Primitives',
       difficulty: 'Easy',
       question: `Given S = 'JOHN PAUL JONES', evaluate:
 (a) LENGTH(S)
@@ -362,7 +362,7 @@ export const WordProcessingLab: React.FC = () => {
 (c) SUBSTRING(S, 11, 5)
 (d) INDEX(S, 'PAUL')
 (e) INDEX(S, 'JO')`,
-      solution: `Step-by-Step Textbook Derivations:
+      solution: `Step-by-Step Derivations:
 (a) LENGTH('JOHN PAUL JONES') = 15 characters (counting letters and two spaces).
 (b) SUBSTRING(S, 6, 4): Starting at pos 6 ('P'), 4 characters = 'PAUL'.
 (c) SUBSTRING(S, 11, 5): Starting at pos 11 ('J'), 5 characters = 'JONES'.
@@ -378,15 +378,15 @@ export const WordProcessingLab: React.FC = () => {
     },
     {
       id: 'prob-3.10',
-      title: 'INDEX Evaluation with Blank Space Delimiters',
-      bookRef: 'Lipschutz Solved Problem 3.10',
+      title: 'INDEX with Space Delimiters',
+      topic: 'Delimited Search',
       difficulty: 'Medium',
       question: `Let T = 'A THING OF BEAUTY IS A JOY FOREVER.'. Evaluate:
 (a) INDEX(T, 'A')
 (b) INDEX(T, ' A ')
 (c) INDEX(T, 'JOY')
 (d) INDEX(T, 'BEAUTIFUL')`,
-      solution: `Textbook Analysis:
+      solution: `Analysis:
 (a) INDEX(T, 'A') = 1. The letter 'A' appears first right at position 1.
 (b) INDEX(T, ' A ') = 21. By framing 'A' with leading and trailing spaces, we skip 'A' at position 1 and 'BEAUTY' (containing 'A'), matching the isolated word ' A ' at index 21!
 (c) INDEX(T, 'JOY') = 25. 'JOY' begins at column 25.
@@ -401,8 +401,8 @@ export const WordProcessingLab: React.FC = () => {
     },
     {
       id: 'prob-3.13',
-      title: 'Document Transformations & Splicing (Procedure P3.13)',
-      bookRef: 'Lipschutz Solved Problem 3.13',
+      title: 'Document Transformations & Splicing',
+      topic: 'High-Level Operations',
       difficulty: 'Medium',
       question: `Given sentence T = 'THE STUDENT IS ILL.':
 (a) Transform T into T1 = 'THE STUDENT IS VERY ILL.' using INSERT. State exact position K and string S.
@@ -428,7 +428,7 @@ Part (c):
 - S = 'JOHN PAUL JONES'
 - Delete 'PAUL ' (pos 6, len 5): S1 := DELETE(S, 6, 5) = 'JOHN JONES'.
 - Replace 'PAUL' with 'DAVID': S2 := REPLACE(S, 'PAUL', 'DAVID') = 'JOHN DAVID JONES'.`,
-      actionLabel: 'Load Problem 3.13 into Sandbox',
+      actionLabel: 'Load Problem into Sandbox',
       onLoadAction: () => {
         setSubTab('primitives');
         loadPreset('insert', 'prob3.13a');
@@ -436,19 +436,18 @@ Part (c):
     },
     {
       id: 'prob-3.14',
-      title: 'Counting Paragraphs in Document Array LINE[1..N]',
-      bookRef: 'Lipschutz Solved Problem 3.14',
+      title: 'Paragraph Counting in Document Arrays',
+      topic: 'Document Processing',
       difficulty: 'Medium',
       question: `A story is represented in memory as an array of 80-character strings LINE[1..N]. Line 1 has the title, Line N has the author, and paragraphs begin with a 5-space indentation.
-Write procedure PAR(LINE, N, NUM) to count the total number of paragraphs in the story.`,
+Write procedure CountParagraphs(LINE, N, NUM) to count the total number of paragraphs in the story.`,
       solution: `Model Pseudocode & Explanation:
 
-Procedure PAR(LINE, N, NUM):
+Procedure CountParagraphs(LINE, N, NUM):
 1. [Initialize counter.] Set NUM := 0.
 2. [Traverse story body.] Repeat for K := 2 to N - 1:
      If SUBSTRING(LINE[K], 1, 5) = '     ' then:
        Set NUM := NUM + 1.
-   [End of Step 2 loop.]
 3. Return.
 
 Analysis:
@@ -462,12 +461,12 @@ Analysis:
     },
     {
       id: 'prob-3.15',
-      title: 'Counting Isolated Words & The Boundary Filter Invariant',
-      bookRef: 'Lipschutz Solved Problem 3.15 & 3.16',
+      title: 'Counting Isolated Words with Boundary Rules',
+      topic: 'Word Boundaries',
       difficulty: 'Hard',
-      question: `Write procedure COUNT(LINE, N, NUM) to count occurrences of the standalone word "THE" in document LINE[1..N].
-Why is testing INDEX(LINE[K], 'THE') fundamentally incorrect? How do the 3 boundary cases (BEG, END, MID) resolve this issue?`,
-      solution: `Complete Textbook Analysis:
+      question: `Write procedure CountIsolatedWord(LINE, N, W) to count occurrences of the standalone word W in document LINE[1..N].
+Why is testing INDEX(LINE[K], W) fundamentally incorrect? How do the 3 boundary cases (BEG, END, MID) resolve this issue?`,
+      solution: `Complete Analysis:
 
 1. Why Naive INDEX Fails:
    INDEX(LINE[K], 'THE') matches "THE" inside:
@@ -483,16 +482,16 @@ Why is testing INDEX(LINE[K], 'THE') fundamentally incorrect? How do the 3 bound
    - Middle of Line (MID): Enclosed by space on both sides: ' THE '.
 
 3. Procedure Pseudocode:
-COUNT(LINE, N, NUM):
-1. Set NUM := 0, BEG := 'THE ', END := ' THE', MID := ' THE '.
+CountIsolatedWord(LINE, N, W):
+1. Set NUM := 0, BEG := W // ' ', END := ' ' // W, MID := ' ' // W // ' '.
 2. Repeat for K := 2 to N - 1:
-   (a) If SUBSTRING(LINE[K], 1, 4) = BEG then: Set NUM := NUM + 1.
-   (b) If SUBSTRING(LINE[K], 76, 5) = END then: Set NUM := NUM + 1.
+   (a) If SUBSTRING(LINE[K], 1, LENGTH(W) + 1) = BEG then: Set NUM := NUM + 1.
+   (b) If SUBSTRING(LINE[K], 80 - LENGTH(W), LENGTH(W) + 1) = END then: Set NUM := NUM + 1.
    (c) Set STR := LINE[K].
        Repeat while INDEX(STR, MID) ≠ 0:
          Set NUM := NUM + 1.
          Set J := INDEX(STR, MID).
-         Set STR := DELETE(STR, J + 1, 3). // Remove 'THE', retain boundary spaces
+         Set STR := DELETE(STR, J + 1, LENGTH(W)). // Remove word, retain boundary spaces
 3. Return.`,
       actionLabel: 'Launch Word Boundary Analyzer',
       onLoadAction: () => {
@@ -501,11 +500,11 @@ COUNT(LINE, N, NUM):
     },
     {
       id: 'prob-3.17',
-      title: 'Paragraph Block Interchanger in Contiguous Arrays',
-      bookRef: 'Lipschutz Solved Problem 3.17',
+      title: 'Paragraph Block Interchanging',
+      topic: 'Array Manipulation',
       difficulty: 'Hard',
       question: `Design an algorithm to swap Paragraph K and Paragraph L in document array LINE[1..N] without corrupting surrounding paragraphs.`,
-      solution: `Model University Answer:
+      solution: `Step-by-Step Procedure:
 
 1. Find Boundary Line Numbers:
    Scan LINE[2..N-1] for 5 leading spaces to find [BEG_K, END_K] and [BEG_L, END_L].
@@ -521,11 +520,11 @@ COUNT(LINE, N, NUM):
     },
     {
       id: 'prob-3.9-wrap',
-      title: 'Word Wrapping Algorithm without Word Splitting',
-      bookRef: 'Lipschutz Programming Problem 3.9',
+      title: 'Word Wrapping without Splitting Words',
+      topic: 'Text Formatting',
       difficulty: 'Hard',
       question: `Design an algorithm to format continuous stream TEXT into lines of at most W characters without splitting any word across lines.`,
-      solution: `Textbook Algorithm:
+      solution: `Algorithm Breakdown:
 1. Examine SLICE := SUBSTRING(TEXT, 1, W + 1).
 2. If column W + 1 is a blank space ' ', cleanly output SUBSTRING(TEXT, 1, W) and advance TEXT past the space.
 3. If column W + 1 is not a space, search backwards from column W to find the last space index J.
@@ -564,7 +563,7 @@ COUNT(LINE, N, NUM):
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>2. Story Document (P3.14)</span>
+            <span>2. Paragraphs & Layout</span>
           </button>
 
           <button
@@ -576,7 +575,7 @@ COUNT(LINE, N, NUM):
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>3. Word Boundary Filter (P3.15)</span>
+            <span>3. Word Boundaries</span>
           </button>
 
           <button
@@ -588,7 +587,7 @@ COUNT(LINE, N, NUM):
             }`}
           >
             <AlignLeft className="w-3.5 h-3.5" />
-            <span>4. Word Wrap (P3.9)</span>
+            <span>4. Word Wrap</span>
           </button>
 
           <button
@@ -600,7 +599,7 @@ COUNT(LINE, N, NUM):
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
-            <span>5. Solved Book Problems</span>
+            <span>5. Solved Problems</span>
           </button>
         </div>
       </div>
@@ -613,51 +612,51 @@ COUNT(LINE, N, NUM):
           <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 text-xs font-mono text-amber-900 dark:text-amber-200 flex items-start gap-2">
             <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
             <div>
-              <strong>Lipschutz Section 3.6 Principle:</strong> Modern word processors build high-level operations on top of primitive <code>SUBSTRING</code> and <code>CONCAT</code>. Click any classic textbook preset below to see how characters are spliced and joined mathematically!
+              <strong>String Manipulation Principle:</strong> Modern text processors build high-level operations (insert, delete, replace) by combining primitive <code>SUBSTRING</code> slicing and <code>CONCAT</code> joining.
             </div>
           </div>
 
           {/* Presets Row */}
           <div className="p-3 rounded-xl bg-white dark:bg-[#201D1A] border border-[#E5E2D9] dark:border-[#38332B] space-y-2">
             <span className="text-[11px] font-mono text-stone-500 font-bold uppercase tracking-wider">
-              Lipschutz Chapter 3 Presets:
+              Example Presets:
             </span>
             <div className="flex flex-wrap gap-1.5 text-xs font-mono">
               <button
                 onClick={() => loadPreset('insert', 'ex3.5a')}
                 className="px-2 py-1 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B] transition-colors cursor-pointer"
               >
-                Ex 3.5a: 'ABCDEFG' + 'XYZ' @ 3
+                Insert: 'ABCDEFG' + 'XYZ' @ 3
               </button>
               <button
                 onClick={() => loadPreset('insert', 'ex3.5c')}
                 className="px-2 py-1 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] hover:border-[#991B1B] transition-colors cursor-pointer"
               >
-                Ex 3.5c: 'AAAAA' + 'BBB' @ 1
+                Prepend: 'AAAAA' + 'BBB' @ 1
               </button>
               <button
                 onClick={() => loadPreset('insert', 'prob3.13a')}
                 className="px-2 py-1 rounded bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 font-bold hover:border-rose-400 transition-colors cursor-pointer"
               >
-                Prob 3.13a: 'THE STUDENT IS ILL.' + 'VERY '
+                Insert Adverb: 'THE STUDENT IS ILL.' + 'VERY '
               </button>
               <button
                 onClick={() => loadPreset('delete', 'ex3.6c')}
                 className="px-2 py-1 rounded bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 font-bold hover:border-amber-400 transition-colors cursor-pointer"
               >
-                Ex 3.6c: 'JOHN PAUL JONES' del 6, 5
+                Delete Middle: 'JOHN PAUL JONES' del 6, 5
               </button>
               <button
                 onClick={() => loadPreset('replace', 'ex3.8a')}
                 className="px-2 py-1 rounded bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 font-bold hover:border-blue-400 transition-colors cursor-pointer"
               >
-                Ex 3.8a: 'XABYABZ' rep 'AB' &rarr; 'C'
+                Replace Pattern: 'XABYABZ' rep 'AB' &rarr; 'C'
               </button>
               <button
                 onClick={() => loadPreset('replace', 'prob3.12')}
                 className="px-2 py-1 rounded bg-[#FAF8F5] dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] hover:border-blue-400 transition-colors cursor-pointer"
               >
-                Prob 3.12: 'AAABBB' rep 'AA' &rarr; 'BB'
+                Replace Multi: 'AAABBB' rep 'AA' &rarr; 'BB'
               </button>
             </div>
           </div>
@@ -1166,7 +1165,7 @@ COUNT(LINE, N, NUM):
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Lipschutz Smart Word Wrapping</span>
+                  <span>Smart Word Wrapping</span>
                 </span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300">
                   {smartWrappedLines.length} Clean Lines
@@ -1223,13 +1222,13 @@ COUNT(LINE, N, NUM):
       )}
 
       {/* ===================================================================== */}
-      {/* 5. SOLVED BOOK PROBLEMS EXPLORER                                     */}
+      {/* 5. SOLVED PROBLEMS EXPLORER                                          */}
       {/* ===================================================================== */}
       {subTab === 'bookProblems' && (
         <div className="space-y-4">
           <div className="p-3 rounded-xl bg-stone-50 dark:bg-[#181614] border border-[#E5E2D9] dark:border-[#38332B] text-xs font-mono text-stone-700 dark:text-stone-300 flex items-center justify-between">
             <div>
-              <strong>Seymour Lipschutz Chapter 3 Problem Suite:</strong> Interactive collection of canonical textbook problems on string primitives, word processing transformations, and document algorithms.
+              <strong>String Processing Problem Suite:</strong> Interactive collection of canonical problems on string primitives, word processing transformations, and document algorithms.
             </div>
           </div>
 
@@ -1248,7 +1247,7 @@ COUNT(LINE, N, NUM):
                   >
                     <div className="flex items-center gap-2.5">
                       <span className="px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-300 text-[11px] font-mono font-bold">
-                        {prob.bookRef}
+                        {prob.topic}
                       </span>
                       <span className="text-xs font-mono font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
                         {prob.title}

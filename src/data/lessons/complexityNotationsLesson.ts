@@ -5,271 +5,471 @@ export const COMPLEXITY_NOTATIONS_LESSON: Lesson = {
   categoryId: 'foundations',
   subCategoryId: 'algorithmic-foundations',
   title: 'Time & Space Complexity Notations',
-  subtitle: 'CUET CSE-241 Chapter 2: Complexity of Algorithms, Growth Rates & Asymptotic Envelopes',
+  subtitle: 'Complexity Analysis, Growth Rates, Asymptotic Bounds & Code Derivation from Easy to Hard',
   icon: 'Binary',
-  overview: 'Asymptotic complexity measures the operational efficiency and memory consumption of an algorithm as the input size n grows. Based on CUET CSE-241 (Data Structure, Ch. 2), this lesson provides a mathematically rigorous, machine-independent framework for analyzing algorithms using standard functions, rate of growth hierarchies, and asymptotic bounds (O, Ω, Θ, o, ω).',
+  overview: 'Asymptotic complexity measures how the execution time and memory consumption of an algorithm scale as the input size n increases. This lesson provides a machine-independent framework for analyzing algorithms using standard rate-of-growth hierarchies, asymptotic bounds (O, Ω, Θ, o, ω), and a systematic guide to figuring out time and space complexity directly from source code—from simple loops to complex recursion.',
   keyConcepts: [
     {
-      title: '1. Complexity of Algorithms: Definitions & Efficiency (Slide 3)',
-      description: `Suppose M is an algorithm, and n is the size of the input data. The efficiency of M depends on two fundamental computational resources: Time and Space.
+      title: '1. What is Complexity? Time vs. Space Fundamentals',
+      description: `Suppose M is an algorithm, and n is the size of the input data. The computational efficiency of M depends on two fundamental resources:
+- Time Complexity: Quantified by the number of fundamental operations executed (assignments, arithmetic, comparisons) rather than wall-clock seconds (which vary by CPU speed).
+- Space Complexity: Quantified by the peak memory consumed during execution (both input variables and auxiliary buffers / recursion stacks).
 
-For Time Complexity, we analyze the number of key operations executed. For Space Complexity, we consider the maximum memory needed throughout execution.
-
-The complexity of an algorithm M is represented by the mathematical function f(n), which provides the run time and/or space requirement of the algorithm expressed in terms of input size n.`,
+The complexity function f(n) provides the operational requirement of algorithm M expressed in terms of input size n.`,
       bulletPoints: [
-        'Algorithm M & Size n: Formal parameters defining operational scope.',
-        'Time Metric: Quantified by counting primary key operations rather than wall-clock seconds.',
-        'Space Metric: Quantified by peak memory allocation required during execution.',
-        'Complexity Function f(n): Mathematical model mapping input size n to required computational resources.'
+        'Time Metric: Total count of primitive computational steps executed as a function of n.',
+        'Total Space vs. Auxiliary Space: Total space includes input storage; Auxiliary space measures only the extra temporary memory allocated by the algorithm itself.',
+        'Hardware Independence: By counting operation steps rather than milliseconds, complexity remains valid across supercomputers, laptops, and mobile phones alike.',
+        'Growth Rate Priority: We focus on asymptotic behavior as n → ∞, ignoring lower-order terms and constant multipliers.'
       ],
-      mathFormula: 'f(n) = \\text{Resource Requirement (Time/Space) of Algorithm } M \\text{ for input size } n'
+      mathFormula: 'f(n) = \\text{Total Primitive Steps}(n), \\qquad \\text{Total Space} = \\text{Input Space}(n) + \\text{Auxiliary Space}(n)'
     },
     {
-      title: '2. Three Cases of Complexity Investigation (Slide 4)',
-      description: `The resource consumption of an algorithm frequently depends not only on the size n, but also on the specific arrangement or distribution of input elements.
-
-Complexity is formally investigated across three canonical cases:
-• Best Case: The minimum possible value of f(n) across all valid inputs of size n.
-• Average Case: The expected value of f(n). This assumes a probabilistic distribution for the input data. If element n_i occurs with probability p_i, the average case expectation is E = ∑ n_i · p_i.
-• Worst Case: The maximum possible value of f(n). This defines the guaranteed performance ceiling for mission-critical software.`,
+      title: '2. Best, Average, and Worst Case Scenarios',
+      description: `The runtime of an algorithm often depends not only on the input size n, but also on the specific configuration of the input values:
+• Best Case (\\min f(n)): The minimum number of steps required across any valid input of size n (e.g., finding a target element at the very first index of an array in O(1) time).
+• Average Case (\\sum n_i \\cdot p_i): The expected number of steps assuming a probabilistic distribution over all possible inputs.
+• Worst Case (\\max f(n)): The maximum possible number of steps required for any input of size n. This provides the guaranteed performance ceiling for software reliability.`,
       bulletPoints: [
         'Best Case: Minimum possible resource expenditure for input size n.',
-        'Average Case: Statistical expectation E = ∑ n_i · p_i under assumed input distribution.',
-        'Worst Case: Maximum possible resource expenditure; provides guaranteed runtime upper bound.'
+        'Average Case: Statistical expectation E = ∑ n_i · p_i under an assumed input distribution.',
+        'Worst Case: Maximum possible resource expenditure; defines the guaranteed upper-bound SLA.'
       ],
-      mathFormula: '\\text{Best} = \\min f(n), \\qquad \\text{Worst} = \\max f(n), \\qquad \\text{Average Case Expectation: } E = \\sum_{i=0}^{n} n_i \\cdot p_i'
+      mathFormula: '\\text{Best} = \\min f(n), \\qquad \\text{Worst} = \\max f(n), \\qquad \\text{Average Expectation: } E = \\sum_{i=0}^{n} n_i \\cdot p_i'
     },
     {
-      title: '3. Operations Counted vs. Excluded in Complexity (Slide 5)',
-      description: `To maintain hardware independence, time complexity calculations evaluate only key algorithmic operations:
-• Included Operations: Variable assignments (=), Mathematical arithmetic (+, -, *, /, %), Relational comparisons (>, >=, <, <=, ==, !=), and Function calls/execution.
-
-• CRITICAL EXAM PRINCIPLE: Input and Output (I/O) operations are NOT considered for complexity calculation!
-
-Space complexity accounts for both the size of the input data and the size of intermediary (auxiliary) data generated during execution.`,
+      title: '3. Operations Counted vs. Excluded in Algorithmic Analysis',
+      description: `To maintain pure machine independence, complexity calculation counts internal CPU processing steps and excludes external I/O latency:
+• Included Operations:
+  - Variable assignments: \`x = 10\`, pointer updates.
+  - Arithmetic operations: \`+\`, \`-\`, \`*\`, \`/\`, \`%\`.
+  - Relational & logical comparisons: \`<\`, \`<=\`, \`>\`, \`>=\`, \`==\`, \`!=\`, \`&&\`, \`||\`.
+  - Function call invocations & return statements.
+• EXCLUDED Operations:
+  - Console / Disk Input and Output (\`printf\`, \`std::cout\`, \`scanf\`, \`std::cin\`, file read/write). External I/O depends on operating system buffers and bus hardware, not algorithmic structure.`,
       bulletPoints: [
-        'Assignments (=): Memory updates and pointer assignments are counted.',
-        'Arithmetic (+, -, *, /, %): Fundamental mathematical steps are counted.',
-        'Relational (>, <, ==, !=): Loop guards and conditional checks are counted.',
+        'Assignments (=): Memory writes and pointer updates are counted as O(1) each.',
+        'Arithmetic (+, -, *, /, %): Fundamental mathematical operations are counted as O(1).',
+        'Relational (<, >, ==, !=): Branch condition evaluations are counted as O(1).',
         'EXCLUDED: Input and Output (I/O) are NOT included in complexity calculations!',
-        'Space Allocation: Total memory = Size of input data + Size of intermediary data.'
+        'Function Overhead: Calling a function and allocating a stack frame is counted as O(1).'
       ],
-      mathFormula: '\\text{Time Operations} = \\sum (\\text{Assignments} + \\text{Arithmetic} + \\text{Relational} + \\text{Function Calls}) \\quad [\\text{I/O Excluded}]'
+      mathFormula: '\\text{Operational Steps} = \\sum (\\text{Assignments} + \\text{Arithmetic} + \\text{Relational} + \\text{Function Calls}) \\quad [\\text{I/O Excluded}]'
     },
     {
-      title: '4. Rate of Growth & Standard Functions Comparison (Slides 6 & 7)',
-      description: `The complexity f(n) of an algorithm M naturally increases as input size n increases. In algorithmic analysis, we determine the rate of increase of f(n) by comparing it against standard mathematical benchmark functions.
+      title: '4. Rate of Growth Hierarchy & Standard Functions',
+      description: `As input size n expands, computational requirements diverge dramatically across different complexity classes:
+• At n = 10: \\log_2 n \\approx 3.3, n = 10, n \\log n \\approx 33, n^2 = 100, 2^n = 1,024.
+• At n = 100: \\log_2 n \\approx 6.6, n = 100, n \\log n \\approx 664, n^2 = 10,000, 2^n \\approx 1.27 \\times 10^{30}.
+• At n = 1,000: \\log_2 n \\approx 10, n = 1,000, n \\log n \\approx 9,965, n^2 = 10^6, 2^n \\approx 1.07 \\times 10^{301} (far exceeding the number of atoms in the observable universe!).
 
-As demonstrated in CUET Slide 6, evaluating standard functions across orders of magnitude reveals dramatic performance divergence:
-• At n = 5: log n ≈ 3, n = 5, n log n ≈ 15, n² = 25, n³ = 125, 2ⁿ = 32.
-• At n = 100: log n ≈ 7, n = 10², n log n = 700, n² = 10⁴, n³ = 10⁶, 2ⁿ = 10³⁰.
-• At n = 1,000: log n ≈ 10, n = 10³, n log n = 10⁴, n² = 10⁶, n³ = 10⁹, 2ⁿ = 10³⁰⁰.
-
-The fundamental asymptotic growth hierarchy establishes: 1 < log n < n < n log n < n² < n³ < 2ⁿ < n!`,
+The universal asymptotic hierarchy from fastest to slowest is:
+1 < \\log n < \\sqrt{n} < n < n \\log n < n^2 < n^3 < 2^n < n!`,
       bulletPoints: [
-        'Benchmark Functions: log n, n, n log n, n², n³, 2ⁿ, n! provide comparative reference baselines.',
-        'Logarithmic Efficiency: For n = 1,000, log n requires only 10 operations.',
-        'Quadratic Scaling: For n = 1,000, n² requires 10⁶ operations.',
-        'Exponential Explosion: For n = 1,000, 2ⁿ requires 10³⁰⁰ operations (exceeding total atoms in universe).'
+        'Constant O(1): Instant execution regardless of input size (hash lookups, array indexing).',
+        'Logarithmic O(log n): Halves the search space at each step (binary search, balanced BST operations).',
+        'Square Root O(√n): Factors or prime checks up to √n.',
+        'Linear O(n): Single pass through n items (linear scan, sum of array).',
+        'Linearithmic O(n log n): Optimal comparison-based sorting (Merge Sort, Quick Sort average).',
+        'Polynomial O(n²), O(n³): Nested loops (matrix multiplication, bubble sort).',
+        'Exponential O(2ⁿ) & Factorial O(n!): Combinatorial brute-force (subsets, traveling salesperson, permutations).'
       ],
-      mathFormula: '1 < \\log n < n < n \\log n < n^2 < n^3 < 2^n < n!'
+      mathFormula: '1 < \\log n < \\sqrt{n} < n < n \\log n < n^2 < n^3 < 2^n < n!'
     },
     {
-      title: '5. Big-O Notation: Upper Bound & Composition Rules (Slides 8, 9, 10)',
-      description: `Big-O notation O(g(n)) defines an asymptotic upper bound, meaning a function grows no faster than a specified rate based on its highest-order term.
+      title: '5. Asymptotic Notations: Big-O, Big-Omega, and Big-Theta',
+      description: `Asymptotic notations formalize mathematical bounds on growth rates:
+• Big-O (O(g(n)) - Upper Bound: f(n) grows no faster than g(n). 
+  f(n) = O(g(n)) \\iff \\exists C > 0, n_0 \\in \\mathbb{Z}^+ \\text{ such that } \\forall n \\ge n_0, \\; 0 \\le f(n) \\le C \\cdot g(n).
 
-Formal Definition: Suppose f(n) and g(n) are defined on positive integers. We write f(n) = O(g(n)) ("f(n) is of order g(n)") if there exist a positive integer n₀ and a positive constant C such that for all n ≥ n₀: 0 ≤ f(n) ≤ C · g(n).
+• Big-Omega (Ω(g(n)) - Lower Bound: f(n) grows at least as fast as g(n).
+  f(n) = \\Omega(g(n)) \\iff \\exists C > 0, n_0 \\in \\mathbb{Z}^+ \\text{ such that } \\forall n \\ge n_0, \\; 0 \\le C \\cdot g(n) \\le f(n).
 
-Composition Rules for Sub-procedures (Slide 10):
-• Sequential Execution: If f₁(n) = O(g₁(n)) and f₂(n) = O(g₂(n)), then |(f₁ + f₂)(n)| = O(max(g₁(n), g₂(n))). The higher-order term dominates.
-• Nested Execution: If f₁(n) = O(g₁(n)) and f₂(n) = O(g₂(n)), then |(f₁ · f₂)(n)| = O(g₁(n) · g₂(n)). Nested iterations multiply complexities.`,
+• Big-Theta (Θ(g(n)) - Tight Bound: f(n) is sandwiched precisely by g(n).
+  f(n) = \\Theta(g(n)) \\iff \\exists C_1, C_2 > 0, n_0 \\in \\mathbb{Z}^+ \\text{ such that } \\forall n \\ge n_0, \\; C_1 g(n) \\le f(n) \\le C_2 g(n).
+  Equivalence: f(n) = \\Theta(g(n)) \\iff f(n) = O(g(n)) \\text{ and } f(n) = \\Omega(g(n)).`,
       bulletPoints: [
-        'Formal Upper Bound: 0 ≤ f(n) ≤ C · g(n) holds for all n ≥ n₀.',
-        'Sequential Rule: (f₁ + f₂)(n) = O(max(g₁(n), g₂(n))) — highest-order dominates.',
-        'Nested Rule: (f₁ · f₂)(n) = O(g₁(n) · g₂(n)) — nested loops multiply bounds.',
-        'Polynomial Property: For any polynomial f(n) of degree k, f(n) = O(n^k).'
+        'Big-O: Maximum growth ceiling (guaranteed upper bound).',
+        'Big-Omega: Minimum growth floor (guaranteed lower bound).',
+        'Big-Theta: Exact matching rate of growth (tight sandwich bound).',
+        'Composition Rules: Sequential (f₁ + f₂)(n) = O(max(g₁, g₂)); Nested (f₁ · f₂)(n) = O(g₁ · g₂).'
       ],
-      mathFormula: '\\begin{aligned} f(n) = O(g(n)) &\\iff \\exists C > 0, n_0 \\in \\mathbb{Z}^+ \\quad \\text{s.t.} \\quad \\forall n \\ge n_0, \\; 0 \\le f(n) \\le C \\cdot g(n) \\\\ |(f_1 + f_2)(n)| &= O(\\max(g_1(n), g_2(n))) \\\\ |(f_1 \\cdot f_2)(n)| &= O(g_1(n) \\cdot g_2(n)) \\end{aligned}'
+      mathFormula: '\\begin{aligned} f(n) = O(g(n)) &\\iff 0 \\le f(n) \\le C \\cdot g(n) \\quad (\\forall n \\ge n_0) \\\\ f(n) = \\Omega(g(n)) &\\iff 0 \\le C \\cdot g(n) \\le f(n) \\quad (\\forall n \\ge n_0) \\\\ f(n) = \\Theta(g(n)) &\\iff C_1 g(n) \\le f(n) \\le C_2 g(n) \\quad (\\forall n \\ge n_0) \\end{aligned}'
     },
     {
-      title: '6. Omega & Theta Notations: Lower & Tight Bounds (Slides 11 & 12)',
-      description: `Omega Notation Ω(g(n)) defines an asymptotic lower bound, meaning that a function grows at least as fast as a certain rate based on its highest-order term:
-• Formal Definition: There exist positive integer n₀ and positive constant C such that for all n ≥ n₀: 0 ≤ C · g(n) ≤ f(n). We write f(n) = Ω(g(n)) ("f(n) is omega of g(n)").
+      title: '6. The Master Guide: How to Figure Out Complexity from Code',
+      description: `To determine the time and space complexity of any code snippet, follow this systematic 5-step intuition process:
 
-Theta Notation Θ(g(n)) defines an asymptotically tight bound (both upper and lower), meaning that a function grows precisely at a certain rate:
-• Formal Definition: There exist positive integer n₀ and positive constants C₁ and C₂ such that for all n ≥ n₀: 0 ≤ C₁ · g(n) ≤ f(n) ≤ C₂ · g(n). We write f(n) = Θ(g(n)) ("f(n) is theta of g(n)").
-
-• Equivalence Theorem: f(n) = Θ(g(n)) if and only if f(n) = O(g(n)) and f(n) = Ω(g(n)).`,
+1. Identify the input variable(s) (typically n, or n and m for multi-variable inputs).
+2. Count loop iterations based on the loop counter update rule:
+   - Increments/Decrements (\`i++\`, \`i += c\`): Runs n/c times → O(n).
+   - Multiplying/Dividing (\`i *= 2\`, \`i /= 2\`): Runs \\log_2 n times → O(log n).
+   - Quadratic condition (\`i * i <= n\`): Runs \\sqrt{n} times → O(√n).
+3. Classify loop interactions:
+   - Sequential loops: Add their complexities → O(n) + O(m) = O(n + m).
+   - Independent nested loops: Multiply their iterations → n \\times m → O(n \\cdot m).
+   - Dependent nested loops (triangular): Sum the series (e.g., 1 + 2 + ... + n = n(n+1)/2 → O(n²)).
+4. Analyze recursive calls:
+   - Draw the Recursion Tree: (Total Work = Number of Nodes × Work per Node).
+   - Maximum tree depth = Auxiliary call stack memory!
+5. Inspect memory allocations for Space Complexity:
+   - Fixed primitive variables (\`int\`, \`double\`, pointers) → O(1) auxiliary space.
+   - Dynamic 1D array of size n → O(n) space.
+   - Dynamic 2D matrix of size n × m → O(n · m) space.
+   - Recursive call stack of depth d → O(d) auxiliary stack space.`,
       bulletPoints: [
-        'Omega Ω(g(n)): Lower bound guarantee 0 ≤ C · g(n) ≤ f(n) for n ≥ n₀.',
-        'Theta Θ(g(n)): Tight sandwich bound 0 ≤ C₁ · g(n) ≤ f(n) ≤ C₂ · g(n) for n ≥ n₀.',
-        'Equivalence: Θ holds if and only if both Big-O and Big-Omega hold simultaneously.'
+        'Additive Loop: i += 1 runs n times → O(n)',
+        'Multiplicative Loop: i *= 2 runs log₂ n times → O(log n)',
+        'Square-Root Loop: i * i <= n runs √n times → O(√n)',
+        'Sequential Blocks: Take the MAX / SUM of blocks',
+        'Nested Blocks: MULTIPLY outer iterations by inner iterations',
+        'Space Complexity: Measure extra memory created + maximum call stack depth'
       ],
-      mathFormula: '\\begin{aligned} f(n) = \\Omega(g(n)) &\\iff \\exists C > 0, n_0 \\in \\mathbb{Z}^+ \\quad \\text{s.t.} \\quad \\forall n \\ge n_0, \\; 0 \\le C \\cdot g(n) \\le f(n) \\\\ f(n) = \\Theta(g(n)) &\\iff \\exists C_1, C_2 > 0, n_0 \\in \\mathbb{Z}^+ \\quad \\text{s.t.} \\quad \\forall n \\ge n_0, \\; C_1 g(n) \\le f(n) \\le C_2 g(n) \\\\ f(n) = \\Theta(g(n)) &\\iff f(n) = O(g(n)) \\land f(n) = \\Omega(g(n)) \\end{aligned}'
+      mathFormula: '\\text{Time} = \\sum_{\\text{loops}} (\\text{Iterations} \\times \\text{Work per Iteration}), \\qquad \\text{Auxiliary Space} = \\text{Heap Memory} + \\text{Max Stack Depth}'
     },
     {
-      title: '7. Little-o & Little-omega Notations: Strict Bounds (Slides 13 & 14)',
-      description: `The upper bound provided by Big-O may or may not be tight. For example, 2n² = O(n²) is tight, but 2n = O(n²) is not asymptotically tight.
+      title: '7. Progressive Code Examples: From Easy to Hard',
+      description: `Let's examine how to figure out the time and space complexity across 5 progressive levels of difficulty:
 
-Little-o notation o(g(n)) defines an upper bound that is strictly non-tight:
-• Crucial Difference: Big-O holds for SOME value C > 0, whereas Little-o holds for ALL values C > 0!
-• Formal Definition: For ANY positive number C > 0, there exists a positive integer n₀ > 0 such that for all n ≥ n₀: 0 ≤ f(n) < C · g(n).
-• Limit Definition: lim_{n → ∞} [f(n) / g(n)] = 0.
+■ Level 1 (Easy): Constant & Single Linear Loops
+\`\`\`cpp
+// Example 1A: Constant Time & Space -> O(1) Time, O(1) Space
+void swap(int &a, int &b) {
+    int temp = a; // 1 assignment
+    a = b;        // 1 assignment
+    b = temp;     // 1 assignment
+    // No loops, fixed variables -> O(1) time, O(1) space
+}
 
-Little-omega notation ω(g(n)) defines a lower bound that is strictly non-tight:
-• Formal Definition: For ANY positive number C > 0, there exists a positive integer n₀ > 0 such that for all n ≥ n₀: 0 ≤ C · g(n) < f(n).
-• Limit Definition: lim_{n → ∞} [f(n) / g(n)] = ∞.`,
+// Example 1B: Single Linear Loop -> O(n) Time, O(1) Space
+int findMax(int arr[], int n) {
+    int maxVal = arr[0];          // 1 assignment
+    for (int i = 1; i < n; i++) { // Loop runs (n - 1) times
+        if (arr[i] > maxVal) {    // 1 comparison per step
+            maxVal = arr[i];      // conditional assignment
+        }
+    }
+    return maxVal;
+    // Total steps: c1 + (n - 1)*c2 = O(n) time, O(1) auxiliary space
+}
+\`\`\`
+
+■ Level 2 (Easy-Medium): Triangular & Dependent Nested Loops
+\`\`\`cpp
+// Example 2A: Dependent Inner Loop -> O(n²) Time, O(1) Space
+void printPairs(int arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            // Inner loop iterations:
+            // When i = 0: (n - 1) times
+            // When i = 1: (n - 2) times
+            // When i = n - 1: 0 times
+            // Sum = (n - 1) + (n - 2) + ... + 1 + 0 = n(n - 1) / 2 = O(n²)
+            cout << arr[i] << " " << arr[j] << endl;
+        }
+    }
+}
+\`\`\`
+
+■ Level 3 (Medium): Logarithmic & Square Root Loops
+\`\`\`cpp
+// Example 3A: Logarithmic Division -> O(log n) Time, O(1) Space
+void printHalves(int n) {
+    int count = 0;
+    while (n > 0) {
+        n = n / 2; // n decreases: n, n/2, n/4, ..., 1, 0
+        count++;   // Executes k times where 2^k ≈ n => k = log₂ n
+    }
+    // Time: O(log n), Space: O(1)
+}
+
+// Example 3B: Square Root Prime Check -> O(√n) Time, O(1) Space
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i * i <= n; i++) { // Stops when i > √n
+        if (n % i == 0) return false;
+    }
+    return true;
+    // Loop runs at most √n times -> O(√n) time, O(1) space
+}
+\`\`\`
+
+■ Level 4 (Medium-Hard): Two-Pointer Sliding Window & 2D Allocations
+\`\`\`cpp
+// Example 4A: Sliding Window -> AMORTIZED O(n) Time, O(1) Space
+int maxSubarraySumAtMostK(int arr[], int n, int k) {
+    int left = 0, currentSum = 0, maxLen = 0;
+    for (int right = 0; right < n; right++) { // right moves 0 to n-1 (n times)
+        currentSum += arr[right];
+        while (currentSum > k && left <= right) { // left ONLY increases!
+            currentSum -= arr[left];
+            left++; // left moves at most n times in TOTAL across ALL iterations!
+        }
+        maxLen = max(maxLen, right - left + 1);
+    }
+    // Although nested, 'left' increments at most n times total!
+    // Total steps: n (right) + n (left) = 2n = O(n) Time, O(1) Space!
+    return maxLen;
+}
+\`\`\`
+
+■ Level 5 (Hard): Recursion Trees & Divide-and-Conquer Stacks
+\`\`\`cpp
+// Example 5A: Linear Recursion -> O(n) Time, O(n) Space (Call Stack!)
+int recursiveSum(int n) {
+    if (n <= 0) return 0;
+    return n + recursiveSum(n - 1);
+    // Depth of call stack = n frames -> O(n) Auxiliary Space!
+    // Total recursive calls = n -> O(n) Time
+}
+
+// Example 5B: Binary Tree Recursion (Naive Fibonacci) -> O(2ⁿ) Time, O(n) Space
+int fib(int n) {
+    if (n <= 1) return n;
+    return fib(n - 1) + fib(n - 2);
+    // Tree has 2ⁿ nodes -> O(2ⁿ) Time
+    // Max stack depth = height of tree = n -> O(n) Auxiliary Space!
+}
+
+// Example 5C: Divide & Conquer (Merge Sort Recurrence) -> O(n log n) Time, O(n) Space
+// Recurrence: T(n) = 2T(n/2) + O(n)
+// Tree depth = log₂ n levels; Work per level = O(n)
+// Total Time = O(n log n); Auxiliary buffer space = O(n).
+\`\`\``,
       bulletPoints: [
-        'Non-tightness: Little-o and Little-omega describe strictly dominated functions.',
-        'Quantifier Distinction: Big-O requires ∃ C > 0, while Little-o requires ∀ C > 0.',
-        'Limit Criterion for Little-o: lim_{n → ∞} [f(n) / g(n)] = 0.',
-        'Limit Criterion for Little-omega: lim_{n → ∞} [f(n) / g(n)] = ∞.'
-      ],
-      mathFormula: '\\lim_{n \\to \\infty} \\frac{f(n)}{g(n)} = 0 \\iff f(n) = o(g(n)) \\qquad \\text{and} \\qquad \\lim_{n \\to \\infty} \\frac{f(n)}{g(n)} = \\infty \\iff f(n) = \\omega(g(n))'
-    },
-    {
-      title: '8. Asymptotic Behavior of Polynomials (Slide 15)',
-      description: `Let f(n) = ∑_{i=0}^d a_i n^i where a_d > 0 is a degree-d polynomial. For any real constant k, the following asymptotic relationships are strictly true:
-• If k ≥ d, then f(n) = O(n^k).
-• If k ≤ d, then f(n) = Ω(n^k).
-• If k = d, then f(n) = Θ(n^k).
-
-This foundational theorem allows immediate evaluation of algebraic algorithms by inspecting polynomial degree.`,
-      bulletPoints: [
-        'Degree d Polynomial: f(n) = a_d n^d + a_{d-1} n^{d-1} + ... + a_1 n + a_0 with a_d > 0.',
-        'Condition k ≥ d: Polynomial is upper bounded by n^k → f(n) = O(n^k).',
-        'Condition k ≤ d: Polynomial is lower bounded by n^k → f(n) = Ω(n^k).',
-        'Condition k = d: Polynomial is tightly bounded by n^k → f(n) = Θ(n^k).'
-      ],
-      mathFormula: 'f(n) = \\sum_{i=0}^{d} a_i n^i \\quad (a_d > 0) \\implies \\begin{cases} k \\ge d \\implies f(n) = O(n^k) \\\\ k \\le d \\implies f(n) = \\Omega(n^k) \\\\ k = d \\implies f(n) = \\Theta(n^k) \\end{cases}'
+        'Level 1: Straight-line code is O(1); single pass loops are O(n).',
+        'Level 2: Triangular loops sum 1 + 2 + ... + n = n(n+1)/2 = O(n²).',
+        'Level 3: Halving loops take log₂ n steps; loop condition i * i <= n takes √n steps.',
+        'Level 4: Sliding window inner loop runs at most n times in aggregate → Amortized O(n).',
+        'Level 5: Recursive time = number of tree nodes; recursive space = maximum call stack depth.'
+      ]
     }
   ],
   codeSnippets: [
     {
       language: 'cpp',
-      title: 'Empirical Verification of Growth Rates & Operations in C++',
-      explanation: 'Demonstrates key operational counting for constant O(1), logarithmic O(log n), linear O(n), and quadratic O(n²) algorithms without considering I/O.',
-      code: `// C++ Demonstration comparing key operational complexity classes
+      title: 'Progressive Complexity Laboratory in C++',
+      explanation: 'Compiles real working C++ functions across all complexity tiers from O(1) to O(2ⁿ), demonstrating exact operational profiling and memory usage.',
+      code: `// Progressive Complexity Suite in C++
 #include <iostream>
 #include <vector>
+#include <cmath>
 
-// 1. O(1) Constant Operation
-int getFirst(const std::vector<int>& arr) {
-    // 1 Assignment, 1 Relational check
-    return arr.empty() ? -1 : arr[0];
+// -------------------------------------------------------------
+// LEVEL 1: Constant O(1) and Linear O(n)
+// -------------------------------------------------------------
+// O(1) Time | O(1) Space
+int getMiddleElement(const std::vector<int>& arr) {
+    if (arr.empty()) return -1;
+    return arr[arr.size() / 2]; // Single indexed lookup
 }
 
-// 2. O(log n) Logarithmic Binary Search
-int binarySearch(const std::vector<int>& arr, int target) {
-    int low = 0, high = static_cast<int>(arr.size()) - 1;
-    while (low <= high) { // Relational check
-        int mid = low + (high - low) / 2; // Arithmetic + Assignment
-        if (arr[mid] == target) return mid; // Relational
-        else if (arr[mid] < target) low = mid + 1;
-        else high = mid - 1;
+// O(n) Time | O(1) Auxiliary Space
+long long computeArraySum(const std::vector<int>& arr) {
+    long long total = 0;
+    for (int num : arr) { // Exactly n iterations
+        total += num;
     }
-    return -1;
+    return total;
 }
 
-// 3. O(n) Linear Summation Pass
-long long linearSum(const std::vector<int>& arr) {
-    long long sum = 0; // Assignment
-    for (int val : arr) { // n iterations
-        sum += val; // Arithmetic
+// O(n) Time | O(n) Auxiliary Space (Allocates a new vector)
+std::vector<int> duplicateArray(const std::vector<int>& arr) {
+    std::vector<int> copy(arr.size()); // Allocates n elements
+    for (size_t i = 0; i < arr.size(); ++i) {
+        copy[i] = arr[i] * 2;
     }
-    return sum;
+    return copy;
 }
 
-// 4. O(n^2) Quadratic Nested Iterations
-long long countPairs(const std::vector<int>& arr) {
-    long long count = 0;
+// -------------------------------------------------------------
+// LEVEL 2: Dependent Nested Loops O(n^2)
+// -------------------------------------------------------------
+// O(n^2) Time | O(1) Auxiliary Space
+long long countUniquePairs(const std::vector<int>& arr) {
+    long long pairCount = 0;
     int n = arr.size();
     for (int i = 0; i < n; ++i) {
         for (int j = i + 1; j < n; ++j) {
-            count++; // Executed n*(n-1)/2 times = Theta(n^2)
+            // Iterations: (n-1) + (n-2) + ... + 1 = n*(n-1)/2 = O(n^2)
+            pairCount++;
         }
     }
-    return count;
+    return pairCount;
+}
+
+// -------------------------------------------------------------
+// LEVEL 3: Logarithmic O(log n) and Square Root O(sqrt(n))
+// -------------------------------------------------------------
+// O(log n) Time | O(1) Space
+int countBinaryDigits(long long n) {
+    int bits = 0;
+    while (n > 0) {
+        n /= 2; // Divided by 2 each step
+        bits++;
+    }
+    return bits;
+}
+
+// O(sqrt(n)) Time | O(1) Space
+bool checkPrimality(long long n) {
+    if (n <= 1) return false;
+    for (long long d = 2; d * d <= n; ++d) { // Loop stops at sqrt(n)
+        if (n % d == 0) return false;
+    }
+    return true;
+}
+
+// O(n log n) Time | O(1) Space
+void nestedLinearithmic(int n) {
+    for (int i = 1; i <= n; ++i) {        // Outer loop: n times
+        for (int j = 1; j <= n; j *= 2) { // Inner loop: log2(n) times
+            // Body runs n * log2(n) times
+        }
+    }
+}
+
+// -------------------------------------------------------------
+// LEVEL 4: Two-Pointer Sliding Window (Amortized O(n))
+// -------------------------------------------------------------
+// Amortized O(n) Time | O(1) Space
+int lengthOfLongestSubarrayWithSum(const std::vector<int>& arr, int targetSum) {
+    int left = 0, currentSum = 0, maxLen = 0;
+    for (int right = 0; right < (int)arr.size(); ++right) {
+        currentSum += arr[right];
+        while (currentSum > targetSum && left <= right) {
+            currentSum -= arr[left];
+            left++; // left pointer advances AT MOST n times across the entire function!
+        }
+        maxLen = std::max(maxLen, right - left + 1);
+    }
+    return maxLen; // Total operations = n (right) + n (left) = 2n = O(n)
+}
+
+// -------------------------------------------------------------
+// LEVEL 5: Recursion & Call Stacks
+// -------------------------------------------------------------
+// O(n) Time | O(n) Auxiliary Call Stack Space
+long long factorialRecursive(int n) {
+    if (n <= 1) return 1;
+    return n * factorialRecursive(n - 1); // Stack depth = n
+}
+
+// O(2^n) Time | O(n) Auxiliary Call Stack Space (Tree Height = n)
+int fibonacciNaive(int n) {
+    if (n <= 1) return n;
+    return fibonacciNaive(n - 1) + fibonacciNaive(n - 2);
+}
+
+int main() {
+    std::cout << "Complexity demonstration compiled successfully.\\n";
+    return 0;
 }`
     }
   ],
   examQuestions: [
     {
-      id: 'cuet-complexity-2023-q1',
-      year: 'CUET 2023 Semester Final',
+      id: 'cuet-complexity-figuring-code-1',
+      year: 'University Exam Classic',
       marks: 10,
-      question: 'Formally define Big-O, Big-Omega, and Big-Theta notations with mathematical formulations and graphical interpretations. State which operations are included and excluded for time complexity calculations.',
-      difficulty: 'Exam Classic',
-      solution: `Part 1: Formal Mathematical Definitions:
-• Big-O: f(n) = O(g(n)) iff ∃ C > 0, n₀ ∈ ℤ⁺ such that ∀ n ≥ n₀: 0 ≤ f(n) ≤ C · g(n).
-• Big-Omega: f(n) = Ω(g(n)) iff ∃ C > 0, n₀ ∈ ℤ⁺ such that ∀ n ≥ n₀: 0 ≤ C · g(n) ≤ f(n).
-• Big-Theta: f(n) = Θ(g(n)) iff ∃ C₁, C₂ > 0, n₀ ∈ ℤ⁺ such that ∀ n ≥ n₀: 0 ≤ C₁ · g(n) ≤ f(n) ≤ C₂ · g(n).
+      question: 'Find the Time and Space Complexity for each of the following code snippets. Show your line-by-line derivation:\n\nSnippet A:\n```cpp\nfor (int i = 1; i <= n; i++) {\n    for (int j = 1; j <= n; j += i) {\n        sum++;\n    }\n}\n```\n\nSnippet B:\n```cpp\nint left = 0, right = n - 1;\nwhile (left < right) {\n    if (arr[left] + arr[right] == target) return true;\n    else if (arr[left] + arr[right] < target) left++;\n    else right--;\n}\n```',
+      difficulty: 'Medium',
+      solution: `Model University Derivation:
 
-Part 2: Included vs. Excluded Operations (Slide 5):
-• Included: Assignments (=), Mathematical (+, -, *, /, %), Relational (>, >=, <, <=, ==, !=), and Function calls.
-• EXCLUDED: Input and Output (I/O) are strictly NOT considered for complexity calculations.`,
-      keyTakeaway: 'Always cite the exact constants (C, n₀) and note that Input/Output operations are excluded from algorithmic complexity.'
+■ Analysis of Snippet A:
+1. Outer loop runs for i = 1, 2, 3, ..., n (n total iterations).
+2. For a fixed i, the inner loop runs with step size i:
+   - When i = 1: j increments by 1 → n/1 iterations
+   - When i = 2: j increments by 2 → n/2 iterations
+   - When i = 3: j increments by 3 → n/3 iterations
+   - ...
+   - When i = n: j increments by n → n/n = 1 iteration
+3. Total Operations T(n):
+   T(n) = n/1 + n/2 + n/3 + ... + n/n
+        = n · (1 + 1/2 + 1/3 + ... + 1/n)
+   The summation (1 + 1/2 + 1/3 + ... + 1/n) is the Harmonic Series H_n = ln(n) + O(1).
+4. Therefore:
+   T(n) = n · ln(n) = Θ(n log n).
+   Time Complexity: O(n log n)
+   Auxiliary Space: O(1) (only scalar variables i, j, sum).
+
+■ Analysis of Snippet B:
+1. The algorithm initializes two pointers at opposite ends of the sorted array (left = 0, right = n - 1).
+2. In every single iteration of the while loop, exactly one of the following occurs:
+   - Either \`left\` increments by 1, OR
+   - \`right\` decrements by 1, OR
+   - The function terminates immediately.
+3. The distance between pointers starts at (n - 1) and decreases by at least 1 in every iteration.
+4. Hence, the while loop can execute at most (n - 1) times in the worst case.
+5. Time Complexity: O(n)
+   Auxiliary Space: O(1) (in-place pointer traversal).`,
+      keyTakeaway: 'When step size in an inner loop depends on the outer loop index i (e.g. j += i), the total iterations equal n times the harmonic series, yielding O(n log n).'
     },
     {
-      id: 'cuet-slide-polynomial-q2',
-      year: 'CUET Academic Assessment',
+      id: 'cuet-complexity-figuring-code-2',
+      year: 'University Exam Classic',
       marks: 8,
-      question: 'Let f(n) = 4n³ + 7n² + 12. Using the Asymptotic Behavior of Polynomials theorem (Slide 15), evaluate whether f(n) is O(n²), Ω(n²), Θ(n³), and O(n⁴). Justify each.',
-      difficulty: 'Medium',
-      solution: `The given polynomial f(n) = 4n³ + 7n² + 12 has degree d = 3 with leading coefficient a₃ = 4 > 0.
+      question: 'Analyze the following recursive function. State its recurrence relation, solve for Time Complexity, and determine its Space Complexity:\n\n```cpp\nvoid solve(int n) {\n    if (n <= 1) return;\n    for (int i = 0; i < n; i++) {\n        // O(1) work\n    }\n    solve(n / 2);\n    solve(n / 2);\n}\n```',
+      difficulty: 'Hard',
+      solution: `Model University Derivation:
 
-By the Polynomial Asymptotic Theorem:
-1. For k = 2 (evaluating against n²):
-Since k = 2 < d = 3 (k ≤ d):
-f(n) = Ω(n²) is TRUE.
-f(n) = O(n²) is FALSE because cubic grows strictly faster than quadratic.
+1. Formulate Recurrence Relation:
+   - Base Case: For n ≤ 1, T(n) = O(1).
+   - Recursive Case: The function performs a linear loop of size n (taking cn time), and then makes TWO recursive calls, each on input size n/2.
+   - Recurrence: T(n) = 2 · T(n/2) + cn
 
-2. For k = 3 (evaluating against n³):
-Since k = 3 = d (k = d):
-f(n) = Θ(n³) is TRUE (and consequently f(n) = O(n³) and f(n) = Ω(n³)).
+2. Solve via Master Theorem / Recursion Tree:
+   - Master Theorem Form: T(n) = a · T(n/b) + f(n)
+     Here a = 2, b = 2, f(n) = cn = O(n^1).
+   - Compare log_b(a) with exponent of f(n):
+     log_2(2) = 1.
+     Since f(n) = Θ(n^{log_b a}) = Θ(n^1), this matches Master Theorem Case 2.
+   - Result: T(n) = Θ(n · log₂ n).
 
-3. For k = 4 (evaluating against n⁴):
-Since k = 4 > d = 3 (k ≥ d):
-f(n) = O(n⁴) is TRUE because n⁴ serves as a valid asymptotic upper bound.`,
-      keyTakeaway: 'When k ≥ d, polynomial is O(n^k); when k ≤ d, it is Ω(n^k); when k = d, it is tightly Θ(n^d).'
+3. Space Complexity (Call Stack Depth):
+   - In each recursive step, n is halved: n → n/2 → n/4 → ... → 1.
+   - The height of the recursion tree is log₂ n.
+   - Since calls execute sequentially on the stack, the maximum stack depth at any moment is the tree height: log₂ n.
+   - Auxiliary Space Complexity: O(log n) stack memory.`,
+      keyTakeaway: 'T(n) = 2T(n/2) + O(n) solves to O(n log n) time with O(log n) auxiliary stack depth.'
     }
   ],
   quizzes: [
     {
-      id: 'quiz-complexity-cuet-1',
-      question: 'According to CUET Chapter 2 Slide 5, which of the following operations is EXCLUDED from time complexity calculation?',
+      id: 'quiz-complexity-code-1',
+      question: 'What is the time complexity of a loop structured as `for (int i = 1; i <= n; i *= 2)`?',
       options: [
-        'Variable Assignment (=)',
-        'Input and Output (I/O)',
-        'Relational Comparison (<, >)',
-        'Mathematical Arithmetic (+, *)'
-      ],
-      correctIndex: 1,
-      explanation: 'Slide 5 explicitly states that Input and Output (I/O) are NOT considered for algorithmic complexity calculations.'
-    },
-    {
-      id: 'quiz-complexity-cuet-2',
-      question: 'What is the main difference between Big-O and Little-o notation as defined in Slide 13?',
-      options: [
-        'Big-O holds for SOME constant C > 0, while Little-o must hold for ALL constants C > 0',
-        'Big-O represents space complexity, while Little-o represents time complexity',
-        'Big-O requires n ≤ n₀, while Little-o requires n ≥ n₀',
-        'There is no mathematical difference between them'
-      ],
-      correctIndex: 0,
-      explanation: 'Slide 13 emphasizes that the bound for Big-O holds for some value C > 0, while the bound for Little-o must hold for all values C > 0 (meaning lim f(n)/g(n) = 0).'
-    },
-    {
-      id: 'quiz-complexity-cuet-3',
-      question: 'If sub-procedure f₁(n) = O(n²) and f₂(n) = O(n log n), what is the sequential complexity |(f₁ + f₂)(n)| according to Slide 10?',
-      options: [
-        'O(n³ log n)',
+        'O(n)',
+        'O(log₂ n)',
         'O(n²)',
-        'O(n log n)',
-        'O(2n²)'
+        'O(1)'
       ],
       correctIndex: 1,
-      explanation: 'By the sequential composition rule: |(f₁ + f₂)(n)| = O(max(g₁(n), g₂(n))) = O(max(n², n log n)) = O(n²).'
+      explanation: 'Since the loop variable doubles each time (i = 1, 2, 4, 8, ..., 2^k), it reaches n in k = log₂ n steps. Thus the time complexity is O(log n).'
+    },
+    {
+      id: 'quiz-complexity-code-2',
+      question: 'What is the auxiliary space complexity of calculating Fibonacci numbers using naive recursion `fib(n) = fib(n-1) + fib(n-2)` without memoization?',
+      options: [
+        'O(1)',
+        'O(log n)',
+        'O(n)',
+        'O(2ⁿ)'
+      ],
+      correctIndex: 2,
+      explanation: 'While the naive Fibonacci recursion takes O(2ⁿ) TIME due to repeated branching, the maximum call stack depth active in memory at any instant equals the height of the recursion tree, which is O(n).'
+    },
+    {
+      id: 'quiz-complexity-code-3',
+      question: 'Consider a two-pointer sliding window where an inner while loop runs inside an outer for loop over an array of size n. If the inner pointer `left` only increases and never resets, what is the overall time complexity?',
+      options: [
+        'O(n²)',
+        'Amortized O(n)',
+        'O(n log n)',
+        'O(2ⁿ)'
+      ],
+      correctIndex: 1,
+      explanation: 'Because `left` only increments and never resets to 0, it advances at most n times in total across the entire lifetime of the algorithm. Thus, total operations = n (right) + n (left) = 2n = O(n).'
     }
   ],
   practiceProblems: [
