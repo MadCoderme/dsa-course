@@ -1361,5 +1361,569 @@ export const TOPIC_PRACTICE_PROBLEMS: Record<TopicId, PracticeProblem[]> = {
       acceptanceOrRating: '68.9% Acc',
       tags: ['mst', 'kruskal', 'dsu', 'graph']
     }
+  ],
+
+  'string': [
+    {
+      id: 'str-1',
+      title: 'Reverse String',
+      platform: 'LeetCode',
+      problemNumber: '344',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/reverse-string/',
+      description: 'Write a function that reverses a string in-place with O(1) extra memory using two pointers.',
+      keyPattern: 'Two-Pointer In-Place Swap Invariant',
+      acceptanceOrRating: '78.5% Acc',
+      tags: ['string', 'two-pointer', 'in-place']
+    },
+    {
+      id: 'str-2',
+      title: 'Valid Palindrome',
+      platform: 'LeetCode',
+      problemNumber: '125',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/valid-palindrome/',
+      description: 'Given a string s, determine if it is a palindrome considering only alphanumeric characters and ignoring cases.',
+      keyPattern: 'Two-Pointer Bidirectional Character Convergence',
+      acceptanceOrRating: '49.1% Acc',
+      tags: ['string', 'two-pointer', 'palindrome']
+    },
+    {
+      id: 'str-3',
+      title: 'Valid Anagram',
+      platform: 'LeetCode',
+      problemNumber: '242',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/valid-anagram/',
+      description: 'Determine if t is an anagram of s by comparing character frequencies using a fixed 26-element array.',
+      keyPattern: 'ASCII Character Frequency Count Array',
+      acceptanceOrRating: '65.4% Acc',
+      tags: ['string', 'hash-table', 'frequency-array']
+    },
+    {
+      id: 'str-4',
+      title: 'First Unique Character in a String',
+      platform: 'LeetCode',
+      problemNumber: '387',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/first-unique-character-in-a-string/',
+      description: 'Find the first non-repeating character in a string and return its index using character frequency tracking.',
+      keyPattern: 'Two-Pass Frequency Indexing',
+      acceptanceOrRating: '62.0% Acc',
+      tags: ['string', 'frequency', 'lookup']
+    },
+    {
+      id: 'str-5',
+      title: 'Longest Common Prefix',
+      platform: 'LeetCode',
+      problemNumber: '14',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/longest-common-prefix/',
+      description: 'Find the longest common prefix string amongst an array of strings using vertical character scanning.',
+      keyPattern: 'Horizontal/Vertical Character Slicing',
+      acceptanceOrRating: '43.2% Acc',
+      tags: ['string', 'prefix', 'scanning']
+    },
+    {
+      id: 'str-6',
+      title: 'Way Too Long Words',
+      platform: 'Codeforces',
+      problemNumber: '71A',
+      difficulty: '800',
+      url: 'https://codeforces.com/problemset/problem/71/A',
+      description: 'If a word has length > 10, abbreviate it as first char + (length - 2) + last char.',
+      keyPattern: 'Character Array Boundary Inspection',
+      acceptanceOrRating: '800 Rating',
+      tags: ['strings', 'implementation']
+    },
+    {
+      id: 'str-7',
+      title: 'Petya and Strings',
+      platform: 'Codeforces',
+      problemNumber: '112A',
+      difficulty: '800',
+      url: 'https://codeforces.com/problemset/problem/112/A',
+      description: 'Perform case-insensitive lexicographical comparison of two strings matching the strcmp contract.',
+      keyPattern: 'Lexicographical String Comparison (strcmp)',
+      acceptanceOrRating: '800 Rating',
+      tags: ['strings', 'implementation', 'strcmp']
+    },
+    {
+      id: 'str-8',
+      title: 'Lipschutz Algorithm 3.1: Cascade String Deletion (Phantom Patterns)',
+      platform: 'GeeksforGeeks',
+      problemNumber: 'Lipschutz 3.1',
+      difficulty: 'Medium',
+      url: 'https://www.hackerrank.com/domains/algorithms',
+      description: 'Implement Algorithm 3.1 to repeatedly delete pattern P from text T until INDEX(T,P)=0. Account for newly formed patterns like XAAABBB with AB -> XY.',
+      keyPattern: 'Iterative Substring Deletion with Phantom Pattern Cascade',
+      acceptanceOrRating: 'Exam Classic',
+      tags: ['strings', 'algorithm-3.1', 'deletion']
+    },
+    {
+      id: 'str-9',
+      title: 'Lipschutz Algorithm 3.3: First Pattern Matching Algorithm',
+      platform: 'LeetCode',
+      problemNumber: '28',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/',
+      description: 'Find the index of the first occurrence of pattern in text using the naive window comparison algorithm (MAX = S - R + 1).',
+      keyPattern: 'Sliding Window Character Verification',
+      acceptanceOrRating: '43.2% Acc',
+      tags: ['strings', 'two-pointer', 'pattern-matching']
+    },
+    {
+      id: 'str-10',
+      title: 'Lipschutz Problem 3.13: Sentence Transformation & Multi-Step Insertion',
+      platform: 'GeeksforGeeks',
+      problemNumber: 'Lipschutz 3.13',
+      difficulty: 'Easy',
+      url: 'https://www.geeksforgeeks.org/string-manipulation-in-c-cpp/',
+      description: 'Given sentence T = "THE STUDENT IS ILL.", apply string insertion operations to transform T into "THE STUDENT IS VERY ILL." and "THE STUDENT IS VERY ILL TODAY.". Account for exact 1-based indexing, whitespace preservation, and punctuation anchoring.',
+      keyPattern: 'Position-Based String Splicing: INSERT(T, K, S) = SUBSTRING(T, 1, K-1) // S // SUBSTRING(T, K, LENGTH(T)-K+1)',
+      acceptanceOrRating: 'Textbook Classic',
+      tags: ['strings', 'insertion', 'word-processing']
+    },
+    {
+      id: 'str-11',
+      title: 'Lipschutz Problem 3.14: Document Paragraph Counter (Procedure PAR)',
+      platform: 'GeeksforGeeks',
+      problemNumber: 'Lipschutz 3.14',
+      difficulty: 'Medium',
+      url: 'https://www.geeksforgeeks.org/program-to-count-words-in-a-given-string/',
+      description: 'Given a story represented in memory as an array of 80-character strings LINE[1..N], where LINE[1] is the title and LINE[N] is the author, write procedure PAR(LINE, N, NUM) to count paragraphs by testing the 5-space indentation invariant SUBSTRING(LINE[K], 1, 5) = "     ".',
+      keyPattern: 'Fixed Record Scanning: Substring Indentation Invariant on Interval [2, N-1]',
+      acceptanceOrRating: 'Exam Favorite',
+      tags: ['strings', 'document-array', 'paragraph-detection', 'word-processing']
+    },
+    {
+      id: 'str-12',
+      title: 'Lipschutz Problem 3.15: Isolated Word Counting with Boundary Filters (Procedure COUNT)',
+      platform: 'GeeksforGeeks',
+      problemNumber: 'Lipschutz 3.15',
+      difficulty: 'Hard',
+      url: 'https://www.geeksforgeeks.org/count-occurrences-of-a-word-in-string/',
+      description: 'Count occurrences of the standalone word "THE" in document array LINE[1..N]. Explain and implement the 3 mutually exclusive structural boundary cases: Beginning of line (BEG="THE "), End of line (END=" THE"), and Middle (MID=" THE "), preventing false positive matches on words like "FATHER" or "THEORY".',
+      keyPattern: 'Word Boundary Invariants: BEG, END, MID Delimiter Framing',
+      acceptanceOrRating: 'High Yield',
+      tags: ['strings', 'word-boundary', 'delimiter-filtering', 'word-processing']
+    },
+    {
+      id: 'str-13',
+      title: 'Lipschutz Problem 3.17: Paragraph Block Interchanger in Document Memory',
+      platform: 'GeeksforGeeks',
+      problemNumber: 'Lipschutz 3.17',
+      difficulty: 'Hard',
+      url: 'https://www.geeksforgeeks.org/rearrange-array-elements-by-sign/',
+      description: 'Design an algorithm to swap Paragraph K and Paragraph L in document array LINE[1..N]. Locate paragraph line boundaries [BEG_K, END_K] and [BEG_L, END_L], copy the smaller paragraph into an auxiliary array TEMP, shift intermediate lines, and write back without corrupting adjacent paragraphs.',
+      keyPattern: 'Block Memory Relocation: Range Delimitation + Delta Shifting + Buffer Swapping',
+      acceptanceOrRating: 'Conceptual Classic',
+      tags: ['strings', 'paragraph-swap', 'block-movement', 'memory-management']
+    },
+    {
+      id: 'str-14',
+      title: 'Lipschutz Problem 3.9: Word Wrapping & Text Justification Engine',
+      platform: 'LeetCode',
+      problemNumber: '68',
+      difficulty: 'Hard',
+      url: 'https://leetcode.com/problems/text-justification/',
+      description: 'Given a continuous stream of words in string TEXT and line width W (e.g. 40 characters), format the text into lines of length at most W such that no word is ever split in half. Backtrack from column W+1 to find the last preceding space delimiter and cleanly reflow prose.',
+      keyPattern: 'Greedy Delimiter Backtracking & Substring Line Reflow',
+      acceptanceOrRating: '45.1% Acc',
+      tags: ['strings', 'word-wrap', 'greedy', 'formatting']
+    }
+  ],
+
+  'string-operations': [
+    {
+      id: 'stro-op-1',
+      title: 'Defanging an IP Address',
+      platform: 'LeetCode',
+      problemNumber: '1108',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/defanging-an-ip-address/',
+      description: 'Replace every period "." in an IP address string with "[.]" using string replacement.',
+      keyPattern: 'String Replace & Buffer Expansion',
+      acceptanceOrRating: '89.1% Acc',
+      tags: ['string', 'replace', 'beginner']
+    },
+    {
+      id: 'stro-op-2',
+      title: 'Longest Common Prefix',
+      platform: 'LeetCode',
+      problemNumber: '14',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/longest-common-prefix/',
+      description: 'Write a function to find the longest common prefix string amongst an array of strings.',
+      keyPattern: 'Horizontal / Vertical String Scanning',
+      acceptanceOrRating: '43.2% Acc',
+      tags: ['string', 'prefix', 'beginner']
+    },
+    {
+      id: 'stro-op-3',
+      title: 'Reverse Words in a String III',
+      platform: 'LeetCode',
+      problemNumber: '557',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/reverse-words-in-a-string-iii/',
+      description: 'Reverse the order of characters in each word within a sentence while still preserving whitespace.',
+      keyPattern: 'Two-Pointer Substring In-Place Reversal',
+      acceptanceOrRating: '83.5% Acc',
+      tags: ['string', 'two-pointer', 'beginner']
+    },
+    {
+      id: 'stro-op-4',
+      title: 'String to Integer (atoi)',
+      platform: 'LeetCode',
+      problemNumber: '8',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/string-to-integer-atoi/',
+      description: 'Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.',
+      keyPattern: 'Procedural Character Parsing & Overflow Guards',
+      acceptanceOrRating: '17.6% Acc',
+      tags: ['string', 'parsing', 'implementation']
+    }
+  ],
+
+  'kmp-pattern-matching': [
+    {
+      id: 'stro-1',
+      title: 'Find the Index of the First Occurrence in a String',
+      platform: 'LeetCode',
+      problemNumber: '28',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/',
+      description: 'Given two strings needle and haystack, return the index of the first occurrence of needle in haystack using KMP or strstr.',
+      keyPattern: 'Knuth-Morris-Pratt (KMP) Pattern Matching',
+      acceptanceOrRating: '43.9% Acc',
+      tags: ['string', 'kmp', 'pattern-matching', 'two-pointer']
+    },
+    {
+      id: 'stro-2',
+      title: 'Repeated Substring Pattern',
+      platform: 'LeetCode',
+      problemNumber: '459',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/repeated-substring-pattern/',
+      description: 'Check if string s can be constructed by taking a substring of it and appending multiple copies using the KMP pi-table property.',
+      keyPattern: 'KMP Prefix Function String Periodicity (n - pi[n-1])',
+      acceptanceOrRating: '46.5% Acc',
+      tags: ['string', 'kmp', 'prefix-function', 'periodicity']
+    },
+    {
+      id: 'stro-3',
+      title: 'Rotate String',
+      platform: 'LeetCode',
+      problemNumber: '796',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/rotate-string/',
+      description: 'Check if s can become goal after some number of shifts by testing if goal is a substring of s + s using KMP.',
+      keyPattern: 'String Doubling & KMP Substring Search',
+      acceptanceOrRating: '61.8% Acc',
+      tags: ['string', 'kmp', 'rotation']
+    },
+    {
+      id: 'stro-4',
+      title: 'Longest Happy Prefix',
+      platform: 'LeetCode',
+      problemNumber: '1392',
+      difficulty: 'Hard',
+      url: 'https://leetcode.com/problems/longest-happy-prefix/',
+      description: 'Return the longest happy prefix (prefix that is also a suffix) of string s using the KMP prefix function pi[n-1].',
+      keyPattern: 'Direct KMP Prefix Function Computation',
+      acceptanceOrRating: '46.1% Acc',
+      tags: ['string', 'kmp', 'lps', 'prefix-table']
+    },
+    {
+      id: 'stro-5',
+      title: 'Shortest Palindrome',
+      platform: 'LeetCode',
+      problemNumber: '214',
+      difficulty: 'Hard',
+      url: 'https://leetcode.com/problems/shortest-palindrome/',
+      description: 'Find shortest palindrome by adding characters in front of s using KMP on s + "#" + reverse(s).',
+      keyPattern: 'KMP Prefix Function on Concatenated Reversed String',
+      acceptanceOrRating: '35.4% Acc',
+      tags: ['string', 'kmp', 'palindrome', 'prefix-table']
+    },
+    {
+      id: 'stro-6',
+      title: 'Password',
+      platform: 'Codeforces',
+      problemNumber: '126B',
+      difficulty: '1700',
+      url: 'https://codeforces.com/problemset/problem/126/B',
+      description: 'Find a string t that is simultaneously a prefix, a suffix, and appears strictly inside s using the KMP pi-table.',
+      keyPattern: 'KMP π-Table Backtracking & Frequency Inspection',
+      acceptanceOrRating: '1700 Rating',
+      tags: ['strings', 'kmp', 'prefix-function']
+    },
+    {
+      id: 'stro-7',
+      title: 'MUH and Cube Walls',
+      platform: 'Codeforces',
+      problemNumber: '471D',
+      difficulty: '1800',
+      url: 'https://codeforces.com/problemset/problem/471/D',
+      description: 'Count occurrences of pattern height differences across text wall heights using KMP on difference arrays.',
+      keyPattern: 'Difference Array Transformation & KMP Matching',
+      acceptanceOrRating: '1800 Rating',
+      tags: ['strings', 'kmp', 'data-structures']
+    }
+  ],
+
+  'array-operations': [
+    {
+      id: 'arr-1',
+      title: 'Remove Element (In-Place Deletion)',
+      platform: 'LeetCode',
+      problemNumber: '27',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/remove-element/',
+      description: 'Remove all occurrences of val in nums in-place, shifting non-target elements and returning the new length.',
+      keyPattern: 'Two-Pointer Leftward Compaction & Shift',
+      acceptanceOrRating: '57.8% Acc',
+      tags: ['array', 'in-place', 'deletion', 'two-pointers']
+    },
+    {
+      id: 'arr-2',
+      title: 'Rotate Array',
+      platform: 'LeetCode',
+      problemNumber: '189',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/rotate-array/',
+      description: 'Rotate an array of n elements to the right by k steps using cyclical shifting or three reversals.',
+      keyPattern: 'Cyclic Permutation & Triple Reversal',
+      acceptanceOrRating: '41.2% Acc',
+      tags: ['array', 'rotation', 'in-place', 'math']
+    },
+    {
+      id: 'arr-3',
+      title: 'Rotate Image (2D Matrix Rotation)',
+      platform: 'LeetCode',
+      problemNumber: '48',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/rotate-image/',
+      description: 'Rotate an n x n 2D matrix by 90 degrees clockwise in-place by transposing and reversing rows.',
+      keyPattern: 'Matrix Transposition + Row Reversal (Row-Major Transformation)',
+      acceptanceOrRating: '74.5% Acc',
+      tags: ['matrix', '2d-array', 'row-major', 'math']
+    },
+    {
+      id: 'arr-4',
+      title: 'Set Matrix Zeroes',
+      platform: 'LeetCode',
+      problemNumber: '73',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/set-matrix-zeroes/',
+      description: 'Given an m x n integer matrix, if an element is 0, set its entire row and column to 0 in-place with O(1) extra space.',
+      keyPattern: '2D Traversal & In-Place Boundary Markers',
+      acceptanceOrRating: '56.7% Acc',
+      tags: ['matrix', '2d-array', 'in-place', 'constant-space']
+    }
+  ],
+
+  'searching-algorithms': [
+    {
+      id: 'srch-1',
+      title: 'Binary Search (Canonical Implementation)',
+      platform: 'LeetCode',
+      problemNumber: '704',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/binary-search/',
+      description: 'Search for target in sorted integer array nums in O(log N) runtime.',
+      keyPattern: 'Interval Halving & Safe Midpoint Calculation',
+      acceptanceOrRating: '58.3% Acc',
+      tags: ['binary-search', 'divide-and-conquer', 'search']
+    },
+    {
+      id: 'srch-2',
+      title: 'Search Insert Position (Lower Bound)',
+      platform: 'LeetCode',
+      problemNumber: '35',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/search-insert-position/',
+      description: 'Given a sorted array of distinct integers and target, return index if found or insertion index if absent.',
+      keyPattern: 'Binary Search Lower Bound (std::lower_bound equivalent)',
+      acceptanceOrRating: '46.9% Acc',
+      tags: ['binary-search', 'lower-bound', 'search']
+    },
+    {
+      id: 'srch-3',
+      title: 'Find First and Last Position in Sorted Array',
+      platform: 'LeetCode',
+      problemNumber: '34',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/',
+      description: 'Find starting and ending position of a given target value in sorted array with duplicates in O(log N).',
+      keyPattern: 'Dual Binary Search (Lower Bound & Upper Bound - 1)',
+      acceptanceOrRating: '44.8% Acc',
+      tags: ['binary-search', 'duplicates', 'bounds']
+    },
+    {
+      id: 'srch-4',
+      title: 'Search in Rotated Sorted Array',
+      platform: 'LeetCode',
+      problemNumber: '33',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/search-in-rotated-sorted-array/',
+      description: 'Search for a target value in an array rotated at an unknown pivot in O(log N) time.',
+      keyPattern: 'Modified Binary Search with Monotonic Half Detection',
+      acceptanceOrRating: '41.1% Acc',
+      tags: ['binary-search', 'rotation', 'divide-and-conquer']
+    },
+    {
+      id: 'srch-5',
+      title: 'Sqrt(x) (Binary Search on Answer Space)',
+      platform: 'LeetCode',
+      problemNumber: '69',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/sqrtx/',
+      description: 'Compute and return floor(sqrt(x)) without built-in exponent functions using binary search on range [0..x].',
+      keyPattern: 'Binary Search Monotonic Feasibility Check',
+      acceptanceOrRating: '39.2% Acc',
+      tags: ['binary-search', 'math', 'optimization']
+    }
+  ],
+
+  'sorting-algorithms': [
+    {
+      id: 'sort-1',
+      title: 'Sort an Array (Merge Sort / Quick Sort)',
+      platform: 'LeetCode',
+      problemNumber: '912',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/sort-an-array/',
+      description: 'Sort an array of integers in O(N log N) time and smallest space without using built-in functions.',
+      keyPattern: 'Divide-and-Conquer 2-Way Merge Sort or Randomized Quick Sort',
+      acceptanceOrRating: '58.4% Acc',
+      tags: ['sorting', 'merge-sort', 'quicksort', 'divide-and-conquer']
+    },
+    {
+      id: 'sort-2',
+      title: 'Sort Colors (Dutch National Flag)',
+      platform: 'LeetCode',
+      problemNumber: '75',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/sort-colors/',
+      description: 'Sort an array with 0s, 1s, and 2s in-place in a single pass using constant extra space.',
+      keyPattern: 'Dijkstra 3-Way Partitioning (Low, Mid, High)',
+      acceptanceOrRating: '62.7% Acc',
+      tags: ['sorting', 'partitioning', 'two-pointers', 'in-place']
+    },
+    {
+      id: 'sort-3',
+      title: 'Kth Largest Element in an Array (QuickSelect)',
+      platform: 'LeetCode',
+      problemNumber: '215',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/kth-largest-element-in-an-array/',
+      description: 'Find kth largest element in an unsorted array in O(N) average time without sorting entire array.',
+      keyPattern: 'Hoare QuickSelect Partitioning',
+      acceptanceOrRating: '67.2% Acc',
+      tags: ['sorting', 'quickselect', 'partition', 'heap']
+    },
+    {
+      id: 'sort-4',
+      title: 'Sort List (Merge Sort on Linked List)',
+      platform: 'LeetCode',
+      problemNumber: '148',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/sort-list/',
+      description: 'Sort a linked list in O(N log N) time and O(1) auxiliary memory space.',
+      keyPattern: 'Fast/Slow Pointer Splitting & 2-Way List Merging',
+      acceptanceOrRating: '57.6% Acc',
+      tags: ['linked-list', 'sorting', 'merge-sort']
+    },
+    {
+      id: 'sort-5',
+      title: 'Merge Intervals',
+      platform: 'LeetCode',
+      problemNumber: '56',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/merge-intervals/',
+      description: 'Given an array of intervals, merge all overlapping intervals after sorting by start time.',
+      keyPattern: 'Interval Sorting & Linear Active-Window Merging',
+      acceptanceOrRating: '47.6% Acc',
+      tags: ['sorting', 'intervals', 'greedy', 'sweep-line']
+    }
+  ],
+
+  'complexity-notations': [
+    {
+      id: 'comp-1',
+      title: 'Pow(x, n) — Binary Exponentiation Recurrence',
+      platform: 'LeetCode',
+      problemNumber: '50',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/powx-n/',
+      description: 'Calculate x raised to the power n in O(log n) time by dividing exponent by 2 at each recursive or iterative step.',
+      keyPattern: 'Divide-and-Conquer Recurrence T(n) = T(n/2) + O(1)',
+      acceptanceOrRating: '35.4% Acc',
+      tags: ['recursion', 'math', 'divide-and-conquer', 'complexity']
+    },
+    {
+      id: 'comp-2',
+      title: 'Fibonacci Number — Recurrence Complexity Analysis',
+      platform: 'LeetCode',
+      problemNumber: '509',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/fibonacci-number/',
+      description: 'Analyze why naive recursion costs O(2^n) time vs O(n) memoization vs O(log n) matrix exponentiation.',
+      keyPattern: 'Recurrence Trees & Dynamic Programming State Complexity',
+      acceptanceOrRating: '71.2% Acc',
+      tags: ['math', 'dynamic-programming', 'recursion', 'complexity']
+    },
+    {
+      id: 'comp-3',
+      title: 'Kth Smallest Element in a Sorted Matrix — Complexity Tradeoffs',
+      platform: 'LeetCode',
+      problemNumber: '378',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/',
+      description: 'Compare O(N log(max-min)) binary search on range against O(K log N) min-heap approach.',
+      keyPattern: 'Algorithmic Complexity Tradeoffs & Range Bisection',
+      acceptanceOrRating: '62.4% Acc',
+      tags: ['binary-search', 'heap', 'matrix', 'asymptotic-analysis']
+    }
+  ],
+
+  'pseudocode-introduction': [
+    {
+      id: 'pseudo-1',
+      title: 'Binary Search — Loop Invariant Verification',
+      platform: 'LeetCode',
+      problemNumber: '704',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/binary-search/',
+      description: 'Implement classic binary search and formally prove termination and loop invariant maintenance at each boundary shift.',
+      keyPattern: 'Search Space Loop Invariant: target in nums[low..high]',
+      acceptanceOrRating: '57.8% Acc',
+      tags: ['binary-search', 'invariants', 'dry-run', 'pseudocode']
+    },
+    {
+      id: 'pseudo-2',
+      title: 'Reverse Linked List — Pointer Trace Dry Run',
+      platform: 'LeetCode',
+      problemNumber: '206',
+      difficulty: 'Easy',
+      url: 'https://leetcode.com/problems/reverse-linked-list/',
+      description: 'Trace step-by-step state transitions for 3 pointers (prev, curr, nextNode) through tabular state execution.',
+      keyPattern: 'Pointer Re-linking Invariant & State Table Trace',
+      acceptanceOrRating: '76.1% Acc',
+      tags: ['linked-list', 'dry-run', 'pseudocode', 'pointers']
+    },
+    {
+      id: 'pseudo-3',
+      title: 'Two Sum II - Input Array Is Sorted — Two Pointer Invariant',
+      platform: 'LeetCode',
+      problemNumber: '167',
+      difficulty: 'Medium',
+      url: 'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/',
+      description: 'Formulate pseudocode with explicit pre-conditions, post-conditions, and invariant that eliminates invalid search pairs.',
+      keyPattern: 'Two-Pointer Shrinking Invariant',
+      acceptanceOrRating: '61.4% Acc',
+      tags: ['two-pointers', 'invariants', 'pseudocode', 'array']
+    }
   ]
 };

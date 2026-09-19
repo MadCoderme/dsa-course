@@ -60,6 +60,14 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
           summary: 'Explore size vs capacity, copy overhead, pointer invalidation, and contiguous element shifts.'
         },
         {
+          id: 'string',
+          name: 'String Processing & Algorithms',
+          type: 'lesson',
+          tag: 'Chapter 3',
+          highlight: '3 Storage Models, Primitives & Algorithms 3.1-3.3',
+          summary: 'Character data, 3 memory models (Fixed, Variable, Linked), SUBSTRING/INDEX/CONCAT primitives, and step-by-step algorithms.'
+        },
+        {
           id: 'calculator',
           name: 'Address Formula Solver',
           type: 'tool',
@@ -297,7 +305,57 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
     },
     {
       stageNumber: 7,
-      title: 'Stage 7: Examination Simulation & 7-Year Trends',
+      title: 'Stage 7: Core Algorithms & Computational Methods',
+      subtitle: 'Array Operations, Searching & Sorting Simulations, and String Processing',
+      badge: 'Algorithms',
+      badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
+      description: 'Master core algorithmic paradigms: array operations with formal pseudo-code, logarithmic search, comparative sorting simulations, and smart string pattern matching.',
+      items: [
+        {
+          id: 'array-operations',
+          name: 'Array Operations & Memory Addressing (1D, 2D & N-D)',
+          type: 'lesson',
+          tag: 'Array Operations',
+          highlight: 'Procedural INSERT/DELETE & Row/Column Major Formulas',
+          summary: 'Master formal shifting pseudo-code, 2D Row-Major vs Column-Major order, and general N-D address formulas.'
+        },
+        {
+          id: 'searching-algorithms',
+          name: 'Search Algorithms: Linear & Binary Search',
+          type: 'lesson',
+          tag: 'O(log N) Search',
+          highlight: 'Interval Halving & Pointer Simulation',
+          summary: 'Compare sequential scan with divide-and-conquer binary search, pointer safety, and lower/upper bounds.'
+        },
+        {
+          id: 'sorting-algorithms',
+          name: 'Sorting Algorithms & Execution Simulator',
+          type: 'lesson',
+          tag: 'Sorting Labs',
+          highlight: 'Bubble, Selection, Insertion, Merge & Quick Sort',
+          summary: 'Compare stability, runtime bounds, and interactive step-by-step executions across 5 classic sorting algorithms.'
+        },
+        {
+          id: 'string-operations',
+          name: 'String Operations & Find-and-Replace',
+          type: 'lesson',
+          tag: 'Text Processing',
+          highlight: 'Slicing, Concatenation & Buffer Expansion',
+          summary: 'Learn primitive text operations, naive sliding-window search, and building REPLACE(T, P, R).'
+        },
+        {
+          id: 'kmp-pattern-matching',
+          name: 'KMP Pattern Matching Demystified',
+          type: 'lesson',
+          tag: 'O(N + M) KMP',
+          highlight: 'Prefix Failure Table (π-table) & Smart Search',
+          summary: 'Eliminate text pointer backtracking using the precomputed LPS array without getting lost in math jargon.'
+        }
+      ]
+    },
+    {
+      stageNumber: 8,
+      title: 'Stage 8: Examination Simulation & 7-Year Trends',
       subtitle: '210-Mark Breakdown, Marking Rubrics & High-Yield Blueprint',
       badge: 'Exam Mastery',
       badgeColor: 'bg-red-50 text-red-700 border-red-200',
@@ -347,9 +405,9 @@ export const RoadmapNavigator: React.FC<RoadmapNavigatorProps> = ({ onSelectTopi
                   : 'text-[#66625B] hover:text-[#1A1A1A]'
               }`}
             >
-              All Stages (1–7)
+              All Stages (1–8)
             </button>
-            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
               <button
                 key={num}
                 onClick={() => setActiveFilter(num)}

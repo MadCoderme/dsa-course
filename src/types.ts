@@ -1,8 +1,12 @@
 export type TopicId = 
   // Getting Started & Curriculum Roadmap
   | 'course-overview'
+  // Foundations & Asymptotic Analysis
+  | 'complexity-notations'
+  | 'pseudocode-introduction'
   // Linear Data Structures
   | 'vector'
+  | 'string'
   | 'list'
   | 'stack'
   | 'queue'
@@ -25,7 +29,13 @@ export type TopicId =
   | 'topological-sort'
   | 'shortest-path-dijkstra'
   | 'floyd-warshall'
-  | 'mst';
+  | 'mst'
+  // Core Algorithms & Array Operations
+  | 'array-operations'
+  | 'searching-algorithms'
+  | 'sorting-algorithms'
+  | 'string-operations'
+  | 'kmp-pattern-matching';
 
 export interface SubCategory {
   id: string;

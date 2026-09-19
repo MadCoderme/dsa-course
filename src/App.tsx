@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from './components/layout/Header';
 import { Sidebar } from './components/layout/Sidebar';
 import { LessonView } from './components/lesson/LessonView';
@@ -7,12 +7,25 @@ import { AddressCalculator } from './components/exam/AddressCalculator';
 import { ComplexityMatrix } from './components/exam/ComplexityMatrix';
 import { LESSONS } from './data/lessonsData';
 import { TopicId } from './types';
-import { Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight, X } from 'lucide-react';
 
 export function App() {
   const [currentView, setCurrentView] = useState<'report' | 'calculator' | 'matrix' | TopicId>('course-overview');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [focusMode, setFocusMode] = useState<boolean>(false);
+
+  // Keyboard shortcut handler for deep study
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && focusMode) {
+        setFocusMode(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [focusMode]);
 
   // Search filter across lessons and concepts
   const searchResults = useMemo(() => {
@@ -37,15 +50,51 @@ export function App() {
       <Header
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
-        onOpenReport={() => setCurrentView('report')}
-        onOpenCalculator={() => setCurrentView('calculator')}
-        onOpenMatrix={() => setCurrentView('matrix')}
-        onOpenGuide={() => setCurrentView('course-overview')}
+        onOpenReport={() => {
+          setCurrentView('report');
+          setSearchQuery('');
+        }}
+        onOpenCalculator={() => {
+          setCurrentView('calculator');
+          setSearchQuery('');
+        }}
+        onOpenMatrix={() => {
+          setCurrentView('matrix');
+          setSearchQuery('');
+        }}
+        onOpenGuide={() => {
+          setCurrentView('course-overview');
+          setSearchQuery('');
+        }}
         onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)}
+        isSidebarCollapsed={isSidebarCollapsed}
+        onToggleSidebar={() => setIsSidebarCollapsed((prev) => !prev)}
+        focusMode={focusMode}
+        onToggleFocusMode={() => setFocusMode((prev) => !prev)}
       />
 
+      {/* Floating Focus Mode Banner */}
+      {focusMode && (
+        <div className="sticky top-14 z-20 bg-[#1A1A1A]/90 dark:bg-[#EDE8DF]/90 text-white dark:text-[#1A1A1A] backdrop-blur-md px-4 py-1.5 flex items-center justify-between text-xs border-b border-[#2D2C2A] dark:border-[#E5E2D9] shadow-xs">
+          <div className="flex items-center gap-2 font-serif">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-semibold">Deep Study Focus Mode Active</span>
+            <span className="text-[11px] opacity-75 font-mono hidden sm:inline">(Distractions minimized • Press Esc to exit)</span>
+          </div>
+          <button
+            onClick={() => setFocusMode(false)}
+            className="flex items-center gap-1 font-mono text-[11px] px-2 py-0.5 rounded bg-white/20 dark:bg-black/20 hover:bg-white/30 dark:hover:bg-black/30 transition-colors cursor-pointer"
+          >
+            <span>Exit Focus</span>
+            <X className="w-3 h-3" />
+          </button>
+        </div>
+      )}
+
       {/* Main Content Area */}
-      <div className="flex-1 max-w-7xl w-full mx-auto flex border-x border-[#E5E2D9] dark:border-[#38332B] bg-white/40 dark:bg-[#181614]/40">
+      <div className={`flex-1 w-full mx-auto flex border-x border-[#E5E2D9] dark:border-[#38332B] bg-white/40 dark:bg-[#181614]/40 ${
+        focusMode ? 'max-w-5xl' : 'max-w-7xl'
+      }`}>
         {/* Sidebar */}
         <Sidebar
           currentView={currentView}
@@ -55,10 +104,13 @@ export function App() {
           }}
           mobileOpen={mobileMenuOpen}
           onCloseMobile={() => setMobileMenuOpen(false)}
+          isCollapsed={focusMode || isSidebarCollapsed}
         />
 
         {/* Dynamic View Body */}
-        <main className="flex-1 p-5 md:p-8 min-w-0 max-w-5xl overflow-y-auto bg-[#F9F8F6]/60 dark:bg-[#141210]/80">
+        <main className={`flex-1 p-4 sm:p-6 md:p-8 min-w-0 overflow-y-auto bg-[#F9F8F6]/60 dark:bg-[#141210]/80 transition-all ${
+          focusMode ? 'max-w-4xl mx-auto' : 'max-w-5xl'
+        }`}>
           {/* Active Search Results if search query exists */}
           {searchQuery.trim() ? (
             <div className="space-y-4">
@@ -110,7 +162,12 @@ export function App() {
           ) : currentView === 'matrix' ? (
             <ComplexityMatrix />
           ) : activeLesson ? (
-            <LessonView lesson={activeLesson} onSelectTopic={(id) => setCurrentView(id)} />
+            <LessonView
+              lesson={activeLesson}
+              onSelectTopic={(id) => setCurrentView(id)}
+              focusMode={focusMode}
+              onToggleFocusMode={() => setFocusMode((prev) => !prev)}
+            />
           ) : (
             <ExamReportDashboard onSelectTopic={(id) => setCurrentView(id)} />
           )}

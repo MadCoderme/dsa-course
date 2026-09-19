@@ -19,6 +19,23 @@ export const CATEGORIES: Category[] = [
     ]
   },
   {
+    id: 'foundations',
+    name: 'Foundations & Algorithm Analysis',
+    shortName: 'Foundations',
+    description: 'Mathematical foundations of algorithm analysis, asymptotic growth notations (Big-O, Omega, Theta), recurrence relations, and formal pseudocode conventions.',
+    icon: 'Binary',
+    badgeColor: 'bg-[#FEF3C7] text-[#92400E] border-[#FDE68A]',
+    subCategories: [
+      {
+        id: 'algorithmic-foundations',
+        name: 'Asymptotic Analysis & Pseudocode',
+        shortName: 'Analysis & Pseudocode',
+        description: 'Rigorous definitions of Big-O/Omega/Theta, Master Theorem, space complexity, and structured pseudocode conventions.',
+        topicIds: ['complexity-notations', 'pseudocode-introduction']
+      }
+    ]
+  },
+  {
     id: 'linear',
     name: 'Linear Data Structures',
     shortName: 'Linear',
@@ -31,7 +48,7 @@ export const CATEGORIES: Category[] = [
         name: 'Sequential & Contiguous Storage',
         shortName: 'Sequential',
         description: 'Contiguous memory buffers and pointer-linked node sequences with address formulas and pointer manipulation.',
-        topicIds: ['vector', 'list']
+        topicIds: ['vector', 'string', 'list']
       },
       {
         id: 'restricted-adts',
@@ -115,6 +132,37 @@ export const CATEGORIES: Category[] = [
         shortName: 'Spanning Trees',
         description: 'Optimal network spanning tree construction using Kruskal’s greedy edge sorting with DSU and Prim’s cut-property algorithm.',
         topicIds: ['mst']
+      }
+    ]
+  },
+  {
+    id: 'algorithms',
+    name: 'Algorithms & Computational Methods',
+    shortName: 'Algorithms',
+    description: 'Array operations, searching and sorting paradigms, pattern matching automata, and text search.',
+    icon: 'Binary',
+    badgeColor: 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]',
+    subCategories: [
+      {
+        id: 'array-operations-sub',
+        name: 'Linear, 2D & N-D Array Operations',
+        shortName: 'Array Operations',
+        description: 'Basic array operations (traversal, insertion, deletion) with formal pseudo-code, 2D row/column major layouts, and n-dimensional address calculation.',
+        topicIds: ['array-operations']
+      },
+      {
+        id: 'search-sort-algorithms',
+        name: 'Searching & Sorting Algorithms',
+        shortName: 'Search & Sort',
+        description: 'Linear vs. Binary Search with interval halving, and comparative sorting algorithms (Bubble, Selection, Insertion, Merge, Quick Sort) with interactive simulations.',
+        topicIds: ['searching-algorithms', 'sorting-algorithms']
+      },
+      {
+        id: 'string-algorithms',
+        name: 'String Operations & Pattern Matching',
+        shortName: 'String Ops & KMP',
+        description: 'Beginner-friendly string operations (slicing, concatenation, find & replace) and smart pattern matching algorithms (Naive vs. KMP).',
+        topicIds: ['string-operations', 'kmp-pattern-matching']
       }
     ]
   }

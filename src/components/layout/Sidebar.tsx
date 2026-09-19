@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { CATEGORIES } from '../../data/categoriesData';
+import React, { useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { CATEGORIES, getCategoryForTopic } from '../../data/categoriesData';
 import { LESSONS, LESSON_MAP } from '../../data/lessonsData';
 import { TopicId } from '../../types';
 import { MathText } from '../common/Latex';
-import { ThemeToggleBar } from '../common/ThemeToggleBar';
+import { resolveRoutePath, ROUTES } from '../../routes/routesConfig';
 import {
   Layers,
   Compass,
@@ -15,29 +16,43 @@ import {
   Network,
   ChevronDown,
   ChevronRight,
-  FolderTree
+  FolderTree,
+  Binary
 } from 'lucide-react';
 
 interface SidebarProps {
-  currentView: 'report' | 'calculator' | 'matrix' | TopicId;
-  onSelectView: (view: 'report' | 'calculator' | 'matrix' | TopicId) => void;
   mobileOpen: boolean;
   onCloseMobile: () => void;
+  isCollapsed?: boolean;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
-  currentView,
-  onSelectView,
   mobileOpen,
-  onCloseMobile
+  onCloseMobile,
+  isCollapsed = false
 }) => {
+  const { pathname } = useLocation();
+
   // Track open state for collapsible category sections (default: all open)
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     orientation: true,
+    foundations: true,
     linear: true,
     trees: true,
-    graphs: true
+    graphs: true,
+    algorithms: true
   });
+
+  // Automatically open the category corresponding to the currently active route
+  useEffect(() => {
+    if (pathname.startsWith('/lessons/')) {
+      const topicId = pathname.replace('/lessons/', '') as TopicId;
+      const { category } = getCategoryForTopic(topicId);
+      if (category) {
+        setOpenCategories((prev) => ({ ...prev, [category.id]: true }));
+      }
+    }
+  }, [pathname]);
 
   const toggleCategory = (categoryId: string) => {
     setOpenCategories((prev) => ({
@@ -56,10 +71,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
         return <GitBranch className="w-4 h-4" />;
       case 'Network':
         return <Network className="w-4 h-4" />;
+      case 'Binary':
+        return <Binary className="w-4 h-4" />;
       default:
         return <FolderTree className="w-4 h-4" />;
     }
   };
+
+  const isReportActive = pathname === ROUTES.EXAM_REPORT || pathname === ROUTES.REPORT_ALIAS;
+  const isCalcActive = pathname === ROUTES.ADDRESS_CALCULATOR || pathname === ROUTES.CALCULATOR_ALIAS;
+  const isMatrixActive = pathname === ROUTES.COMPLEXITY_MATRIX || pathname === ROUTES.MATRIX_ALIAS;
 
   return (
     <>
@@ -72,11 +93,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed lg:static top-0 left-0 h-full w-80 bg-[#F4F2EB] dark:bg-[#181614] lg:bg-transparent lg:dark:bg-transparent border-r border-[#E5E2D9] dark:border-[#38332B] p-3.5 z-50 flex flex-col justify-between overflow-y-auto transition-all duration-300 ${
+        className={`fixed lg:static top-0 left-0 h-full w-72 bg-[#FAF8F5] dark:bg-[#181614] border-r border-[#E5E2D9] dark:border-[#38332B] p-3 z-50 flex flex-col justify-between overflow-y-auto transition-all duration-200 select-none ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+        } ${isCollapsed ? 'lg:hidden' : 'lg:flex'}`}
       >
-        <div className="space-y-5">
+        <div className="space-y-4">
           {/* Mobile close header */}
           <div className="flex items-center justify-between lg:hidden pb-2 border-b border-[#E5E2D9] dark:border-[#38332B]">
             <span className="text-xs font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF] uppercase tracking-wider">Curriculum Index</span>
@@ -90,203 +111,167 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Curriculum & High-Yield Strategy Section */}
-          <div className="space-y-1.5">
-            <div className="text-[10px] font-mono font-bold text-[#88847C] dark:text-[#78716C] uppercase tracking-wider px-2">
-              Examination Tools & Strategy
+          <div className="space-y-1">
+            <div className="text-[10px] font-mono font-bold text-[#88847C] dark:text-[#78716C] uppercase tracking-wider px-2 py-0.5">
+              Reference Tools
             </div>
 
-            <div className="space-y-1">
-              <button
+            <div className="space-y-0.5">
+              <Link
                 id="sidebar-exam-report"
-                onClick={() => {
-                  onSelectView('report');
-                  onCloseMobile();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-all cursor-pointer border ${
-                  currentView === 'report'
-                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] border-[#1A1A1A] dark:border-[#EDE8DF] shadow-2xs font-bold'
-                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                to={ROUTES.EXAM_REPORT}
+                onClick={onCloseMobile}
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-colors ${
+                  isReportActive
+                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] font-bold shadow-2xs'
+                    : 'text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#EFECE3] dark:hover:bg-[#25221E]'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
-                  <Award className={`w-4 h-4 ${currentView === 'report' ? 'text-amber-300 dark:text-[#991B1B]' : 'text-[#991B1B] dark:text-[#EF4444]'}`} />
-                  <span className="font-serif text-[13px]">7-Year Exam Report</span>
+                <div className="flex items-center gap-2">
+                  <Award className={`w-3.5 h-3.5 ${isReportActive ? 'text-amber-300 dark:text-[#991B1B]' : 'text-[#991B1B] dark:text-[#EF4444]'}`} />
+                  <span className="font-serif">7-Year Exam Report</span>
                 </div>
-                <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${currentView === 'report' ? 'bg-[#333] dark:bg-[#D6D0C5] text-white dark:text-[#1A1A1A]' : 'bg-[#F4F2EB] dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] border border-[#E5E2D9] dark:border-[#38332B]'}`}>
+                <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded ${isReportActive ? 'bg-[#333] dark:bg-[#D6D0C5] text-white dark:text-[#1A1A1A]' : 'bg-[#EFECE3] dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444]'}`}>
                   210M
                 </span>
-              </button>
+              </Link>
 
-              <button
+              <Link
                 id="sidebar-address-calc"
-                onClick={() => {
-                  onSelectView('calculator');
-                  onCloseMobile();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-all cursor-pointer border ${
-                  currentView === 'calculator'
-                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] border-[#1A1A1A] dark:border-[#EDE8DF] shadow-2xs font-bold'
-                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                to={ROUTES.ADDRESS_CALCULATOR}
+                onClick={onCloseMobile}
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-colors ${
+                  isCalcActive
+                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] font-bold shadow-2xs'
+                    : 'text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#EFECE3] dark:hover:bg-[#25221E]'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
-                  <Calculator className={`w-4 h-4 ${currentView === 'calculator' ? 'text-amber-300 dark:text-[#B45309]' : 'text-[#B45309] dark:text-[#FBBF24]'}`} />
-                  <span className="font-serif text-[13px]">Address Formula Solver</span>
+                <div className="flex items-center gap-2">
+                  <Calculator className={`w-3.5 h-3.5 ${isCalcActive ? 'text-amber-300 dark:text-[#B45309]' : 'text-[#B45309] dark:text-[#FBBF24]'}`} />
+                  <span className="font-serif">Address Solver</span>
                 </div>
-                <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${currentView === 'calculator' ? 'bg-[#333] dark:bg-[#D6D0C5] text-white dark:text-[#1A1A1A]' : 'bg-[#F4F2EB] dark:bg-[#2A2622] text-[#B45309] dark:text-[#FBBF24] border border-[#E5E2D9] dark:border-[#38332B]'}`}>
+                <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded ${isCalcActive ? 'bg-[#333] dark:bg-[#D6D0C5] text-white dark:text-[#1A1A1A]' : 'bg-[#EFECE3] dark:bg-[#2A2622] text-[#B45309] dark:text-[#FBBF24]'}`}>
                   3D
                 </span>
-              </button>
+              </Link>
 
-              <button
+              <Link
                 id="sidebar-complexity-matrix"
-                onClick={() => {
-                  onSelectView('matrix');
-                  onCloseMobile();
-                }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold flex items-center justify-between transition-all cursor-pointer border ${
-                  currentView === 'matrix'
-                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] border-[#1A1A1A] dark:border-[#EDE8DF] shadow-2xs font-bold'
-                    : 'bg-white/60 dark:bg-[#201D1A]/60 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
+                to={ROUTES.COMPLEXITY_MATRIX}
+                onClick={onCloseMobile}
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-colors ${
+                  isMatrixActive
+                    ? 'bg-[#1A1A1A] dark:bg-[#EDE8DF] text-white dark:text-[#1A1A1A] font-bold shadow-2xs'
+                    : 'text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#EFECE3] dark:hover:bg-[#25221E]'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
-                  <Table className={`w-4 h-4 ${currentView === 'matrix' ? 'text-emerald-300 dark:text-[#15803D]' : 'text-[#15803D] dark:text-[#4ADE80]'}`} />
-                  <span className="font-serif text-[13px]">STL Complexity Matrix</span>
+                <div className="flex items-center gap-2">
+                  <Table className={`w-3.5 h-3.5 ${isMatrixActive ? 'text-emerald-300 dark:text-[#15803D]' : 'text-[#15803D] dark:text-[#4ADE80]'}`} />
+                  <span className="font-serif">STL Complexity Matrix</span>
                 </div>
-                <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${currentView === 'matrix' ? 'bg-[#333] dark:bg-[#D6D0C5] text-white dark:text-[#1A1A1A]' : 'bg-[#F4F2EB] dark:bg-[#2A2622] text-[#15803D] dark:text-[#4ADE80] border border-[#E5E2D9] dark:border-[#38332B]'}`}>
+                <span className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded ${isMatrixActive ? 'bg-[#333] dark:bg-[#D6D0C5] text-white dark:text-[#1A1A1A]' : 'bg-[#EFECE3] dark:bg-[#2A2622] text-[#15803D] dark:text-[#4ADE80]'}`}>
                   O(1)
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
 
-          {/* Categorized Lessons Section */}
-          <div className="space-y-4">
+          {/* Categorized Lessons Section (Clean Tree Style) */}
+          <div className="space-y-3 pt-2 border-t border-[#E5E2D9] dark:border-[#38332B]">
             <div className="flex items-center justify-between px-2">
               <div className="text-[10px] font-mono font-bold text-[#88847C] dark:text-[#78716C] uppercase tracking-wider">
-                Curriculum Categories
+                Topics ({LESSONS.length})
               </div>
-              <span className="text-[10px] font-mono text-[#66625B] dark:text-[#A8A29E]">
-                {LESSONS.length} Lessons
-              </span>
             </div>
 
-            {CATEGORIES.map((category) => {
-              const isOpen = openCategories[category.id] !== false;
-              // Count lessons in this category
-              const totalCategoryLessons = category.subCategories.reduce(
-                (acc, sub) => acc + sub.topicIds.length,
-                0
-              );
+            <div className="space-y-2">
+              {CATEGORIES.map((category) => {
+                const isOpen = openCategories[category.id] !== false;
+                const totalCategoryLessons = category.subCategories.reduce(
+                  (acc, sub) => acc + sub.topicIds.length,
+                  0
+                );
 
-              return (
-                <div key={category.id} className="rounded-xl border border-[#E5E2D9] dark:border-[#38332B] bg-white/70 dark:bg-[#201D1A]/70 overflow-hidden shadow-2xs">
-                  {/* Category Header */}
-                  <button
-                    onClick={() => toggleCategory(category.id)}
-                    className="w-full px-3 py-2.5 bg-[#FAF8F5] dark:bg-[#181614] border-b border-[#E5E2D9] dark:border-[#38332B] flex items-center justify-between hover:bg-[#F4F2EB] dark:hover:bg-[#2A2622] transition-colors cursor-pointer text-left"
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-[#991B1B] dark:text-[#EF4444]">{getCategoryIcon(category.icon)}</span>
-                      <span className="font-serif font-bold text-xs text-[#1A1A1A] dark:text-[#EDE8DF] truncate">
-                        {category.name}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#F4F2EB] dark:bg-[#2A2622] text-[#66625B] dark:text-[#A8A29E] border border-[#E5E2D9] dark:border-[#38332B]">
-                        {totalCategoryLessons}
-                      </span>
-                      {isOpen ? (
-                        <ChevronDown className="w-3.5 h-3.5 text-[#88847C] dark:text-[#78716C]" />
-                      ) : (
-                        <ChevronRight className="w-3.5 h-3.5 text-[#88847C] dark:text-[#78716C]" />
-                      )}
-                    </div>
-                  </button>
+                return (
+                  <div key={category.id} className="space-y-0.5">
+                    {/* Category Header */}
+                    <button
+                      onClick={() => toggleCategory(category.id)}
+                      className="w-full px-2 py-1.5 rounded-lg flex items-center justify-between text-left hover:bg-[#EFECE3] dark:hover:bg-[#25221E] transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-[#991B1B] dark:text-[#EF4444] shrink-0">{getCategoryIcon(category.icon)}</span>
+                        <span className="font-serif font-bold text-xs text-[#1A1A1A] dark:text-[#EDE8DF] truncate">
+                          {category.name}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="text-[10px] font-mono text-[#88847C] dark:text-[#78716C]">
+                          {totalCategoryLessons}
+                        </span>
+                        {isOpen ? (
+                          <ChevronDown className="w-3.5 h-3.5 text-[#88847C] dark:text-[#78716C]" />
+                        ) : (
+                          <ChevronRight className="w-3.5 h-3.5 text-[#88847C] dark:text-[#78716C]" />
+                        )}
+                      </div>
+                    </button>
 
-                  {/* Subcategories and Topics */}
-                  {isOpen && (
-                    <div className="p-2 space-y-3">
-                      {category.subCategories.map((subCategory) => (
-                        <div key={subCategory.id} className="space-y-1">
-                          {/* Subcategory Label */}
-                          <div className="text-[10px] font-mono font-semibold text-[#88847C] dark:text-[#78716C] px-2 pt-1 flex items-center gap-1">
-                            <span className="w-1 h-1 rounded-full bg-[#88847C] dark:bg-[#78716C]" />
-                            <span>{subCategory.name}</span>
-                          </div>
+                    {/* Subcategories and Topics in a clean left-ruled tree */}
+                    {isOpen && (
+                      <div className="pl-3 ml-2.5 border-l border-[#E5E2D9] dark:border-[#38332B] space-y-2 py-0.5">
+                        {category.subCategories.map((subCategory) => (
+                          <div key={subCategory.id} className="space-y-0.5">
+                            {/* Subcategory Label */}
+                            <div className="text-[10px] font-mono text-[#88847C] dark:text-[#78716C] px-2 pt-1 font-semibold">
+                              {subCategory.name}
+                            </div>
 
-                          {/* Lessons in this Subcategory */}
-                          <div className="space-y-0.5">
-                            {subCategory.topicIds.map((topicId) => {
-                              const lesson = LESSON_MAP[topicId];
-                              if (!lesson) return null;
-                              const isSelected = currentView === topicId;
+                            {/* Lessons in this Subcategory */}
+                            <div className="space-y-0.5">
+                              {subCategory.topicIds.map((topicId) => {
+                                const lesson = LESSON_MAP[topicId];
+                                if (!lesson) return null;
+                                const topicPath = resolveRoutePath(topicId);
+                                const isSelected = pathname === topicPath;
 
-                              return (
-                                <button
-                                  key={topicId}
-                                  id={`sidebar-lesson-${topicId}`}
-                                  onClick={() => {
-                                    onSelectView(topicId);
-                                    onCloseMobile();
-                                  }}
-                                  className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-all cursor-pointer border ${
-                                    isSelected
-                                      ? 'bg-white dark:bg-[#2A2622] border-[#991B1B] dark:border-[#EF4444] shadow-2xs text-[#1A1A1A] dark:text-[#EDE8DF] font-bold'
-                                      : 'bg-white/30 dark:bg-[#201D1A]/30 border-transparent text-[#2C2B29] dark:text-[#D6D0C5] hover:bg-white dark:hover:bg-[#201D1A] hover:border-[#E5E2D9] dark:hover:border-[#38332B]'
-                                  }`}
-                                >
-                                  <div className="flex items-center gap-2 min-w-0 pr-1">
-                                    <span
-                                      className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                                        isSelected ? 'bg-[#991B1B] dark:bg-[#EF4444]' : 'bg-[#D8D4C8] dark:bg-[#423D36]'
-                                      }`}
-                                    />
-                                    <span
-                                      className={`truncate font-serif text-[12px] ${
-                                        isSelected ? 'text-[#991B1B] dark:text-[#EF4444]' : 'text-[#1A1A1A] dark:text-[#EDE8DF]'
-                                      }`}
-                                    >
-                                      <MathText text={lesson.title.split(' (')[0]} />
-                                    </span>
-                                  </div>
-
-                                  {lesson.timeComplexity?.access && <span
-                                    className={`text-[9px] px-1 py-0.2 rounded font-mono shrink-0 ${
+                                return (
+                                  <Link
+                                    key={topicId}
+                                    id={`sidebar-lesson-${topicId}`}
+                                    to={topicPath}
+                                    onClick={onCloseMobile}
+                                    className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-colors ${
                                       isSelected
-                                        ? 'bg-[#FEE2E2] dark:bg-[#450A0A]/60 text-[#991B1B] dark:text-[#FCA5A5] border border-[#FECACA] dark:border-[#7F1D1D]'
-                                        : 'bg-[#F4F2EB] dark:bg-[#2A2622] text-[#66625B] dark:text-[#A8A29E]'
+                                        ? 'bg-white dark:bg-[#2A2622] text-[#991B1B] dark:text-[#EF4444] font-bold shadow-2xs border border-[#E5E2D9] dark:border-[#38332B]'
+                                        : 'text-[#44403C] dark:text-[#D6D0C5] hover:bg-[#EFECE3]/70 dark:hover:bg-[#25221E]/70 hover:text-[#1A1A1A] dark:hover:text-[#EDE8DF]'
                                     }`}
                                   >
-                                    <MathText text={lesson.timeComplexity.access.split(' ')[0]} />
-                                  </span>}
-                                </button>
-                              );
-                            })}
+                                    <span className="truncate font-serif text-[12px]">
+                                      <MathText text={lesson.title.split(' (')[0]} />
+                                    </span>
+                                  </Link>
+                                );
+                              })}
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Footer info & Theme Switcher */}
-        <div className="pt-4 border-t border-[#E5E2D9] dark:border-[#38332B] space-y-2.5 text-center">
-          <div className="flex justify-center">
-            <ThemeToggleBar size="sm" showLabel={true} />
+        {/* Footer info */}
+        <div className="pt-3 border-t border-[#E5E2D9] dark:border-[#38332B] text-center">
+          <div className="text-[11px] font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
+            CUET CSE-241
           </div>
-          <div>
-            <div className="text-[11px] font-serif font-bold text-[#1A1A1A] dark:text-[#EDE8DF]">
-              CUET CSE-241 Data Structure
-            </div>
-            <div className="text-[10px] text-[#88847C] dark:text-[#78716C] font-mono">
-              Interactive Notes & Visualizers
-            </div>
+          <div className="text-[10px] text-[#88847C] dark:text-[#78716C] font-mono">
+            Interactive Notes & Visualizers
           </div>
         </div>
       </aside>

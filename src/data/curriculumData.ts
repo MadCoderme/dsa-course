@@ -181,5 +181,19 @@ export const INITIAL_HIGH_YIELD_CHECKLIST: HighYieldChecklistItem[] = [
     description: 'Trace linear probing, quadratic probing, and double hashing with hash(k) = k mod M.',
     targetTopic: 'set',
     completed: false
+  },
+  {
+    id: 11,
+    title: 'Procedural REPLACE & Buffer Expansion',
+    description: 'Trace procedural REPLACE(TEXT, PAT, REP) handling buffer shifts when replacement length differs from pattern length.',
+    targetTopic: 'string-operations',
+    completed: false
+  },
+  {
+    id: 12,
+    title: 'KMP Prefix Failure Table & Pattern Matching',
+    description: 'Construct the step-by-step π-table for patterns like "AABAACAABAA" and trace non-backtracking text matching.',
+    targetTopic: 'kmp-pattern-matching',
+    completed: false
   }
 ];
